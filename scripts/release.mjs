@@ -82,22 +82,14 @@ const input = async (message) => {
 
 // #endregion
 
-async function main() {
+async function main () {
   print('Starting release process...');
-
-  // Check if release-it is installed
-  try {
-    await $`npx release-it --version`;
-  } catch (error) {
-    printError('release-it is not available. Installing...');
-    await $`pnpm add -D release-it`;
-  }
 
   // Check if git working directory is clean
   const gitStatus = await $`git status --porcelain`.quiet();
   asrt(
     gitStatus.stdout.trim() === '',
-    'Git working directory must be clean before release'
+    'Git working directory must be clean before release',
   );
 
   // Build the project
@@ -113,13 +105,8 @@ async function main() {
 
   // Run release-it
   print('Running release-it...');
-  try {
-    await $`npx release-it`;
-    printSuccess('Release completed successfully!');
-  } catch (error) {
-    printError('Release failed:', error.message);
-    exit(1);
-  }
+  await $`npx -y release-it`;
+  printSuccess('Release completed successfully!');
 }
 
 main();

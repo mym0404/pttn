@@ -43,14 +43,12 @@ Create `~/.claude/commands/init-claude.md`:
 ## Implementation
 
 First, setup the project structure:
-```bash
-npx -y cc-self-refer init-setup-project
-```
+
+`npx -y cc-self-refer init-setup-project`
 
 Then get the initialization prompt:
-```bash
-npx -y cc-self-refer init-get-prompt
-```
+
+`npx -y cc-self-refer init-get-prompt`
 
 Follow the instructions from the prompt output to complete the setup.
 ```
