@@ -89,7 +89,7 @@ Generated Structure:
 ```bash
 User: /spec "User Authentication Screen"
 
-AI Analysis: Specific UI component. I'll create focused specifications.
+AI Analysis: Specific UI component. I'll develop focused specifications.
 
 🧠 Thinking: Authentication affects security, UX, API integration, and existing 
 user flows. Need focused but comprehensive coverage.

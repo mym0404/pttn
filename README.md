@@ -110,7 +110,7 @@ your-project/
 ### 📋 `.claude/specs/` - Technical Specifications
 
 - **Purpose**: System requirements, technical specifications, and architectural constraints
-- **Usage**: `/spec-refer` to access; `/spec` to create specifications through interactive planning; manually curated technical specifications
+- **Usage**: `/spec-refer` to access; `/spec` for interactive specification planning; manually curated technical specifications
 - **Content**: Technical requirements, API specifications, performance requirements, compliance needs
 - **AI Benefit**: Claude makes technically sound decisions aligned with your specifications
 
