@@ -1,5 +1,3 @@
-import pc from 'picocolors';
-
 export interface FormatOptions {
   type: 'page' | 'plan' | 'pattern' | 'spec';
   searchTerm?: string;
@@ -59,11 +57,7 @@ const extractKeyInsights = (content: string, type: string): string => {
     : 'No specific insights extracted';
 };
 
-const generateApplicableContext = (
-  content: string,
-  type: string,
-  title: string
-): string => {
+const generateApplicableContext = (type: string, title: string): string => {
   const contexts = {
     plan: `This plan provides strategic guidance for implementing ${title}. Use it to understand implementation phases, success criteria, and key considerations.`,
     spec: `This technical specification about ${title} should inform implementation decisions and ensure alignment with project requirements.`,
@@ -118,7 +112,6 @@ export const formatSingleMatch = (
     sections.push('');
 
     const applicableContext = generateApplicableContext(
-      item.content,
       options.type,
       item.title
     );
@@ -193,59 +186,4 @@ export const formatNoMatches = (
   );
 
   return sections.join('\n');
-};
-
-// Console output formatters with colors
-export const formatConsoleList = (
-  items: FormattedItem[],
-  options: FormatOptions
-): void => {
-  if (items.length === 0) {
-    console.log(
-      pc.yellow(`No ${options.type}s found in .claude/${options.type}s/`)
-    );
-    return;
-  }
-
-  console.log(pc.cyan(`\n${options.emoji} ${options.title}:`));
-  items.forEach((item) => {
-    console.log(`  ${pc.bold(`${item.id}.`)} ${item.title}`);
-    console.log(`     ${pc.dim(item.metadata)}`);
-  });
-  console.log();
-};
-
-export const formatConsoleSearch = (
-  results: FormattedItem[],
-  keyword: string,
-  options: FormatOptions
-): void => {
-  if (results.length === 0) {
-    console.log(pc.yellow(`No ${options.type}s found matching "${keyword}"`));
-    return;
-  }
-
-  if (results.length === 1) {
-    // Single match - show full content
-    const formatted = formatSingleMatch(results[0], {
-      ...options,
-      searchTerm: keyword,
-    });
-    console.log('\n' + formatted);
-  } else {
-    // Multiple matches - show list
-    const formatted = formatMultipleMatches(results, {
-      ...options,
-      searchTerm: keyword,
-    });
-    console.log('\n' + formatted);
-  }
-};
-
-export const formatConsoleView = (
-  content: string,
-  options: FormatOptions
-): void => {
-  console.log(pc.cyan(`\n${options.emoji} ${options.title} Content:\n`));
-  console.log(content);
 };

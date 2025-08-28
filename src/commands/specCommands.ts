@@ -47,92 +47,59 @@ export const registerSpecCommands = (
     .description('Search specification repository')
     .argument('<keyword>', 'Search keyword')
     .option('-c, --category <category>', 'Filter by category')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(
-      async (
-        keyword: string,
-        cmdOptions: { category?: string; context?: boolean }
-      ) => {
-        const globalOptions = program.opts();
-        const manager = createSpecManager(getContentDir(globalOptions));
-        try {
-          const results = await manager.search(keyword, cmdOptions.category);
-          const specs = await manager.list(cmdOptions.category);
+    .action(async (keyword: string, cmdOptions: { category?: string }) => {
+      const globalOptions = program.opts();
+      const manager = createSpecManager(getContentDir(globalOptions));
+      try {
+        const results = await manager.search(keyword, cmdOptions.category);
+        const specs = await manager.list(cmdOptions.category);
 
-          if (cmdOptions.context) {
-            const {
-              formatSingleMatch,
-              formatMultipleMatches,
-              formatNoMatches,
-            } = await import('../formatters.js');
+        // Always use AI-optimized output
+        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
+          await import('../formatters.js');
 
-            const formattedItems = results.map((result) => {
-              const entry = specs.find((s) => s.file === result.file);
-              return {
-                id: entry?.id || 0,
-                title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove category suffix
-                file: result.file,
-                metadata: `Category: ${entry?.category || 'Unknown'} | Updated: ${entry?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
-                content: entry?.content || '',
-              };
-            });
+        const formattedItems = results.map((result) => {
+          const entry = specs.find((s) => s.file === result.file);
+          return {
+            id: entry?.id || 0,
+            title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove category suffix
+            file: result.file,
+            metadata: `Category: ${entry?.category || 'Unknown'} | Updated: ${entry?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
+            content: entry?.content || '',
+          };
+        });
 
-            const formatOptions = {
-              type: 'spec' as const,
-              searchTerm: keyword,
-              emoji: '📋',
-              title: 'Technical Specifications',
-              outputMode: 'context' as const,
-            };
+        const formatOptions = {
+          type: 'spec' as const,
+          searchTerm: keyword,
+          emoji: '📋',
+          title: 'Technical Specifications',
+        };
 
-            if (results.length === 0) {
-              const availableSpecs = specs.slice(0, 5).map((entry) => ({
-                id: entry.id,
-                title: entry.title,
-                file: entry.file,
-                metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
-                content: entry.content || '',
-              }));
-              console.log(formatNoMatches(availableSpecs, formatOptions));
-            } else if (results.length === 1) {
-              console.log(formatSingleMatch(formattedItems[0], formatOptions));
-            } else {
-              console.log(formatMultipleMatches(formattedItems, formatOptions));
-            }
-            return;
-          }
-
-          if (results.length === 0) {
-            console.log(
-              pc.yellow(`No spec entries found matching "${keyword}"`)
-            );
-            return;
-          }
-
-          console.log(
-            pc.cyan(`\n🔍 Specification search results for "${keyword}":`)
-          );
-          results.forEach((result, index) => {
-            console.log(`  ${index + 1}. ${pc.bold(result.title)}`);
-            console.log(
-              `     ${pc.dim(`Score: ${result.score} | ${result.file}`)}`
-            );
-          });
-          console.log();
-        } catch (error) {
-          console.error(pc.red('Error searching specs:'), error);
+        if (results.length === 0) {
+          const availableSpecs = specs.slice(0, 5).map((entry) => ({
+            id: entry.id,
+            title: entry.title,
+            file: entry.file,
+            metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
+            content: entry.content || '',
+          }));
+          console.log(formatNoMatches(availableSpecs, formatOptions));
+        } else if (results.length === 1) {
+          console.log(formatSingleMatch(formattedItems[0], formatOptions));
+        } else {
+          console.log(formatMultipleMatches(formattedItems, formatOptions));
         }
+      } catch (error) {
+        console.error(pc.red('Error searching specs:'), error);
       }
-    );
+    });
 
   specCmd
     .command('create')
     .description('Launch interactive specification planning system')
     .argument('[concept]', 'Initial concept or feature name (optional)')
     .action(async (concept?: string) => {
-      const globalOptions = program.opts();
-      const _contentDir = getContentDir(globalOptions);
-
       try {
         console.log(
           pc.cyan(
@@ -217,46 +184,39 @@ export const registerSpecCommands = (
     .command('view')
     .description('View a specific specification entry by ID or search term')
     .argument('<idOrKeyword>', 'Specification ID or search keyword')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
+    .action(async (idOrKeyword: string) => {
       const globalOptions = program.opts();
       const manager = createSpecManager(getContentDir(globalOptions));
       try {
         const content = await manager.view(idOrKeyword);
 
-        if (cmdOptions.context) {
-          const specs = await manager.list();
-          const entry = specs.find(
-            (s) =>
-              s.id.toString() === idOrKeyword ||
-              s.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-          );
+        // Always use AI-optimized output
+        const specs = await manager.list();
+        const entry = specs.find(
+          (s) =>
+            s.id.toString() === idOrKeyword ||
+            s.title.toLowerCase().includes(idOrKeyword.toLowerCase())
+        );
 
-          if (entry) {
-            const { formatSingleMatch } = await import('../formatters.js');
+        if (entry) {
+          const { formatSingleMatch } = await import('../formatters.js');
 
-            const formattedItem = {
-              id: entry.id,
-              title: entry.title,
-              file: entry.file,
-              metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
-              content: content,
-            };
+          const formattedItem = {
+            id: entry.id,
+            title: entry.title,
+            file: entry.file,
+            metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
+            content: content,
+          };
 
-            const formatOptions = {
-              type: 'spec' as const,
-              emoji: '📋',
-              title: 'Technical Specifications',
-              outputMode: 'context' as const,
-            };
+          const formatOptions = {
+            type: 'spec' as const,
+            emoji: '📋',
+            title: 'Technical Specifications',
+          };
 
-            console.log(formatSingleMatch(formattedItem, formatOptions));
-            return;
-          }
+          console.log(formatSingleMatch(formattedItem, formatOptions));
         }
-
-        console.log(pc.cyan('\n📋 Specification Content:\n'));
-        console.log(content);
       } catch (error) {
         console.error(pc.red('Error viewing spec:'), error);
       }

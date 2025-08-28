@@ -155,6 +155,5 @@ ${content}
       await writeFile(filepath, fullContent);
       return filename;
     },
-
   };
 };

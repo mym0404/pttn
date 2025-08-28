@@ -90,7 +90,6 @@ export const registerPlanCommands = (
             type: 'plan' as const,
             emoji: '📋',
             title: 'Strategic Plan',
-            outputMode: 'context' as const,
           };
 
           console.log(formatSingleMatch(formattedItem, formatOptions));

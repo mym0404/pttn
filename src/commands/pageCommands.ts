@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import pc from 'picocolors';
 
 import { createPageManager } from '../managers';
-import { SessionExtractor } from '../utils/sessionExtractor.js';
+import { SessionExtractor } from '../utils/SessionExtractor.js';
 
 export const registerPageCommands = (
   program: Command,
@@ -72,7 +72,6 @@ export const registerPageCommands = (
           searchTerm: keyword,
           emoji: '📄',
           title: 'Session Page',
-          outputMode: 'context' as const,
         };
 
         if (results.length === 0) {
@@ -127,7 +126,6 @@ export const registerPageCommands = (
             type: 'page' as const,
             emoji: '📄',
             title: 'Session Page',
-            outputMode: 'context' as const,
           };
 
           console.log(formatSingleMatch(formattedItem, formatOptions));
@@ -243,44 +241,6 @@ ${finalContent.substring(0, 500)}${finalContent.length > 500 ? '...' : ''}
 3. Verify write permissions for .claude/pages/
 
 *Unable to create page. Please check the error message above.*`);
-      }
-    });
-
-  // Extract current Claude Code session
-  pageCmd
-    .command('extract-session')
-    .description('Extract current Claude Code session from local storage')
-    .option('--project <path>', 'Project path (defaults to current directory)')
-    .action(async (cmdOptions: { project?: string }) => {
-      try {
-        const extractor = new SessionExtractor();
-        const sessionContent = await extractor.extractCurrentSession(
-          cmdOptions.project
-        );
-
-        // Always use AI-optimized output with full session content
-        console.log(`# Claude Code Session Extracted
-
-## Session Information
-
-${sessionContent}
-
----
-
-*Session extracted successfully. Use 'page create' to save this content.*`);
-      } catch (error) {
-        // Always use AI-optimized error output
-        console.error(`# Session Extraction Failed
-
-**Error**: ${error}
-
-## Troubleshooting
-
-1. Ensure Claude Code has an active session for this project
-2. Check that ~/.claude/projects/ directory exists
-3. Verify you have read permissions for Claude's local storage
-
-*Unable to extract session. Please check the error message above.*`);
       }
     });
 };
