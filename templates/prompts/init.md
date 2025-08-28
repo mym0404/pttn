@@ -49,9 +49,30 @@ Verify the following directories exist (create if missing):
 - `.claude/knowledge/` - For domain knowledge base
 - `.claude/commands/` - For Claude Code commands
 
-### 3. Add project to .gitignore (if applicable)
+### 3. Configure .gitignore properly
 
-If the project has a `.gitignore` file, consider whether to include `.claude/` directories in version control based on team preferences.
+If the project has a `.gitignore` file, add only temporary/cache files to .gitignore:
+
+```gitignore
+# Add these to .gitignore (temporary files only)
+.claude/.cache/
+.claude/temp/
+.claude/*.tmp
+
+# DO NOT add these to .gitignore (keep for team sharing):
+# .claude/commands/     - Team needs shared commands
+# .claude/plans/        - Strategic plans should be versioned
+# .claude/code-patterns/ - Patterns are valuable team assets
+# .claude/knowledge/    - Domain knowledge must be shared
+# .claude/pages/        - Session history provides project context
+```
+
+**Important**: Most `.claude/` content should be committed to version control because:
+- **Commands** enable consistent team workflows
+- **Plans** document strategic decisions  
+- **Patterns** prevent code duplication across team
+- **Knowledge** ensures domain understanding
+- **Pages** provide development context and history
 
 ## cc-self-refer System Guide
 
