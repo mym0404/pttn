@@ -4,23 +4,31 @@ Create comprehensive strategic planning documents with structured templates.
 
 **Usage**: `/plan-create <task-name> <description>`
 
+## What does this command do
+
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI command.**
+
+### CLI Command Used
+
+```bash
+npx -y cc-self-refer plan create "<task-name>" "<description>"
+```
+
+### Command Arguments
+- `task-name`: Name of the strategic plan/task
+- `description`: Initial description or overview of the plan
+
+### Expected Output
+- Creates a new strategic plan with auto-incremented numbering
+- Generates comprehensive plan template with structured sections
+- Saves to `.claude/plans/<number>-<sanitized-name>.md`
+- Returns plan filename for reference
+
 ## Purpose
 
 This command creates new strategic planning documents by utilizing the `cc-self-refer` CLI tool's plan creation functionality.
-
-## Implementation
-
-Execute the `npx -y cc-self-refer plan create` command:
-
-```bash
-npx -y cc-self-refer plan create "Task Name" "Initial description"
-```
-
-This will:
-
-- Create a new strategic plan with auto-incremented numbering
-- Generate comprehensive plan template with structured sections
-- Save to `.claude/plans/<number>-<sanitized-name>.md`
 
 ## Plan Document Example Structure
 

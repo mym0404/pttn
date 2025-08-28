@@ -4,6 +4,32 @@ Create comprehensive technical specifications through intelligent AI-powered col
 
 **Usage**: `/spec [initial concept or feature name]`
 
+## What does this command do
+
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute multiple `cc-self-refer spec create` CLI commands. After analyzing requirements, create each specification file individually.**
+
+### CLI Commands Used
+
+```bash
+# After planning phase, create each specification:
+npx -y cc-self-refer spec create "<spec-title-1>" "<spec-content-1>"
+npx -y cc-self-refer spec create "<spec-title-2>" "<spec-content-2>"
+# ... continue for each planned specification
+```
+
+### Command Arguments
+- `spec-title`: Title of each individual specification
+- `spec-content`: Complete content for each specification file
+- Multiple calls needed for comprehensive specification coverage
+
+### Expected Output
+- Agent analyzes requirements and plans multiple specifications
+- Creates individual specification files using multiple CLI calls
+- Each spec file gets auto-incremented ID and saves to `.claude/specs/`
+- Returns list of created specification files
+
 ## Intelligent Adaptive Planning
 
 ### Automatic Context Analysis

@@ -1,36 +1,41 @@
-# Plan Resolve - View and Load Strategic Plans
+# Plan Resolve - Execute Strategic Plans and Mark Complete
 
-View, search, and load existing strategic planning documents for implementation reference.
+Load a strategic plan, execute the implementation, and optionally delete upon completion.
 
 **Usage**: `/plan-resolve <id|keyword>`
 
 ## Purpose
 
-This command retrieves and displays strategic plans by utilizing the `cc-self-refer` CLI tool's plan viewing functionality.
+This command facilitates the execution of strategic plans by:
+1. Loading the plan for reference
+2. Guiding implementation work
+3. Optionally deleting the plan after successful completion
 
-## Implementation
+## What does this command do
 
-Execute the `npx -y cc-self-refer plan view` command:
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI commands. Do NOT implement the functionality directly.**
+
+### CLI Commands Used
 
 ```bash
+# Step 1: Load the plan for implementation
 npx -y cc-self-refer plan view <id_or_keyword> --context
+
+# Step 2: After successful implementation, optionally delete
+npx -y cc-self-refer plan delete <id_or_keyword> --context
 ```
 
-Examples:
+### Command Arguments
+- `id_or_keyword`: Plan ID number or search keyword
+- `--context`: ALWAYS use this flag for AI-optimized output
 
-```bash
-npx -y cc-self-refer plan view 3 --context
-npx -y cc-self-refer plan view "authentication" --context
-npx -y cc-self-refer plan list  # List all plans
-```
-
-**Note**: The `--context` flag formats plan output for AI consumption with strategic insights and implementation guidance.
-
-This will:
-
-- Find and display the requested plan
-- Show full plan content with formatting
-- Load plan context for implementation reference
+### Expected Workflow
+1. Load and display the plan content
+2. Execute the implementation based on plan checklist
+3. After completion, ask if plan should be deleted
+4. If yes, delete the plan file
 
 ## Usage Examples
 
@@ -181,27 +186,29 @@ Browse all plans to understand project scope.
 
 ## Interactive Features
 
-### Plan Selection
+### Implementation Process
 
-When multiple matches are found:
+When executing a plan:
 
-- Shows numbered list of candidates
-- Displays brief excerpts for context
-- Allows refined search or direct ID selection
+1. **Load Plan**: Display full plan content with checklist
+2. **Execute Tasks**: Work through implementation checklist
+3. **Track Progress**: Mark items as completed during work
+4. **Completion Check**: Verify all critical items are done
+5. **Cleanup Option**: Offer to delete completed plan
 
-### Content Navigation
+### Deletion Confirmation
 
-For large plans:
+After successful implementation:
 
-- Structured section display
-- Collapsible content sections
-- Quick navigation to specific phases
+```markdown
+# Plan Implementation Complete
 
-### Status Awareness
+All tasks from the plan have been executed.
 
-- Highlights current phase or active section
-- Shows completion status for checklist items
-- Indicates recently updated sections
+Would you like to delete this plan from .claude/plans/?
+- This action is permanent
+- Consider keeping if plan may be referenced later
+```
 
 ## Integration Benefits
 

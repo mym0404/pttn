@@ -8,19 +8,33 @@ Retrieve and access technical specifications from `.claude/specs/` directory by 
 
 This command retrieves stored technical specifications, system requirements, project documentation, and implementation details that are essential for understanding the project structure and making informed development decisions.
 
-## Implementation
+## What does this command do
 
-Use the `cc-self-refer` CLI tool to efficiently access technical specifications:
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI commands. Do NOT implement the functionality directly.**
+
+### CLI Commands Used
 
 ```bash
+# List all specifications
 npx -y cc-self-refer spec list
+
+# List by category
 npx -y cc-self-refer spec list --category <category>
-npx -y cc-self-refer spec search <keyword> --context
-npx -y cc-self-refer spec search <keyword> --category <category> --context
-npx -y cc-self-refer spec view <id_or_keyword> --context
+
+# Search specifications
+npx -y cc-self-refer spec search <keyword>
+npx -y cc-self-refer spec search <keyword> --category <category>
+
+# View specific specification
+npx -y cc-self-refer spec view <id_or_keyword>
 ```
 
-**Note**: The `--context` flag formats specification output for AI consumption with technical details and applicable context.
+### Command Arguments
+- `id_or_keyword`: Specification ID number or search keyword
+- `category`: Optional category filter (e.g., "api", "ui", "database")
+- Output is automatically formatted for AI consumption
 
 ### Search Process
 

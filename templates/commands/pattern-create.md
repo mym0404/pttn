@@ -11,13 +11,27 @@ Save code patterns and implementation examples to `.claude/patterns/` directory 
 
 This command saves reusable code patterns, common implementations, and project-specific coding practices. These patterns serve as quick references and templates for consistent code implementation across the project.
 
-## Implementation
+## What does this command do
 
-Execute the `cc-self-refer` CLI tool's pattern creation functionality:
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI command.**
+
+### CLI Command Used
 
 ```bash
-npx -y cc-self-refer pattern create "<pattern name>" "<pattern content>"
+npx -y cc-self-refer pattern create "<pattern-name>" "<pattern-content>" --language <language>
 ```
+
+### Command Arguments
+- `pattern-name`: Name of the code pattern
+- `pattern-content`: Complete code snippet or pattern content
+- `language`: Programming language (optional, defaults to "text")
+
+### Expected Output
+- Creates numbered pattern file in `.claude/patterns/`
+- Returns pattern filename for reference
+- Automatically adds metadata and formatting
 
 ### CLI Usage Process
 
