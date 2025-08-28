@@ -1,0 +1,57 @@
+{
+  "name": "cc-self-refer",
+  "version": "1.0.0",
+  "description": "Claude Code Self Reference Helper - CLI tool for managing .claude directory content",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "cc-self-refer": "./dist/cli.js"
+  },
+  "scripts": {
+    "dev": "tsdown && node dist/cli.js",
+    "build": "tsdown src/cli.ts src/index.ts",
+    "prepublishOnly": "pnpm build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check": "pnpm lint && pnpm format:check && pnpm typecheck"
+  },
+  "keywords": [
+    "claude",
+    "code",
+    "cli",
+    "ai",
+    "helper"
+  ],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.15.0",
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "prettier": "^3.6.2",
+    "tsdown": "^0.2.17",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "commander": "^12.1.0",
+    "glob": "^11.0.0",
+    "minimatch": "^10.0.1",
+    "natural": "^6.10.0",
+    "picocolors": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm init:*)",
+      "Bash(pnpm install:*)",
+      "Bash(corepack enable)",
+      "Bash(pnpm build:*)",
+      "Bash(node:*)",
+      "Bash(pnpm add:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npx tsc:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
