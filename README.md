@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/logo.svg" alt="cc-self-refer" width="400" />
+</div>
+
 # cc-self-refer
 
 **Claude Code Self-Reference Helper** - The missing backend for intelligent development workflows with AI assistance.
@@ -115,41 +119,12 @@ Each directory serves a specific purpose in building **persistent AI context**:
 
 The result: Claude becomes increasingly intelligent about your specific project over time.
 
-## For Developers
-
-Contributing to cc-self-refer:
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd cc-self-refer
-
-# Install dependencies
-pnpm install
-
-# Run in development mode
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Test the CLI
-node dist/cli.js --help
-```
-
-## Built With
-
-- **Commander.js**: CLI framework
-- **tsdown**: TypeScript bundler
-- **Picocolors**: Terminal colors
-- **@clack/prompts**: Interactive prompts
-- **Natural**: Natural language processing
-- **Glob**: File pattern matching
-
-## License
-
-MIT
+---
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and contribution guidelines.
+
+## License
+
+MIT © 2025 MJ Studio
