@@ -226,5 +226,38 @@ To be defined based on requirements
 
       await writeFile(filepath, finalContent);
     },
+
+    async resolve(idOrKeyword: string): Promise<void> {
+      const content = await this.view(idOrKeyword);
+      const plans = await this.list();
+
+      // Find the plan file
+      let targetFile: string;
+      const idNum = parseInt(idOrKeyword);
+      if (!isNaN(idNum)) {
+        const plan = plans.find((p: PlanInfo) => p.id === idNum);
+        if (!plan) throw new Error(`Plan not found: ${idOrKeyword}`);
+        targetFile = plan.file;
+      } else {
+        const results = await this.search(idOrKeyword);
+        if (results.length === 0)
+          throw new Error(`Plan not found: ${idOrKeyword}`);
+        targetFile = results[0].file;
+      }
+
+      const filepath = join(plansDir, targetFile);
+
+      // Update status to Completed
+      const updatedContent = content.replace(
+        /\*\*Status\*\*: \[.*\]/,
+        '**Status**: [Completed]'
+      );
+      const finalContent = updatedContent.replace(
+        /\*\*Last Updated\*\*: .+/,
+        `**Last Updated**: ${new Date().toISOString()}`
+      );
+
+      await writeFile(filepath, finalContent);
+    },
   };
 };

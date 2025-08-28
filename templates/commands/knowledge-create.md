@@ -23,81 +23,46 @@ npx -y cc-self-refer knowledge create "<topic name>" "<knowledge content>"
 
 #### Interactive Mode (Topic Name Only)
 
-1. **Ask for Topic Name**: Request a clear, descriptive name for the knowledge topic
-2. **Collect Knowledge Content**: Gather comprehensive knowledge documentation including:
-   - Domain rules and constraints
-   - Business logic requirements
-   - API limitations and behaviors
-   - Architectural decisions and rationale
-   - Performance requirements
-   - Security considerations
-3. **Execute CLI Command**: Run the knowledge create command with collected information
+1. **Ask for Topic Name**: Request a clear topic name
+2. **Collect Knowledge Content**: Gather concise domain knowledge (key rules, constraints, essential info)
+3. **Execute CLI Command**: Run the knowledge create command
 
 #### Direct Mode (Topic Name + Content)
 
 1. **Extract Topic Name**: Use the provided topic name
-2. **Process Content**: Enhance the provided content with:
-   - Proper markdown formatting
-   - Structured sections for clarity
-   - Examples and use cases
-   - Implementation implications
-3. **Execute CLI Command**: Run the knowledge create command with formatted content
+2. **Process Content**: Apply minimal markdown formatting
+3. **Execute CLI Command**: Run the knowledge create command
 
 ### Knowledge Content Structure
 
-When creating knowledge content, include:
+When creating knowledge content, use simple markdown format:
 
 ````markdown
 # <Topic Name>
 
-## Overview
-
-[Brief description of the knowledge domain or business rule]
-
-## Rules and Constraints
-
-- [Rule or constraint 1]
-- [Rule or constraint 2]
-
-## Implementation Guidelines
-
-[How this knowledge affects code implementation]
-
-## Examples
-
-```[language if applicable]
-// Code examples showing how to apply this knowledge
-[example code]
-```
-
-## Related Topics
-
-- [Related knowledge entry 1]
-- [Related knowledge entry 2]
-
-## Last Updated
-
-[Date and context of last update]
+[Brief domain knowledge description]
+[Key rules or constraints]
+[Examples or references if needed]
 ````
 
-### Content Enhancement
+Example:
 
-When saving knowledge:
+````markdown
+# Payment Processing
 
-1. **Domain Analysis**:
-   - Extract business rules from requirements or discussions
-   - Document API behaviors and limitations
-   - Capture architectural constraints and decisions
+- All payments are processed through Stripe
+- Minimum payment amount is $1.00
+- Failed payments retry 3 times with exponential backoff
+- Refunds allowed only within 90 days of original payment
+````
 
-2. **Context Integration**:
-   - Relate knowledge to current project's architecture
-   - Include project-specific implications
-   - Cross-reference with existing knowledge entries
+### Content Guidelines
 
-3. **Knowledge Categorization**:
-   - Identify knowledge type (business rules, API constraints, etc.)
-   - Tag with relevant domains (authentication, payments, etc.)
-   - Cross-reference with related patterns and plans
+When creating knowledge:
+- Write only essential content concisely
+- Avoid excessive structuring
+- Focus on practical information
+- Use free-form markdown without unnecessary sections
 
 ## Usage Examples
 

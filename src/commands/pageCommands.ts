@@ -167,7 +167,7 @@ export const registerPageCommands = (
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
       try {
-        const pageId = await manager.create(title, content);
+        const pageId = await manager.save(title, content);
         console.log(pc.green(`✅ Page saved successfully: ${pageId}`));
       } catch (error) {
         console.error(pc.red('Error saving page:'), error);
