@@ -748,9 +748,7 @@ export const initClaudeProject = async (
   console.log(
     '  1. Start using commands: /plan-create "My Project" "Description"'
   );
-  console.log(
-    '  2. Build your knowledge: /knowledge-refer and /pattern-use'
-  );
+  console.log('  2. Build your knowledge: /knowledge-refer and /pattern-use');
   console.log(
     "  3. All commands work with your project's local .claude directory"
   );

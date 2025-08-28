@@ -5,7 +5,7 @@ import { Command } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 import { join, resolve } from 'path';
 import pc from 'picocolors';
-import {findPackageRoot} from "workspace-tools";
+import { findPackageRoot } from 'workspace-tools';
 
 import {
   createKnowledgeManager,

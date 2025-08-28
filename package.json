@@ -1,6 +1,6 @@
 {
   "name": "cc-self-refer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Claude Code Self Reference Helper - CLI tool for managing .claude directory content",
   "type": "module",
   "main": "dist/index.js",
@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "tsdown && node dist/cli.js",
     "build": "tsdown src/cli.ts src/index.ts",
+    "prepack": "pnpm run t && pnpm build",
     "prepublishOnly": "pnpm build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
