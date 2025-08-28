@@ -7,10 +7,10 @@ import { fileURLToPath } from 'url';
 import { findPackageRoot } from 'workspace-tools';
 
 import { registerInitCommands } from './commands/initCommands.js';
-import { registerKnowledgeCommands } from './commands/knowledgeCommands.js';
 import { registerPageCommands } from './commands/pageCommands.js';
 import { registerPatternCommands } from './commands/patternCommands.js';
 import { registerPlanCommands } from './commands/planCommands.js';
+import { registerSpecCommands } from './commands/specCommands.js';
 
 const program = new Command();
 
@@ -43,7 +43,7 @@ program
   .version(getVersion())
   .option(
     '-d, --dir <directory>',
-    'Directory for pages, plans, patterns, and knowledges (default: .claude)',
+    'Directory for pages, plans, patterns, and specs (default: .claude)',
     '.claude'
   );
 
@@ -51,7 +51,7 @@ program
 registerPageCommands(program, getContentDir);
 registerPlanCommands(program, getContentDir);
 registerPatternCommands(program, getContentDir);
-registerKnowledgeCommands(program, getContentDir);
+registerSpecCommands(program, getContentDir);
 registerInitCommands(program);
 
 program.parse();

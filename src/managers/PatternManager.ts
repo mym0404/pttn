@@ -3,9 +3,12 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
+import {
+  AdvancedSearchEngine,
+  SearchableItem,
+} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
 import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
-import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
@@ -41,16 +44,18 @@ export const createPatternManager = (contentDir: string): PatternManager => {
 
     async search(keyword: string, language?: string): Promise<SearchResult[]> {
       const patterns = await this.list();
-      
+
       // Filter by language first if specified
-      const filteredPatterns = language 
-        ? patterns.filter(pattern => pattern.language === language.toLowerCase())
+      const filteredPatterns = language
+        ? patterns.filter(
+            (pattern) => pattern.language === language.toLowerCase()
+          )
         : patterns;
-      
+
       // Convert PatternInfo to SearchableItem format
       const searchableItems: SearchableItem[] = filteredPatterns
-        .filter(pattern => pattern.content)
-        .map(pattern => ({
+        .filter((pattern) => pattern.content)
+        .map((pattern) => ({
           id: pattern.id,
           title: pattern.title,
           content: pattern.content!,
@@ -68,7 +73,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       const enhancedResults = searchEngine.search(keyword, searchableItems);
 
       // Convert enhanced results back to SearchResult format
-      return enhancedResults.map(result => ({
+      return enhancedResults.map((result) => ({
         title: `${result.item.title} (${result.item.category})`,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,

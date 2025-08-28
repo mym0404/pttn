@@ -1,7 +1,7 @@
 import pc from 'picocolors';
 
 export interface FormatOptions {
-  type: 'page' | 'plan' | 'pattern' | 'knowledge';
+  type: 'page' | 'plan' | 'pattern' | 'spec';
   searchTerm?: string;
   emoji: string;
   title: string;
@@ -33,7 +33,7 @@ const extractKeyInsights = (content: string, type: string): string => {
         insights.push(line.trim());
       }
     });
-  } else if (type === 'knowledge') {
+  } else if (type === 'spec') {
     lines.forEach((line) => {
       if (
         line.startsWith('## ') ||
@@ -67,7 +67,7 @@ const generateApplicableContext = (
 ): string => {
   const contexts = {
     plan: `This plan provides strategic guidance for implementing ${title}. Use it to understand implementation phases, success criteria, and key considerations.`,
-    knowledge: `This domain knowledge about ${title} should inform technical decisions and ensure alignment with business requirements.`,
+    spec: `This technical specification about ${title} should inform implementation decisions and ensure alignment with project requirements.`,
     pattern: `This code pattern for ${title} can be directly applied or adapted for similar functionality in the current implementation.`,
     page: `This session context about ${title} provides historical development decisions and approaches that may be relevant to current work.`,
   };

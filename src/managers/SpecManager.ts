@@ -3,26 +3,24 @@ import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { KnowledgeInfo, KnowledgeManager, SearchResult } from '../types';
+import { SearchResult, SpecInfo, SpecManager } from '../types';
 import { ensureDir } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
 import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
-export const createKnowledgeManager = (
-  contentDir: string
-): KnowledgeManager => {
-  const knowledgeDir = resolve(contentDir, 'knowledges');
+export const createSpecManager = (contentDir: string): SpecManager => {
+  const specDir = resolve(contentDir, 'specs');
 
   return {
-    async list(category?: string): Promise<KnowledgeInfo[]> {
-      await ensureDir(knowledgeDir);
+    async list(category?: string): Promise<SpecInfo[]> {
+      await ensureDir(specDir);
 
-      // For numbered files in knowledge directory
-      const files = await glob('*.md', { cwd: knowledgeDir });
-      const entries: KnowledgeInfo[] = [];
+      // For numbered files in spec directory
+      const files = await glob('*.md', { cwd: specDir });
+      const entries: SpecInfo[] = [];
 
       for (const file of files) {
-        const filepath = join(knowledgeDir, file);
+        const filepath = join(specDir, file);
         const stats = await stat(filepath);
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
@@ -48,11 +46,11 @@ export const createKnowledgeManager = (
 
     async search(keyword: string, category?: string): Promise<SearchResult[]> {
       const entries = await this.list(category);
-      
-      // Convert KnowledgeInfo to SearchableItem format
+
+      // Convert SpecInfo to SearchableItem format
       const searchableItems: SearchableItem[] = entries
-        .filter(entry => entry.content)
-        .map(entry => ({
+        .filter((entry) => entry.content)
+        .map((entry) => ({
           id: entry.id,
           title: entry.title,
           content: entry.content!,
@@ -71,7 +69,7 @@ export const createKnowledgeManager = (
       const enhancedResults = searchEngine.search(keyword, searchableItems);
 
       // Convert enhanced results back to SearchResult format
-      return enhancedResults.map(result => ({
+      return enhancedResults.map((result) => ({
         title: `${result.item.title} (${result.item.category})`,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,
@@ -95,7 +93,7 @@ export const createKnowledgeManager = (
       // Try to find by ID first
       const idNum = parseInt(idOrKeyword);
       if (!isNaN(idNum)) {
-        const entry = entries.find((e: KnowledgeInfo) => e.id === idNum);
+        const entry = entries.find((e: SpecInfo) => e.id === idNum);
         if (entry?.content) {
           return entry.content;
         }
@@ -105,15 +103,13 @@ export const createKnowledgeManager = (
       const results = await this.search(idOrKeyword);
       if (results.length > 0) {
         const bestMatch = results[0];
-        const entry = entries.find(
-          (e: KnowledgeInfo) => e.file === bestMatch.file
-        );
+        const entry = entries.find((e: SpecInfo) => e.file === bestMatch.file);
         if (entry?.content) {
           return entry.content;
         }
       }
 
-      throw new Error(`Knowledge entry not found: ${idOrKeyword}`);
+      throw new Error(`Spec entry not found: ${idOrKeyword}`);
     },
 
     async create(
@@ -122,11 +118,11 @@ export const createKnowledgeManager = (
       category: string = 'general'
     ): Promise<{ id: number; filename: string }> {
       // Ensure directory exists
-      if (!existsSync(knowledgeDir)) {
-        await mkdir(knowledgeDir, { recursive: true });
+      if (!existsSync(specDir)) {
+        await mkdir(specDir, { recursive: true });
       }
 
-      // Get existing knowledge entries to determine next ID
+      // Get existing spec entries to determine next ID
       const entries = await this.list();
       const nextId =
         entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
@@ -137,7 +133,7 @@ export const createKnowledgeManager = (
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')}.md`;
-      const filepath = join(knowledgeDir, filename);
+      const filepath = join(specDir, filename);
 
       // Create full content with metadata
       const fullContent = `# ${title}

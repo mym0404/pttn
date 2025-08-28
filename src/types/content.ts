@@ -24,7 +24,7 @@ export interface PatternInfo {
   content?: string;
 }
 
-export interface KnowledgeInfo {
+export interface SpecInfo {
   id: number;
   title: string;
   file: string;

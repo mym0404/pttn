@@ -2,7 +2,7 @@ import * as natural from 'natural';
 
 export interface SearchScore {
   exactMatch: number;
-  semanticSimilarity: number; 
+  semanticSimilarity: number;
   keywordRelevance: number;
   categoryBoost: number;
   recencyScore: number;
@@ -71,16 +71,19 @@ export class AdvancedSearchEngine {
 
     for (const item of items) {
       // Apply category filter if specified
-      if (this.options.categoryFilter && item.category !== this.options.categoryFilter) {
+      if (
+        this.options.categoryFilter &&
+        item.category !== this.options.categoryFilter
+      ) {
         continue;
       }
 
       const score = this.calculateComprehensiveScore(normalizedQuery, item);
-      
+
       if (score.final >= this.options.minScore) {
         const matchedFields = this.getMatchedFields(normalizedQuery, item);
         const highlights = this.generateHighlights(normalizedQuery, item);
-        
+
         results.push({
           item,
           score,
@@ -96,11 +99,14 @@ export class AdvancedSearchEngine {
       .slice(0, this.options.maxResults);
   }
 
-  private tryIdSearch(query: string, items: SearchableItem[]): EnhancedSearchResult | null {
+  private tryIdSearch(
+    query: string,
+    items: SearchableItem[]
+  ): EnhancedSearchResult | null {
     const idNum = parseInt(query);
     if (isNaN(idNum)) return null;
 
-    const exactMatch = items.find(item => item.id === idNum);
+    const exactMatch = items.find((item) => item.id === idNum);
     if (!exactMatch) return null;
 
     const perfectScore: SearchScore = {
@@ -121,7 +127,10 @@ export class AdvancedSearchEngine {
     };
   }
 
-  private calculateComprehensiveScore(query: string, item: SearchableItem): SearchScore {
+  private calculateComprehensiveScore(
+    query: string,
+    item: SearchableItem
+  ): SearchScore {
     // 1. Exact match scoring
     const exactMatch = this.calculateExactMatchScore(query, item);
 
@@ -161,7 +170,10 @@ export class AdvancedSearchEngine {
     };
   }
 
-  private calculateExactMatchScore(query: string, item: SearchableItem): number {
+  private calculateExactMatchScore(
+    query: string,
+    item: SearchableItem
+  ): number {
     const titleMatch = item.title.toLowerCase() === query ? 0.95 : 0;
     const contentMatch = item.content.toLowerCase().includes(query) ? 0.7 : 0;
     const categoryMatch = item.category?.toLowerCase() === query ? 0.8 : 0;
@@ -169,14 +181,21 @@ export class AdvancedSearchEngine {
     return Math.max(titleMatch, contentMatch, categoryMatch);
   }
 
-  private calculateSemanticSimilarity(query: string, item: SearchableItem): number {
+  private calculateSemanticSimilarity(
+    query: string,
+    item: SearchableItem
+  ): number {
     try {
       const titleSimilarity = natural.JaroWinklerDistance
         ? natural.JaroWinklerDistance(query, item.title.toLowerCase(), {})
         : 0;
-      
+
       const contentSimilarity = natural.JaroWinklerDistance
-        ? natural.JaroWinklerDistance(query, item.content.toLowerCase().substring(0, 200), {})
+        ? natural.JaroWinklerDistance(
+            query,
+            item.content.toLowerCase().substring(0, 200),
+            {}
+          )
         : 0;
 
       return Math.max(
@@ -188,8 +207,11 @@ export class AdvancedSearchEngine {
     }
   }
 
-  private calculateKeywordRelevance(query: string, item: SearchableItem): number {
-    const queryWords = query.split(/\s+/).filter(word => word.length > 0);
+  private calculateKeywordRelevance(
+    query: string,
+    item: SearchableItem
+  ): number {
+    const queryWords = query.split(/\s+/).filter((word) => word.length > 0);
     if (queryWords.length === 0) return 0;
 
     let totalScore = 0;
@@ -225,17 +247,18 @@ export class AdvancedSearchEngine {
 
   private calculateCategoryBoost(query: string, item: SearchableItem): number {
     if (!item.category) return 0;
-    
+
     const categoryMatch = item.category.toLowerCase().includes(query) ? 0.1 : 0;
     const exactCategoryMatch = item.category.toLowerCase() === query ? 0.2 : 0;
-    
+
     return Math.max(categoryMatch, exactCategoryMatch);
   }
 
   private calculateRecencyScore(lastUpdated: Date): number {
     const now = new Date();
-    const daysSinceUpdate = (now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24);
-    
+    const daysSinceUpdate =
+      (now.getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24);
+
     // Exponential decay: newer items get higher scores
     return Math.exp(-daysSinceUpdate / 30) * this.options.recencyWeight;
   }
@@ -260,7 +283,7 @@ export class AdvancedSearchEngine {
 
     const queryGrams = this.generateNGrams(query, 2);
     const textGrams = this.generateNGrams(text.toLowerCase(), 2);
-    
+
     if (textGrams.size === 0) return 0;
 
     let matches = 0;
@@ -274,11 +297,11 @@ export class AdvancedSearchEngine {
   private generateNGrams(text: string, n: number): Set<string> {
     const grams = new Set<string>();
     const normalized = text.toLowerCase().replace(/\s+/g, ' ');
-    
+
     for (let i = 0; i <= normalized.length - n; i++) {
       grams.add(normalized.substring(i, i + n));
     }
-    
+
     return grams;
   }
 
@@ -293,20 +316,23 @@ export class AdvancedSearchEngine {
     } = scores;
 
     // Weighted combination with diminishing returns
-    const baseScore = (
+    const baseScore =
       exactMatch * 0.4 +
       semanticSimilarity * 0.25 +
       keywordRelevance * 0.2 +
       categoryBoost * 0.1 +
       recencyScore +
-      fieldBoost
-    );
+      fieldBoost;
 
     // Apply contextual multipliers
     let multiplier = 1.0;
 
     // Boost if multiple scoring methods agree
-    const nonZeroScores = [exactMatch, semanticSimilarity, keywordRelevance].filter(s => s > 0.1).length;
+    const nonZeroScores = [
+      exactMatch,
+      semanticSimilarity,
+      keywordRelevance,
+    ].filter((s) => s > 0.1).length;
     if (nonZeroScores >= 2) {
       multiplier *= 1.1;
     }
@@ -317,7 +343,7 @@ export class AdvancedSearchEngine {
 
   private getMatchedFields(query: string, item: SearchableItem): string[] {
     const matches: string[] = [];
-    
+
     if (item.title.toLowerCase().includes(query)) matches.push('title');
     if (item.content.toLowerCase().includes(query)) matches.push('content');
     if (item.category?.toLowerCase().includes(query)) matches.push('category');

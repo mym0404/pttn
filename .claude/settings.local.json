@@ -15,8 +15,12 @@
       "Bash(mkdir:*)",
       "Bash(pnpm t:*)",
       "Bash(pnpm lint:*)",
+      "Bash(npm run:*)",
+      "Bash(npx pnpm run:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
       "Bash(npm run build:*)",
-      "Bash(git merge:*)"
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
