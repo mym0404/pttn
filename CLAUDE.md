@@ -128,36 +128,72 @@ This tool is designed to work with Claude Code's command system. The init proces
 
 The CLI supports both human-readable console output and AI-optimized context output for seamless integration with Claude Code workflows.
 
-### Important: CLI and Command Template Interdependencies
+### ⚠️ CRITICAL: CLI and Command Template Interdependencies
 
-**This project's CLI commands are designed to be invoked from Claude Code's command templates located in `templates/commands/`.** Due to this tight coupling:
+**ALL command templates in `templates/commands/` MUST use the `cc-self-refer` CLI tool. They are NOT standalone implementations.**
 
-- **When CLI interfaces change, all corresponding command templates must be updated** to match the new usage patterns
-- **Documentation updates are required** across multiple locations (README.md, command templates, examples)
-- **High context sharing** means changes in one area often require updates in multiple other areas
+#### Binding Contract
 
-Key interdependencies to consider:
+Each command template is a **thin wrapper** that:
+1. **MUST** call `npx -y cc-self-refer` with appropriate arguments
+2. **MUST NOT** implement any business logic directly  
+3. **MUST** pass the `--context` flag for AI-optimized output
+4. **MUST** include a `## What does this command do` section with exact CLI commands
 
-1. CLI argument structure → Command template invocation syntax
-2. Output format changes → Command template parsing logic
-3. New features → New command templates and documentation
-4. Error messages → Command template error handling
+#### Why This Matters
 
-#### Command Templates in `templates/commands/`:
+- **Single Source of Truth**: All logic lives in the CLI tool
+- **Consistency**: Ensures uniform behavior across all commands
+- **Maintainability**: Changes only need to be made in one place (CLI)
+- **Testing**: CLI can be tested independently
 
-- `page-save.md` - Page management commands
-- `page-refer.md` - Page reference commands
-- `plan-create.md` - Plan creation
-- `plan-edit.md` - Plan editing
-- `plan-resolve.md` - Plan resolution
-- `pattern-create.md` - Pattern creation
-- `pattern-use.md` - Pattern usage
-- `spec.md` - Interactive specification planning
-- `spec-refer.md` - Specification reference
+#### When Making Changes
+
+1. **CLI changes** → Update ALL affected command templates
+2. **Command template changes** → Verify CLI compatibility
+3. **New features** → Implement in CLI first, then create command template
+4. **High context sharing** means changes in one area often require updates in multiple other areas
+
+#### Command Template Structure
+
+Every command template MUST include:
+```markdown
+## What does this command do
+
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI command.**
+
+### CLI Command Used
+```bash
+npx -y cc-self-refer [command] [args] --context
+```
+```
+
+#### Command Templates and Their CLI Bindings
+
+- `page-save.md` - Session extraction → `page extract-session` + `page create`
+- `page-refer.md` - Page reference → `page list`, `page search`, `page view`
+- `plan-create.md` - Plan creation → `plan create`
+- `plan-edit.md` - Plan editing → `plan edit` (full content replacement)
+- `plan-resolve.md` - Plan resolution → `plan view` + work + `plan delete`
+- `pattern-create.md` - Pattern creation → `pattern create`
+- `pattern-use.md` - Pattern usage → `pattern view`
+- `spec.md` - Specification planning → multiple `spec create` calls
+- `spec-refer.md` - Specification reference → `spec list`, `spec search`, `spec view`
+
+#### Verification Checklist
+
+- [ ] Command template calls `npx -y cc-self-refer`
+- [ ] All arguments are properly mapped
+- [ ] `--context` flag is used for AI consumption
+- [ ] Error handling considers CLI exit codes
+- [ ] Documentation matches actual CLI behavior
 
 Always verify that changes maintain compatibility across:
 
 - `src/cli.ts` (CLI implementation)
+- `src/commands/*.ts` (Command implementations)
+- `src/managers/*.ts` (Business logic)
 - `templates/commands/*.md` (Claude Code command definitions)
 - `README.md` (User documentation)
-- Example usage in documentation
