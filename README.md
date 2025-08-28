@@ -60,7 +60,9 @@ After running `/init-claude`, your project will have:
 your-project/
 ├── .claude/
 │   ├── commands/           # 🎯 Claude Code Commands
-│   │   ├── plan.md        # Strategic planning workflow
+│   │   ├── plan-create.md # Create strategic plans
+│   │   ├── plan-edit.md   # Edit existing plans
+│   │   ├── plan-resolve.md# View and load plans
 │   │   ├── page.md        # Session management
 │   │   ├── refer-page.md  # Load session context
 │   │   ├── refer-knowledge.md # Access domain knowledge  
@@ -68,16 +70,16 @@ your-project/
 │   │   └── code-pattern.md     # Save new patterns
 │   │
 │   ├── plans/             # 📋 Strategic Plans & Architecture
-│   │   └── [auto-numbered planning documents]
+│   │   └── [numbered plans like: 001-user-authentication.md]
 │   │
 │   ├── pages/             # 📄 Session History & Context
-│   │   └── [development session snapshots]
+│   │   └── [numbered sessions like: 001-login-implementation.md]
 │   │
 │   ├── code-patterns/     # 🧩 Reusable Code Templates
-│   │   └── [project-specific patterns & snippets]
+│   │   └── [numbered patterns like: 001-react-hook.md]
 │   │
 │   └── knowledge/         # 🧠 Domain Knowledge Base
-│       └── [business logic, constraints, decisions]
+│       └── [numbered entries like: 001-api-limits.md]
 └── [your project files]
 ```
 
@@ -85,7 +87,10 @@ your-project/
 
 ### 📋 `.claude/plans/` - Strategic Planning
 - **Purpose**: High-level project planning and architecture decisions
-- **Usage**: `/plan create "Feature Name" "Description"` creates comprehensive planning documents
+- **Usage**: 
+  - `/plan-create "Feature Name" "Description"` creates comprehensive planning documents
+  - `/plan-edit "id|keyword" "modifications"` modifies existing plans
+  - `/plan-resolve "id|keyword"` views and loads plans for reference
 - **Content**: Implementation phases, success criteria, technical decisions, risk assessment
 - **AI Benefit**: Claude references these plans to understand project direction and constraints
 

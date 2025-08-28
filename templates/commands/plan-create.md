@@ -1,23 +1,16 @@
-# Plan - Strategic Planning Document Management
+# Plan Create - Create New Strategic Planning Document
 
-Comprehensive planning document system with create, edit, and resolve functionality.
+Create comprehensive strategic planning documents with structured templates.
 
-**Usage**: 
-- `/plan create <작업명> <내용>` - Create new plan
-- `/plan edit <id|keyword> <수정 가이드>` - Edit existing plan
-- `/plan resolve <id|keyword>` - View/load existing plan
+**Usage**: `/plan-create <작업명> <내용>`
 
 ## Purpose
 
-This command provides a complete planning system by utilizing the `cc-self-refer` CLI tool for efficient plan management.
+This command creates new strategic planning documents by utilizing the `cc-self-refer` CLI tool's plan creation functionality.
 
 ## Implementation
 
-Execute the appropriate `npx -y cc-self-refer plan` command based on the subcommand:
-
-### 1. CREATE - Create New Plan
-
-**Usage**: `/plan create <task_name> <description>`
+Execute the `npx -y cc-self-refer plan create` command:
 
 ```bash
 npx -y cc-self-refer plan create "Task Name" "Initial description"
@@ -28,7 +21,7 @@ This will:
 - Generate comprehensive plan template with structured sections
 - Save to `.claude/plans/<number>-<sanitized-name>.md`
 
-#### Plan Document Structure
+## Plan Document Example Structure
 
 ```markdown
 # <Number>. <Original Task Name>
@@ -118,18 +111,12 @@ This will:
 - ⚠️ [Technical constraint to work around]
 - 📋 [Regulatory or compliance requirement]
 
-## 예상 일정 (Timeline Estimation)
-### 작업 분해 구조
+## 작업 분해 구조
 - **Phase 1**: [X days/hours] - 기초 설정
 - **Phase 2**: [X days/hours] - 핵심 구현
 - **Phase 3**: [X days/hours] - 통합 및 최적화
 - **Phase 4**: [X days/hours] - 검증 및 배포
 - **Buffer**: [X days/hours] - 예상치 못한 이슈 대응
-
-### 마일스톤
-- 🎯 **M1**: [Date/Duration] - [Milestone description]
-- 🎯 **M2**: [Date/Duration] - [Milestone description]
-- 🎯 **M3**: [Date/Duration] - [Milestone description]
 
 ## 참고 자료 및 레퍼런스 (References)
 - 📚 [Relevant documentation or specification]
@@ -147,109 +134,11 @@ This will:
 **Last Updated**: [Date]
 ```
 
-### 2. EDIT - Modify Existing Plans  
-
-**Usage**: `/plan edit <id|keyword> <modifications>`
-
-```bash
-npx -y cc-self-refer plan edit <id_or_keyword> "Modification instructions"
-```
-
-Examples:
-```bash
-npx -y cc-self-refer plan edit 3 "Add authentication integration to Phase 2"
-npx -y cc-self-refer plan edit "dark mode" "Update performance considerations"
-```
-
-This will:
-- Find the plan by ID number or keyword search
-- Apply modifications to the existing plan
-- Update timestamp and add modification history
-- Preserve original plan structure
-
-#### Example Edits
-
-```bash
-# Edit by plan number
-/plan edit 3 "Phase 2에 인증 통합 작업 추가해줘"
-
-# Edit by keyword search
-/plan edit darkmode "성능 고려사항에 CSS 변수 최적화 추가"
-
-# Major revision
-/plan edit authentication "전체 아키텍처를 JWT에서 OAuth2로 변경"
-```
-
-### 3. RESOLVE - View and Load Plans
-
-**Usage**: `/plan resolve <id|keyword>`
-
-```bash
-npx -y cc-self-refer plan view <id_or_keyword> --context
-```
-
-Examples:
-```bash
-npx -y cc-self-refer plan view 3 --context
-npx -y cc-self-refer plan view "authentication" --context
-npx -y cc-self-refer plan list  # List all plans
-```
-
-**Note**: The `--context` flag formats plan output for AI consumption with strategic insights and implementation guidance.
-
-This will:
-- Find and display the requested plan
-- Show full plan content with formatting
-- Load plan context for implementation reference
-
-#### Output Formats
-
-**Single Match**:
-```markdown
-# Plan Loaded: [Title]
-
-## File: `.claude/plans/[filename]`
-
-[Full plan content displayed]
-
----
-**Status**: [Current status]
-**Created**: [Date]
-**Last Updated**: [Date]
-```
-
-**Multiple Matches**:
-```markdown
-# Multiple Plans Found for "[keyword]"
-
-1. **[Plan 1]** (`3-darkmode.md`)
-   📝 Brief: [Excerpt]
-   
-2. **[Plan 2]** (`5-api-optimization.md`)
-   📝 Brief: [Excerpt]
-
-**Select**: `/plan resolve <number>` to view specific plan
-```
-
-**No Matches**:
-```markdown
-# No Plans Found
-
-No plans matching "[search term]".
-
-## Available Plans:
-1. **다크모드 구현** - UI theme switching
-2. **API 최적화** - Performance improvements
-3. **인증 시스템** - User authentication
-
-**Usage**: `/plan resolve <number|keyword>`
-```
-
 ## Usage Examples
 
 ### Creating New Plan
 ```bash
-/plan create "다크모드 구현" "사용자가 라이트/다크 테마를 전환할 수 있는 기능"
+/plan-create "다크모드 구현" "사용자가 라이트/다크 테마를 전환할 수 있는 기능"
 ```
 
 Claude will:
@@ -258,30 +147,7 @@ Claude will:
 3. Clarify scope and components affected
 4. Generate comprehensive planning document
 
-### Editing Existing Plan
-```bash
-/plan edit 3 "Phase 2에 localStorage 저장 로직 추가하고 테스트 계획 업데이트"
-```
-
-Claude will:
-1. Load plan #3
-2. Add localStorage logic to Phase 2
-3. Update test plan section
-4. Save modified plan with updated timestamp
-
-### Resolving Plan for Reference
-```bash
-/plan resolve authentication
-```
-
-Claude will:
-1. Search for authentication-related plans
-2. Display matching plan(s)
-3. Load into context for implementation
-
 ## Interactive Question Examples
-
-### For CREATE Subcommand
 
 **Feature Development**:
 - "어떤 UI 프레임워크를 사용하시나요?"
@@ -301,26 +167,15 @@ Claude will:
 - "캐싱 인프라가 있나요?"
 - "트래픽 패턴은 어떻게 되나요?"
 
-### For EDIT Subcommand
-
-Claude will ask minimal questions focused on:
-- Clarifying ambiguous edit instructions
-- Confirming major structural changes
-- Validating technical approach changes
-
 ## Directory Management
 
 - **Creation**: Ensure `.claude/plans/` exists
 - **Naming**: Auto-numbered with descriptive names
 - **Organization**: Sequential numbering for easy reference
-- **Maintenance**: Plans remain editable and versionable
 
 ## Error Handling
 
 - **Missing Directory**: Create `.claude/plans/` automatically
-- **Invalid Subcommand**: Show usage help
-- **No Matches**: List available plans
-- **Multiple Matches**: Show selection interface
 - **File Conflicts**: Handle gracefully with user confirmation
 
 ## Best Practices
@@ -329,15 +184,3 @@ Claude will ask minimal questions focused on:
    - Provide detailed initial description
    - Answer Claude's questions thoroughly
    - Review generated plan before finalizing
-
-2. **Editing Plans**:
-   - Be specific about what to change
-   - Maintain plan structure consistency
-   - Update status and timestamps
-
-3. **Resolving Plans**:
-   - Use numbers for exact matches
-   - Use keywords for discovery
-   - Load relevant plans before implementation
-
-This unified command provides complete planning lifecycle management, from initial creation through iterative refinement to final implementation reference.

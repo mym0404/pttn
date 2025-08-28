@@ -58,15 +58,15 @@ The CLI tool handles:
 
 ## Matching Knowledge:
 
-### 1. **[Knowledge 1]** (`.claude/knowledge/1-topic.md`)
+### 1. **[Knowledge 1]** (`.claude/knowledge/001-topic.md`)
 💡 *[Brief summary of key insights]*
 🎯 *Relevance: [How it applies to search]*
 
-### 2. **[Knowledge 2]** (`.claude/knowledge/3-another-topic.md`) 
+### 2. **[Knowledge 2]** (`.claude/knowledge/003-another-topic.md`) 
 📋 *[Brief summary of content]*
 🎯 *Relevance: [Connection to search term]*
 
-### 3. **[Knowledge 3]** (`.claude/knowledge/5-related-topic.md`)
+### 3. **[Knowledge 3]** (`.claude/knowledge/005-related-topic.md`)
 ⚡ *[Brief summary of insights]*
 🎯 *Relevance: [Why it matched search]*
 

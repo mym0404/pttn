@@ -575,8 +575,8 @@ export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
     async list(category?: string): Promise<KnowledgeInfo[]> {
       await ensureDir(knowledgeDir);
 
-      const pattern = category ? `**/${category}/**/*.md` : '**/*.md';
-      const files = await glob(pattern, { cwd: knowledgeDir });
+      // For numbered files in knowledge directory
+      const files = await glob('*.md', { cwd: knowledgeDir });
       const entries: KnowledgeInfo[] = [];
 
       for (const file of files) {
@@ -587,6 +587,9 @@ export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
         const entryCategory = extractCategory(content, file);
         const idMatch = file.match(/^(\d+)-/);
         const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
+
+        // Filter by category if specified
+        if (category && entryCategory !== category) continue;
 
         entries.push({
           id,
@@ -674,7 +677,9 @@ export const initClaudeProject = async (
   // Command files to download
   const commandFiles = [
     'page.md',
-    'plan.md',
+    'plan-create.md',
+    'plan-edit.md',
+    'plan-resolve.md',
     'refer-page.md',
     'refer-knowledge.md',
     'use-code-pattern.md',
@@ -729,14 +734,16 @@ export const initClaudeProject = async (
 
   console.log('\n🎯 Available commands:');
   console.log('  /page                 - Manage session pages');
-  console.log('  /plan                 - Create and manage strategic plans');
+  console.log('  /plan-create          - Create new strategic plans');
+  console.log('  /plan-edit            - Edit existing strategic plans');
+  console.log('  /plan-resolve         - View and load strategic plans');
   console.log('  /refer-page           - Load session context');
   console.log('  /refer-knowledge      - Access domain knowledge');
   console.log('  /use-code-pattern     - Apply saved code patterns');
   console.log('  /code-pattern         - Save new code patterns');
 
   console.log('\n🚀 Next steps:');
-  console.log('  1. Start using commands: /plan create "My Project" "Description"');
+  console.log('  1. Start using commands: /plan-create "My Project" "Description"');
   console.log('  2. Build your knowledge: /refer-knowledge and /use-code-pattern');
   console.log('  3. All commands work with your project\'s local .claude directory');
 

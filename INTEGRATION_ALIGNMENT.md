@@ -44,7 +44,7 @@
 #### Updated Command Files:
 
 - **`refer-page.md`**: Updated to use `--context` flag
-- **`plan.md`**: Updated resolve command to use context mode
+- **`plan-resolve.md`**: Updated resolve command to use context mode (split from unified plan.md)
 - **`refer-knowledge.md`**: Updated all search operations
 - **`use-code-pattern.md`**: Updated pattern commands
 
@@ -188,4 +188,4 @@ The cc-self-refer tool is now fully aligned with Claude Code command expectation
 - **Seamless Integration**: Drop-in replacement for command implementations
 - **Backward Compatibility**: Existing workflows remain unchanged
 
-All Claude Code commands (`/refer-page`, `/plan resolve`, `/refer-knowledge`, `/use-code-pattern`) can now use the enhanced `--context` flag for optimal AI integration while maintaining full backward compatibility for human consumption.
+All Claude Code commands (`/refer-page`, `/plan-resolve`, `/refer-knowledge`, `/use-code-pattern`) can now use the enhanced `--context` flag for optimal AI integration while maintaining full backward compatibility for human consumption.
