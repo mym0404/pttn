@@ -23,152 +23,100 @@ npx -y cc-self-refer pattern create "<pattern name>" "<pattern content>"
 
 #### Interactive Mode (Pattern Name Only)
 
-1. **Ask for Pattern Name**: Request a clear, descriptive name for the pattern
-2. **Collect Pattern Content**: Gather the complete pattern documentation including:
-   - Pattern description
-   - Code examples with proper syntax highlighting
-   - Usage instructions
-   - When to use this pattern
-   - Implementation notes
-3. **Execute CLI Command**: Run the pattern create command with the collected information
+1. **Ask for Pattern Name**: Request a clear pattern name
+2. **Collect Pattern Content**: Gather simple code snippet (ready-to-use code)
+3. **Execute CLI Command**: Run the pattern create command
 
 #### Direct Mode (Pattern Name + Code Snippet)
 
 1. **Extract Pattern Name**: Use the provided pattern name
-2. **Process Code Snippet**: Enhance the provided code snippet with:
-   - Proper markdown formatting
-   - Code syntax highlighting
-   - Brief explanation or context
-   - Usage notes if applicable
-3. **Execute CLI Command**: Run the pattern create command with formatted content
+2. **Process Code Snippet**: Apply minimal markdown formatting (wrap in code block)
+3. **Execute CLI Command**: Run the pattern create command
 
 ### Pattern Content Structure
 
-When creating pattern content, include:
+Patterns should be simple code snippets:
 
 ````markdown
 # <Pattern Name>
 
-## Pattern Description
-
-[Brief description of what this pattern solves or achieves]
-
-## Implementation
-
 ```[language]
-// Main implementation example
-[code snippet with comments]
+// Code snippet
+[Ready-to-use code]
 ```
 
-## Usage Example
-
-```[language]
-// How to use this pattern
-[example code]
-```
-
-## When to Use
-
-- [Use case n]
+[Brief description if needed]
 ````
 
-### 4. Content Enhancement
+Example:
 
-When saving patterns:
+````markdown
+# Zod Model Creation Pattern
 
-1. **Code Analysis**:
-   - Extract meaningful patterns from provided code snippets
-   - Add explanatory comments to complex parts
-   - Suggest alternative implementations if appropriate
+```typescript
+import { z } from 'zod';
+import { baseModelSchema } from './Base';
 
-2. **Context Integration**:
-   - Relate pattern to current project's tech stack
-   - Include project-specific considerations
-   - Reference existing similar patterns in the codebase
+export const soldierBasicInfoSchema = baseModelSchema.extend({
+  name: z.string().min(1),
+  rank: z.string(),
+  // Additional fields...
+});
 
-3. **Pattern Categorization**:
-   - Identify pattern type (UI, API, state management, etc.)
-   - Tag with relevant technologies (React, TailwindCSS, etc.)
-   - Cross-reference with related patterns
+export type SoldierBasicInfo = z.infer<typeof soldierBasicInfoSchema>;
+```
+````
+
+### Content Guidelines
+
+When creating patterns:
+- Focus on ready-to-use code snippets
+- Avoid excessive documentation
+- Add minimal comments only when necessary
+- Code should be copy-paste ready
 
 ## Usage Examples
 
-### Save UI Pattern
+### Save Pattern Examples
 
 When user requests:
 
 ```bash
-/pattern-create "Dark Mode Toggle Component"
+/pattern-create "API Error Handler"
 ```
 
 Claude will:
 
-1. Ask for the pattern content (implementation details, code examples)
-2. Execute: `npx -y cc-self-refer pattern create "Dark Mode Toggle Component" "<collected content>"`
-3. Creates: `.claude/patterns/001-dark-mode-toggle-component.md`
+1. Collect simple code snippet
+2. Execute: `npx -y cc-self-refer pattern create "API Error Handler" "<code snippet>"`
+3. Creates: `.claude/patterns/001-api-error-handler.md`
 
-### Save API Pattern
+### Save Code Snippet Pattern
 
 When user requests:
 
 ```bash
-/pattern-create "Error Handling with Tanstack Query"
+/pattern-create "React Hook Pattern"
 ```
 
 Claude will:
 
-1. Collect the pattern implementation and examples
-2. Execute: `npx -y cc-self-refer pattern create "Error Handling with Tanstack Query" "<collected content>"`
-3. Creates: `.claude/patterns/002-error-handling-with-tanstack-query.md`
-
-### Save Code Snippet Pattern (Interactive Mode)
-
-When user provides a code pattern:
-
-```bash
-/pattern-create "Async Form Submit Pattern"
-```
-
-Claude will:
-
-1. Ask for or collect the pattern code and documentation
-2. Format the content with proper markdown and code blocks
-3. Execute: `npx -y cc-self-refer pattern create "Async Form Submit Pattern" "<formatted content>"`
-4. Creates: `.claude/patterns/003-async-form-submit-pattern.md`
-
-### Save Code Snippet Pattern (Direct Mode)
-
-When user provides both name and code:
-
-```bash
-/pattern-create "Button Click Handler" const handleClick = (e) => { e.preventDefault(); console.log('clicked'); };
-```
-
-Claude will:
-
-1. Extract the pattern name and code snippet
-2. Format the code snippet with proper markdown structure
-3. Execute: `npx -y cc-self-refer pattern create "Button Click Handler" "<formatted snippet>"`
-4. Creates: `.claude/patterns/004-button-click-handler.md`
+1. Collect simple code snippet
+2. Execute: `npx -y cc-self-refer pattern create "React Hook Pattern" "<code snippet>"`
+3. Creates: `.claude/patterns/003-react-hook-pattern.md`
 
 ## Directory Management
 
 - Ensure `.claude/patterns/` directory exists (create if needed)
 - Patterns are numbered sequentially for easy reference
-- Pattern files include:
-  - Actual runnable code examples
-  - Context about when and how to use
-  - Project-specific adaptations
-  - Cross-references to related content
+- Pattern files contain runnable code snippets
 
 ## Integration Benefits
 
 Patterns created with this command:
 
-- Provide consistent coding approaches across the project
-- Serve as quick copy-paste templates
-- Document project-specific best practices
-- Enable faster development through pattern reuse
-- Create a searchable library of proven solutions
+- Quick copy-paste templates for common code patterns
+- Reusable code snippets for faster development
+- Consistent coding approaches across the project
 
-This command helps maintain coding consistency and accelerates development by preserving effective patterns and practices.
+This command helps save and reuse common code patterns efficiently.

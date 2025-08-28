@@ -1,6 +1,4 @@
 import { Command } from 'commander';
-import { existsSync } from 'fs';
-import { join, resolve } from 'path';
 import pc from 'picocolors';
 
 import { createKnowledgeManager } from '../managers';
@@ -116,7 +114,7 @@ export const registerKnowledgeCommands = (
           );
           results.forEach((result, index) => {
             console.log(
-              `  ${index + 1}. ${pc.bold(result.title)} ${pc.dim(`(${result.category})`)}`
+              `  ${index + 1}. ${pc.bold(result.title)}`
             );
             console.log(
               `     ${pc.dim(`Score: ${result.score} | ${result.file}`)}`
@@ -146,49 +144,16 @@ export const registerKnowledgeCommands = (
         cmdOptions: { category?: string }
       ) => {
         const globalOptions = program.opts();
-        const contentDir = getContentDir(globalOptions);
-        const knowledgeDir = resolve(contentDir, 'knowledges');
+        const manager = createKnowledgeManager(getContentDir(globalOptions));
 
         try {
-          // Ensure directory exists
-          if (!existsSync(knowledgeDir)) {
-            await import('fs/promises').then((fs) =>
-              fs.mkdir(knowledgeDir, { recursive: true })
-            );
-          }
-
-          // Get existing knowledge entries to determine next ID
-          const manager = createKnowledgeManager(contentDir);
-          const entries = await manager.list();
-          const nextId =
-            entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
-
-          // Create filename with zero-padded ID
-          const paddedId = nextId.toString().padStart(3, '0');
-          const filename = `${paddedId}-${title
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9-]/g, '')}.md`;
-          const filepath = join(knowledgeDir, filename);
-
-          // Create full content with metadata
-          const fullContent = `# ${title}
-
-**Category**: ${cmdOptions.category || 'general'}
-
-${content}
-
----
-**Created**: ${new Date().toISOString()}
-`;
-
-          await import('fs/promises').then((fs) =>
-            fs.writeFile(filepath, fullContent)
+          const { id, filename } = await manager.create(
+            title,
+            content,
+            cmdOptions.category || 'general'
           );
 
-          console.log(
-            pc.green(`✅ Created knowledge entry #${nextId}: ${title}`)
-          );
+          console.log(pc.green(`✅ Created knowledge entry #${id}: ${title}`));
           console.log(pc.dim(`   File: .claude/knowledges/${filename}`));
           console.log(
             pc.dim(`   Category: ${cmdOptions.category || 'general'}`)

@@ -41,6 +41,20 @@ export const createPageManager = (contentDir: string): PageManager => {
       const pages = await this.list();
       const results: SearchResult[] = [];
 
+      // Check if keyword is a number (ID search)
+      const idNum = parseInt(keyword);
+      if (!isNaN(idNum)) {
+        const page = pages.find((p) => p.id === idNum);
+        if (page) {
+          results.push({
+            title: page.title,
+            file: page.file,
+            score: 1.0, // Exact match for ID search
+          });
+          return results;
+        }
+      }
+
       for (const page of pages) {
         if (!page.content) continue;
 
@@ -111,6 +125,11 @@ ${content}
 
       await writeFile(filepath, fullContent);
       return nextId;
+    },
+
+    async save(title: string, content: string): Promise<number> {
+      // Alias for create method to match CLI command
+      return this.create(title, content);
     },
   };
 };

@@ -1,4 +1,5 @@
-import { readFile, stat } from 'fs/promises';
+import { existsSync } from 'fs';
+import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
@@ -48,6 +49,20 @@ export const createKnowledgeManager = (
       const entries = await this.list(category);
       const results: SearchResult[] = [];
 
+      // Check if keyword is a number (ID search)
+      const idNum = parseInt(keyword);
+      if (!isNaN(idNum)) {
+        const entry = entries.find((e) => e.id === idNum);
+        if (entry) {
+          results.push({
+            title: `${entry.title} (${entry.category})`,
+            file: entry.file,
+            score: 1.0, // Exact match for ID search
+          });
+          return results;
+        }
+      }
+
       for (const entry of entries) {
         if (!entry.content) continue;
 
@@ -92,6 +107,45 @@ export const createKnowledgeManager = (
       }
 
       throw new Error(`Knowledge entry not found: ${idOrKeyword}`);
+    },
+
+    async create(
+      title: string,
+      content: string,
+      category: string = 'general'
+    ): Promise<{ id: number; filename: string }> {
+      // Ensure directory exists
+      if (!existsSync(knowledgeDir)) {
+        await mkdir(knowledgeDir, { recursive: true });
+      }
+
+      // Get existing knowledge entries to determine next ID
+      const entries = await this.list();
+      const nextId =
+        entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
+
+      // Create filename with zero-padded ID
+      const paddedId = nextId.toString().padStart(3, '0');
+      const filename = `${paddedId}-${title
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const filepath = join(knowledgeDir, filename);
+
+      // Create full content with metadata
+      const fullContent = `# ${title}
+
+**Category**: ${category}
+
+${content}
+
+---
+**Created**: ${new Date().toISOString()}
+`;
+
+      await writeFile(filepath, fullContent);
+
+      return { id: nextId, filename };
     },
   };
 };

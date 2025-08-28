@@ -174,18 +174,78 @@ export const registerPatternCommands = (
     .description('Create a new code pattern')
     .argument('<name>', 'Pattern name')
     .argument('[content]', 'Pattern description or content (optional)')
-    .action(async (name: string, content?: string) => {
-      intro(pc.cyan('Creating Code Pattern'));
+    .option('-l, --language <lang>', 'Programming language', 'text')
+    .action(
+      async (
+        name: string,
+        content?: string,
+        cmdOptions?: { language?: string }
+      ) => {
+        intro(pc.cyan('Creating Code Pattern'));
 
+        const globalOptions = program.opts();
+        const manager = createPatternManager(getContentDir(globalOptions));
+        try {
+          // If no content provided, use just the name as content
+          const patternContent = content || name;
+          const filename = await manager.create(
+            name,
+            patternContent,
+            cmdOptions?.language
+          );
+          outro(pc.green(`✅ Pattern created successfully: ${filename}`));
+        } catch (error) {
+          outro(pc.red(`❌ Error creating pattern: ${error}`));
+        }
+      }
+    );
+
+  patternCmd
+    .command('use')
+    .description('Use a code pattern by ID or search term')
+    .argument('<idOrKeyword>', 'Pattern ID or search keyword')
+    .option('--context', 'Output formatted for AI context instead of console')
+    .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
       const globalOptions = program.opts();
       const manager = createPatternManager(getContentDir(globalOptions));
       try {
-        // If no content provided, use just the name as content
-        const patternContent = content || name;
-        const filename = await manager.create(name, patternContent);
-        outro(pc.green(`✅ Pattern created successfully: ${filename}`));
+        const content = await manager.use(idOrKeyword);
+
+        if (cmdOptions.context) {
+          const patterns = await manager.list();
+          const pattern = patterns.find(
+            (p) =>
+              p.id.toString() === idOrKeyword ||
+              p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
+          );
+
+          if (pattern) {
+            const { formatSingleMatch } = await import('../formatters.js');
+
+            const formattedItem = {
+              id: pattern.id,
+              title: pattern.title,
+              file: pattern.file,
+              metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
+              content: content,
+            };
+
+            const formatOptions = {
+              type: 'pattern' as const,
+              emoji: '🧩',
+              title: 'Code Pattern',
+              outputMode: 'context' as const,
+            };
+
+            console.log(formatSingleMatch(formattedItem, formatOptions));
+            return;
+          }
+        }
+
+        console.log(pc.cyan('\n🧩 Pattern Content:\n'));
+        console.log(content);
       } catch (error) {
-        outro(pc.red(`❌ Error creating pattern: ${error}`));
+        console.error(pc.red('Error using pattern:'), error);
       }
     });
 };

@@ -43,6 +43,20 @@ export const createPlanManager = (contentDir: string): PlanManager => {
       const plans = await this.list();
       const results: SearchResult[] = [];
 
+      // Check if keyword is a number (ID search)
+      const idNum = parseInt(keyword);
+      if (!isNaN(idNum)) {
+        const plan = plans.find((p) => p.id === idNum);
+        if (plan) {
+          results.push({
+            title: plan.title,
+            file: plan.file,
+            score: 1.0, // Exact match for ID search
+          });
+          return results;
+        }
+      }
+
       for (const plan of plans) {
         if (!plan.content) continue;
 
@@ -200,6 +214,39 @@ To be defined based on requirements
       const updatedContent =
         content +
         `\n\n## Modifications (${new Date().toLocaleDateString()})\n${modifications}\n`;
+      const finalContent = updatedContent.replace(
+        /\*\*Last Updated\*\*: .+/,
+        `**Last Updated**: ${new Date().toISOString()}`
+      );
+
+      await writeFile(filepath, finalContent);
+    },
+
+    async resolve(idOrKeyword: string): Promise<void> {
+      const content = await this.view(idOrKeyword);
+      const plans = await this.list();
+
+      // Find the plan file
+      let targetFile: string;
+      const idNum = parseInt(idOrKeyword);
+      if (!isNaN(idNum)) {
+        const plan = plans.find((p: PlanInfo) => p.id === idNum);
+        if (!plan) throw new Error(`Plan not found: ${idOrKeyword}`);
+        targetFile = plan.file;
+      } else {
+        const results = await this.search(idOrKeyword);
+        if (results.length === 0)
+          throw new Error(`Plan not found: ${idOrKeyword}`);
+        targetFile = results[0].file;
+      }
+
+      const filepath = join(plansDir, targetFile);
+
+      // Update status to Completed
+      const updatedContent = content.replace(
+        /\*\*Status\*\*: \[.*\]/,
+        '**Status**: [Completed]'
+      );
       const finalContent = updatedContent.replace(
         /\*\*Last Updated\*\*: .+/,
         `**Last Updated**: ${new Date().toISOString()}`

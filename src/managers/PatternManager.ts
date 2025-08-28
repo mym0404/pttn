@@ -43,6 +43,20 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       const patterns = await this.list();
       const results: SearchResult[] = [];
 
+      // Check if keyword is a number (ID search)
+      const idNum = parseInt(keyword);
+      if (!isNaN(idNum)) {
+        const pattern = patterns.find((p) => p.id === idNum);
+        if (pattern) {
+          results.push({
+            title: `${pattern.title} (${pattern.language})`,
+            file: pattern.file,
+            score: 1.0, // Exact match for ID search
+          });
+          return results;
+        }
+      }
+
       for (const pattern of patterns) {
         if (!pattern.content) continue;
         if (language && pattern.language !== language.toLowerCase()) continue;
@@ -91,7 +105,11 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
 
-    async create(name: string, content: string): Promise<string> {
+    async create(
+      name: string,
+      content: string,
+      language: string = 'text'
+    ): Promise<string> {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
@@ -107,10 +125,49 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         .replace(/[^a-z0-9-]/g, '')}.md`;
       const filepath = join(patternsDir, filename);
 
-      const fullContent = content;
+      // Add language metadata if not already present
+      let fullContent = content;
+      if (!content.includes('**Language**:')) {
+        fullContent = `# ${name}
+
+**Language**: ${language}
+
+${content}
+
+---
+**Created**: ${new Date().toISOString()}
+`;
+      }
 
       await writeFile(filepath, fullContent);
       return filename;
+    },
+
+    async use(idOrKeyword: string): Promise<string> {
+      const patterns = await this.list();
+
+      // Try to find by ID first
+      const idNum = parseInt(idOrKeyword);
+      if (!isNaN(idNum)) {
+        const pattern = patterns.find((p: PatternInfo) => p.id === idNum);
+        if (pattern?.content) {
+          return pattern.content;
+        }
+      }
+
+      // Search by keyword
+      const results = await this.search(idOrKeyword);
+      if (results.length > 0) {
+        const bestMatch = results[0];
+        const pattern = patterns.find(
+          (p: PatternInfo) => p.file === bestMatch.file
+        );
+        if (pattern?.content) {
+          return pattern.content;
+        }
+      }
+
+      throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
   };
 };

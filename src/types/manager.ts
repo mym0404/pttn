@@ -6,6 +6,7 @@ export interface PageManager {
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(title: string, content: string): Promise<number>;
+  save(title: string, content: string): Promise<number>;
 }
 
 export interface PlanManager {
@@ -14,6 +15,7 @@ export interface PlanManager {
   view(idOrKeyword: string): Promise<string>;
   create(name: string, description: string): Promise<string>;
   edit(idOrKeyword: string, modifications: string): Promise<void>;
+  resolve(idOrKeyword: string): Promise<void>;
 }
 
 export interface PatternManager {
@@ -21,10 +23,16 @@ export interface PatternManager {
   search(keyword: string, language?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(name: string, content: string, language?: string): Promise<string>;
+  use(idOrKeyword: string): Promise<string>;
 }
 
 export interface KnowledgeManager {
   list(category?: string): Promise<KnowledgeInfo[]>;
   search(keyword: string, category?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
+  create(
+    title: string,
+    content: string,
+    category?: string
+  ): Promise<{ id: number; filename: string }>;
 }
