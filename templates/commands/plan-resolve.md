@@ -21,15 +21,14 @@ This command facilitates the execution of strategic plans by:
 
 ```bash
 # Step 1: Load the plan for implementation
-npx -y cc-self-refer plan view <id_or_keyword> --context
+npx -y cc-self-refer plan view <id_or_keyword> 
 
 # Step 2: After successful implementation, optionally delete
-npx -y cc-self-refer plan delete <id_or_keyword> --context
+npx -y cc-self-refer plan delete <id_or_keyword>
 ```
 
 ### Command Arguments
 - `id_or_keyword`: Plan ID number or search keyword
-- `--context`: ALWAYS use this flag for AI-optimized output
 
 ### Expected Workflow
 1. Load and display the plan content
@@ -141,15 +140,6 @@ No plans matching "[search term]".
 - Timeline and milestones
 - Risk assessments and mitigation strategies
 
-### Context Loading
-
-When using `--context` flag:
-
-- Optimizes content for AI processing
-- Highlights actionable items
-- Emphasizes current phase and next steps
-- Includes relevant implementation guidance
-
 ## Use Cases
 
 ### Implementation Reference
@@ -233,7 +223,6 @@ Would you like to delete this plan from .claude/plans/?
 ## Best Practices
 
 1. **Regular Reference**: Check relevant plans before starting implementation
-2. **Context Loading**: Use `--context` flag when working on plan-related tasks
 3. **Keyword Search**: Use descriptive terms for faster plan discovery
 4. **ID Bookmarking**: Remember frequently accessed plan IDs
 
@@ -248,5 +237,4 @@ Would you like to delete this plan from .claude/plans/?
 
 - **Fast ID Access**: Direct ID lookups are instantaneous
 - **Efficient Search**: Keyword search uses optimized indexing
-- **Context Processing**: `--context` flag adds minimal processing overhead
 - **Batch Operations**: List operations are optimized for large plan collections

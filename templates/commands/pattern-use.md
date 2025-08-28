@@ -8,18 +8,35 @@ Retrieve and apply code patterns from `.claude/patterns/` directory by number or
 
 This command retrieves saved code patterns and makes them immediately available for use in development. It helps maintain consistent coding practices and speeds up implementation by reusing proven patterns.
 
-## Implementation
+## What does this command do
 
-Use the `cc-self-refer` CLI tool to efficiently search and apply code patterns:
+### ⚠️ IMPORTANT: CLI Command Execution Required
+
+**This command MUST execute the following `cc-self-refer` CLI commands. Do NOT implement the functionality directly.**
+
+### CLI Commands Used
 
 ```bash
+# Search for patterns first
+npx -y cc-self-refer pattern search <keyword>
+npx -y cc-self-refer pattern search <keyword> --language <lang>
+
+# View specific pattern
+npx -y cc-self-refer pattern view <id_or_keyword>
+
+# List all patterns
 npx -y cc-self-refer pattern list
-npx -y cc-self-refer pattern search <keyword> --context
-npx -y cc-self-refer pattern search <keyword> --language <lang> --context
-npx -y cc-self-refer pattern view <id_or_keyword> --context
 ```
 
-**Note**: The `--context` flag formats pattern output for AI consumption with code examples and usage instructions.
+### Command Arguments
+- `id_or_keyword`: Pattern ID number or search keyword  
+- `language`: Optional language filter for search
+- Output automatically formatted for AI consumption with code examples
+
+### Expected Workflow
+1. Search for relevant patterns using `pattern search`
+2. View specific pattern using `pattern view`
+3. Pattern content is displayed ready for use in development
 
 ### Search Process
 

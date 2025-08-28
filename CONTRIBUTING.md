@@ -106,7 +106,6 @@ cc-self-refer/
 
 - Add new commands to `src/cli.ts`
 - Follow existing pattern with Commander.js
-- Include `--context` option for AI-optimized output
 
 #### Managers and Functions
 
@@ -117,7 +116,6 @@ cc-self-refer/
 #### Output Formatting
 
 - Claude Code-specific formatting in `src/formatters.ts`
-- Support both console and context modes
 - Include emojis and clear structure
 
 #### Command Templates

@@ -13,12 +13,10 @@ This command retrieves saved session histories to restore context from previous 
 Use the `cc-self-refer` CLI tool to efficiently search and load session pages:
 
 ```bash
-npx -y cc-self-refer page view <id_or_keyword> --context
-npx -y cc-self-refer page search <keyword> --context
+npx -y cc-self-refer page view <id_or_keyword>
+npx -y cc-self-refer page search <keyword>
 npx -y cc-self-refer page list
 ```
-
-**Note**: The `--context` flag formats output for AI consumption with enhanced metadata and structured content.
 
 ### Search Process
 

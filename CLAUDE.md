@@ -52,7 +52,6 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 1. **CLI Entry Point (`src/cli.ts`)**:
    - Commander.js-based CLI with subcommands for different content types
    - Each command group (page, plan, pattern, spec) has CRUD operations
-   - Supports both console output and AI-context formatted output (`--context` flag)
 
 2. **Manager Layer (`src/managers/`)**:
    - `PageManager`: Session history management in `.claude/pages/`
@@ -126,8 +125,6 @@ This tool is designed to work with Claude Code's command system. The init proces
 2. Downloads command templates from GitHub
 3. Provides slash commands for content management
 
-The CLI supports both human-readable console output and AI-optimized context output for seamless integration with Claude Code workflows.
-
 ### ⚠️ CRITICAL: CLI and Command Template Interdependencies
 
 **ALL command templates in `templates/commands/` MUST use the `cc-self-refer` CLI tool. They are NOT standalone implementations.**
@@ -137,7 +134,6 @@ The CLI supports both human-readable console output and AI-optimized context out
 Each command template is a **thin wrapper** that:
 1. **MUST** call `npx -y cc-self-refer` with appropriate arguments
 2. **MUST NOT** implement any business logic directly  
-3. **MUST** pass the `--context` flag for AI-optimized output
 4. **MUST** include a `## What does this command do` section with exact CLI commands
 
 #### Why This Matters
@@ -166,7 +162,7 @@ Every command template MUST include:
 
 ### CLI Command Used
 ```bash
-npx -y cc-self-refer [command] [args] --context
+npx -y cc-self-refer [command] [args]
 ```
 ```
 
@@ -186,7 +182,6 @@ npx -y cc-self-refer [command] [args] --context
 
 - [ ] Command template calls `npx -y cc-self-refer`
 - [ ] All arguments are properly mapped
-- [ ] `--context` flag is used for AI consumption
 - [ ] Error handling considers CLI exit codes
 - [ ] Documentation matches actual CLI behavior
 
