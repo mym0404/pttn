@@ -152,7 +152,7 @@ Key interdependencies to consider:
 - `plan-resolve.md` - Plan resolution
 - `pattern-create.md` - Pattern creation
 - `pattern-use.md` - Pattern usage
-- `spec-create.md` - Specification creation
+- `spec.md` - Interactive specification planning
 - `spec-refer.md` - Specification reference
 
 Always verify that changes maintain compatibility across:

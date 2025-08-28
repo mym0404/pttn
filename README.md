@@ -63,7 +63,7 @@ your-project/
 │   │   ├── page-save.md   # Session management
 │   │   ├── page-refer.md  # Load session context
 │   │   ├── spec-refer.md # Access technical specifications
-│   │   ├── spec-create.md # Create technical specifications
+│   │   ├── spec.md # Interactive specification planning
 │   │   ├── pattern-use.md # Apply code patterns
 │   │   └── pattern-create.md     # Save new patterns
 │   │
@@ -110,7 +110,7 @@ your-project/
 ### 📋 `.claude/specs/` - Technical Specifications
 
 - **Purpose**: System requirements, technical specifications, and architectural constraints
-- **Usage**: `/spec-refer` to access; `/spec-create` to add new entries; manually curated technical specifications
+- **Usage**: `/spec-refer` to access; `/spec` to create specifications through interactive planning; manually curated technical specifications
 - **Content**: Technical requirements, API specifications, performance requirements, compliance needs
 - **AI Benefit**: Claude makes technically sound decisions aligned with your specifications
 

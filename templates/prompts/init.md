@@ -75,7 +75,7 @@ npx cc-self-refer pattern view <id>           # Load specific pattern
 
 #### Technical Specification Analysis
 
-After analyzing the project's technical requirements and specifications, read `.claude/commands/spec-create.md` and apply it's usage
+After analyzing the project's technical requirements and specifications, read `.claude/commands/spec.md` and apply it's usage
 
 #### Code Pattern Analysis
 

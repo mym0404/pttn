@@ -2,7 +2,7 @@
 
 Create comprehensive technical specifications through intelligent AI-powered collaborative planning that **automatically adapts** to your project's current state. This advanced system analyzes existing specifications and determines the optimal approach for your specific situation.
 
-**Usage**: `/spec-create [initial concept or feature name]`
+**Usage**: `/spec [initial concept or feature name]`
 
 ## Intelligent Adaptive Planning
 
@@ -60,7 +60,7 @@ The system automatically determines optimal document structure:
 
 #### **Complete Product Planning** → Multiple Strategic Documents:
 ```bash
-User: /spec-create "E-commerce Platform"
+User: /spec "E-commerce Platform"
 
 AI Analysis: This is a complete product. I'll create comprehensive specifications.
 
@@ -87,7 +87,7 @@ Generated Structure:
 
 #### **Feature-Specific Planning** → Targeted Documents:
 ```bash
-User: /spec-create "User Authentication Screen"
+User: /spec "User Authentication Screen"
 
 AI Analysis: Specific UI component. I'll create focused specifications.
 
@@ -103,7 +103,7 @@ Generated Structure:
 
 #### **Existing System Enhancement** → Smart Updates:
 ```bash
-User: /spec-create "Mobile App Support"
+User: /spec "Mobile App Support"
 
 AI Analysis: Existing web platform. I'll enhance current specifications.
 
@@ -369,7 +369,7 @@ When updating any specification, system automatically:
 
 ### Fresh Product Specification
 ```bash
-User: /spec-create "AI-Powered Task Management Platform"
+User: /spec "AI-Powered Task Management Platform"
 
 Claude: 🚀 Starting comprehensive specification planning for your AI-Powered Task Management Platform.
 
@@ -401,7 +401,7 @@ Let's start with understanding your vision:
 
 ### Existing System Enhancement
 ```bash
-User: /spec-create "Real-time Chat Feature"
+User: /spec "Real-time Chat Feature"
 
 Claude: 🔄 Analyzing existing project for real-time chat integration...
 

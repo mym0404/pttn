@@ -35,7 +35,7 @@ export const setupClaudeSelfReferProject = async (
     'spec-refer.md',
     'pattern-use.md',
     'pattern-create.md',
-    'spec-create.md',
+    'spec.md',
   ];
 
   console.log('📡 Downloading command templates...');
