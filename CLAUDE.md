@@ -40,7 +40,7 @@ node dist/cli.js --help
 node dist/cli.js page list
 node dist/cli.js plan create "Test Plan" "Description"
 node dist/cli.js pattern search "keyword"
-node dist/cli.js knowledge list
+node dist/cli.js spec list
 ```
 
 ## High-Level Architecture
@@ -51,14 +51,14 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 
 1. **CLI Entry Point (`src/cli.ts`)**:
    - Commander.js-based CLI with subcommands for different content types
-   - Each command group (page, plan, pattern, knowledge) has CRUD operations
+   - Each command group (page, plan, pattern, spec) has CRUD operations
    - Supports both console output and AI-context formatted output (`--context` flag)
 
 2. **Manager Layer (`src/managers/`)**:
    - `PageManager`: Session history management in `.claude/pages/`
    - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
-   - `KnowledgeManager`: Domain knowledge base in `.claude/knowledges/`
+   - `SpecManager`: Technical specification repository in `.claude/specs/`
    - Factory functions exported from `src/managers/index.ts`
 
 3. **Content Organization**:
@@ -101,7 +101,7 @@ cc-self-refer/
 ├── pages/             # Session history (auto-generated)
 ├── plans/             # Strategic planning documents
 ├── patterns/          # Reusable code templates
-└── knowledges/        # Domain knowledge base
+└── specs/        # Technical specification repository
 ```
 
 ### Build System
@@ -152,8 +152,8 @@ Key interdependencies to consider:
 - `plan-resolve.md` - Plan resolution
 - `pattern-create.md` - Pattern creation
 - `pattern-use.md` - Pattern usage
-- `knowledge-create.md` - Knowledge creation
-- `knowledge-refer.md` - Knowledge reference
+- `spec.md` - Interactive specification planning
+- `spec-refer.md` - Specification reference
 
 Always verify that changes maintain compatibility across:
 

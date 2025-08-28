@@ -8,7 +8,7 @@
 
 ## What is cc-self-refer?
 
-`cc-self-refer` is a high-performance Node.js CLI that powers Claude Code's self-referential development capabilities. It enables projects to maintain their own context, knowledge base, and development patterns that Claude can reference and build upon across sessions.
+`cc-self-refer` is a high-performance Node.js CLI that powers Claude Code's self-referential development capabilities. It enables projects to maintain their own context, specification repository, and development patterns that Claude can reference and build upon across sessions.
 
 ## Why do you need this?
 
@@ -16,17 +16,17 @@
 
 - **Context Loss**: AI conversations lose context between sessions
 - **Repeated Explanations**: You constantly re-explain project architecture, decisions, and patterns
-- **Knowledge Scattered**: Domain knowledge, code patterns, and planning documents are spread across different tools
-- **Inefficient Workflows**: No systematic way to build and reference project-specific knowledge
+- **Specifications Scattered**: Technical specifications, code patterns, and planning documents are spread across different tools
+- **Inefficient Workflows**: No systematic way to build and reference project-specific specifications
 
 ### The Solution
 
-`cc-self-refer` creates a **persistent, searchable knowledge layer** for your projects that Claude Code can intelligently reference:
+`cc-self-refer` creates a **persistent, searchable specification layer** for your projects that Claude Code can intelligently reference:
 
 - 📋 **Strategic Plans**: Document and iterate on high-level project planning
 - 📄 **Session History**: Preserve development context across Claude sessions
 - 🧩 **Code Patterns**: Build a library of reusable, project-specific code templates
-- 🧠 **Domain Knowledge**: Maintain business logic, constraints, and architectural decisions
+- 📋 **Technical Specifications**: Maintain system requirements, constraints, and architectural decisions
 - 🔍 **Intelligent Search**: Find relevant information instantly with semantic search
 
 ## Quick Setup
@@ -64,8 +64,8 @@ your-project/
 │   │   ├── plan-resolve.md# View and load plans
 │   │   ├── page-save.md   # Session management
 │   │   ├── page-refer.md  # Load session context
-│   │   ├── knowledge-refer.md # Access domain knowledge
-│   │   ├── knowledge-create.md # Create domain knowledge
+│   │   ├── spec-refer.md # Access technical specifications
+│   │   ├── spec.md # Interactive specification planning
 │   │   ├── pattern-use.md # Apply code patterns
 │   │   └── pattern-create.md     # Save new patterns
 │   │
@@ -78,7 +78,7 @@ your-project/
 │   ├── patterns/     # 🧩 Reusable Code Templates
 │   │   └── [numbered patterns like: 001-react-hook.md]
 │   │
-│   └── knowledges/         # 🧠 Domain Knowledge Base
+│   └── specs/         # 📋 Technical Specification Repository
 │       └── [numbered entries like: 001-api-limits.md]
 └── [your project files]
 ```
@@ -109,12 +109,12 @@ your-project/
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
-### 🧠 `.claude/knowledges/` - Domain Knowledge
+### 📋 `.claude/specs/` - Technical Specifications
 
-- **Purpose**: Business logic, domain rules, and architectural constraints
-- **Usage**: `/knowledge-refer` to access; `/knowledge-create` to add new entries; manually curated domain information
-- **Content**: Business rules, API limitations, performance requirements, compliance needs
-- **AI Benefit**: Claude makes technically sound decisions aligned with your domain
+- **Purpose**: System requirements, technical specifications, and architectural constraints
+- **Usage**: `/spec-refer` to access; `/spec` for interactive specification planning; manually curated technical specifications
+- **Content**: Technical requirements, API specifications, performance requirements, compliance needs
+- **AI Benefit**: Claude makes technically sound decisions aligned with your specifications
 
 ## Why This Works
 
@@ -123,7 +123,7 @@ Each directory serves a specific purpose in building **persistent AI context**:
 1. **Plans** provide strategic direction
 2. **Pages** maintain session continuity
 3. **Patterns** ensure consistency
-4. **Knowledge** guides decision-making
+4. **Specifications** guide decision-making
 
 The result: Claude becomes increasingly intelligent about your specific project over time.
 

@@ -3,25 +3,24 @@ import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { KnowledgeInfo, KnowledgeManager, SearchResult } from '../types';
-import { calculateSimilarity, ensureDir } from '../utils';
+import { SearchResult, SpecInfo, SpecManager } from '../types';
+import { ensureDir } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
-export const createKnowledgeManager = (
-  contentDir: string
-): KnowledgeManager => {
-  const knowledgeDir = resolve(contentDir, 'knowledges');
+export const createSpecManager = (contentDir: string): SpecManager => {
+  const specDir = resolve(contentDir, 'specs');
 
   return {
-    async list(category?: string): Promise<KnowledgeInfo[]> {
-      await ensureDir(knowledgeDir);
+    async list(category?: string): Promise<SpecInfo[]> {
+      await ensureDir(specDir);
 
-      // For numbered files in knowledge directory
-      const files = await glob('*.md', { cwd: knowledgeDir });
-      const entries: KnowledgeInfo[] = [];
+      // For numbered files in spec directory
+      const files = await glob('*.md', { cwd: specDir });
+      const entries: SpecInfo[] = [];
 
       for (const file of files) {
-        const filepath = join(knowledgeDir, file);
+        const filepath = join(specDir, file);
         const stats = await stat(filepath);
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
@@ -47,39 +46,45 @@ export const createKnowledgeManager = (
 
     async search(keyword: string, category?: string): Promise<SearchResult[]> {
       const entries = await this.list(category);
-      const results: SearchResult[] = [];
 
-      // Check if keyword is a number (ID search)
-      const idNum = parseInt(keyword);
-      if (!isNaN(idNum)) {
-        const entry = entries.find((e) => e.id === idNum);
-        if (entry) {
-          results.push({
-            title: `${entry.title} (${entry.category})`,
-            file: entry.file,
-            score: 1.0, // Exact match for ID search
-          });
-          return results;
-        }
-      }
+      // Convert SpecInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = entries
+        .filter((entry) => entry.content)
+        .map((entry) => ({
+          id: entry.id,
+          title: entry.title,
+          content: entry.content!,
+          category: entry.category,
+          lastUpdated: entry.lastUpdated,
+          file: entry.file,
+        }));
 
-      for (const entry of entries) {
-        if (!entry.content) continue;
+      // Initialize advanced search engine with category filter
+      const searchEngine = new AdvancedSearchEngine({
+        categoryFilter: category,
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        const titleScore = calculateSimilarity(keyword, entry.title);
-        const contentScore = calculateSimilarity(keyword, entry.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-        if (score > 0.3) {
-          results.push({
-            title: `${entry.title} (${entry.category})`,
-            file: entry.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
-
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map((result) => ({
+        title: `${result.item.title} (${result.item.category})`,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        category: result.item.category,
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
@@ -88,7 +93,7 @@ export const createKnowledgeManager = (
       // Try to find by ID first
       const idNum = parseInt(idOrKeyword);
       if (!isNaN(idNum)) {
-        const entry = entries.find((e: KnowledgeInfo) => e.id === idNum);
+        const entry = entries.find((e: SpecInfo) => e.id === idNum);
         if (entry?.content) {
           return entry.content;
         }
@@ -98,15 +103,13 @@ export const createKnowledgeManager = (
       const results = await this.search(idOrKeyword);
       if (results.length > 0) {
         const bestMatch = results[0];
-        const entry = entries.find(
-          (e: KnowledgeInfo) => e.file === bestMatch.file
-        );
+        const entry = entries.find((e: SpecInfo) => e.file === bestMatch.file);
         if (entry?.content) {
           return entry.content;
         }
       }
 
-      throw new Error(`Knowledge entry not found: ${idOrKeyword}`);
+      throw new Error(`Spec entry not found: ${idOrKeyword}`);
     },
 
     async create(
@@ -115,11 +118,11 @@ export const createKnowledgeManager = (
       category: string = 'general'
     ): Promise<{ id: number; filename: string }> {
       // Ensure directory exists
-      if (!existsSync(knowledgeDir)) {
-        await mkdir(knowledgeDir, { recursive: true });
+      if (!existsSync(specDir)) {
+        await mkdir(specDir, { recursive: true });
       }
 
-      // Get existing knowledge entries to determine next ID
+      // Get existing spec entries to determine next ID
       const entries = await this.list();
       const nextId =
         entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
@@ -130,7 +133,7 @@ export const createKnowledgeManager = (
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')}.md`;
-      const filepath = join(knowledgeDir, filename);
+      const filepath = join(specDir, filename);
 
       // Create full content with metadata
       const fullContent = `# ${title}

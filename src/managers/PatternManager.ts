@@ -3,8 +3,11 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
+import {
+  AdvancedSearchEngine,
+  SearchableItem,
+} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
-import { calculateSimilarity } from '../utils/similarity.js';
 import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
@@ -41,41 +44,51 @@ export const createPatternManager = (contentDir: string): PatternManager => {
 
     async search(keyword: string, language?: string): Promise<SearchResult[]> {
       const patterns = await this.list();
-      const results: SearchResult[] = [];
 
-      // Check if keyword is a number (ID search)
-      const idNum = parseInt(keyword);
-      if (!isNaN(idNum)) {
-        const pattern = patterns.find((p) => p.id === idNum);
-        if (pattern) {
-          results.push({
-            title: `${pattern.title} (${pattern.language})`,
-            file: pattern.file,
-            score: 1.0, // Exact match for ID search
-          });
-          return results;
-        }
-      }
+      // Filter by language first if specified
+      const filteredPatterns = language
+        ? patterns.filter(
+            (pattern) => pattern.language === language.toLowerCase()
+          )
+        : patterns;
 
-      for (const pattern of patterns) {
-        if (!pattern.content) continue;
-        if (language && pattern.language !== language.toLowerCase()) continue;
+      // Convert PatternInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = filteredPatterns
+        .filter((pattern) => pattern.content)
+        .map((pattern) => ({
+          id: pattern.id,
+          title: pattern.title,
+          content: pattern.content!,
+          category: pattern.language, // Use language as category for patterns
+          lastUpdated: pattern.lastUpdated,
+          file: pattern.file,
+        }));
 
-        const titleScore = calculateSimilarity(keyword, pattern.title);
-        const contentScore =
-          calculateSimilarity(keyword, pattern.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      // Initialize advanced search engine
+      const searchEngine = new AdvancedSearchEngine({
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        if (score > 0.3) {
-          results.push({
-            title: `${pattern.title} (${pattern.language})`,
-            file: pattern.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map((result) => ({
+        title: `${result.item.title} (${result.item.category})`,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        language: result.item.category, // This will be the pattern language
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
