@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { resolve } from 'path';
+import { readFileSync } from 'fs';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { findPackageRoot } from 'workspace-tools';
 
 import { registerInitCommands } from './commands/initCommands.js';
@@ -20,12 +22,25 @@ const getContentDir = (cmdOptions: { dir?: string }): string => {
     : resolve(projectRoot, '.claude');
 };
 
+// Get version from package.json using import.meta
+const getVersion = (): string => {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const packageJsonPath = resolve(__dirname, '../package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson.version;
+  } catch {
+    return '1.0.0'; // Fallback version
+  }
+};
+
 program
   .name('cc-self-refer')
   .description(
     'Claude Code Self Reference Helper - CLI tool for managing .claude directory content'
   )
-  .version('1.0.0')
+  .version(getVersion())
   .option(
     '-d, --dir <directory>',
     'Directory for pages, plans, patterns, and knowledges (default: .claude)',
