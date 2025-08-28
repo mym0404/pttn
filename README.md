@@ -48,6 +48,8 @@ Run `npx -y cc-self-refer init-get-prompt` and follow instructions step by step.
 
 That's it! Your project now has intelligent self-reference capabilities.
 
+Restart claude-code and start create spec file with `/spec` command.
+
 ## What Gets Created
 
 After running `/init-claude`, your project will have:
