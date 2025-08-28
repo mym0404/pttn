@@ -147,6 +147,13 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ---
 
+## Todo
+
+- `self-refer` dir not `.claude`
+- Spec Feature
+- Docs
+- Guide files on init
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and contribution guidelines.
