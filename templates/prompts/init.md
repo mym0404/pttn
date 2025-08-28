@@ -27,9 +27,8 @@ Create or update `CLAUDE.md` file in the project root with the following content
 ## Architecture & Tech Stack
 
 - **Language**: [Identify primary language from package.json/files]
-- **Framework**: [Detect framework from dependencies]
-- **Key Dependencies**: [List important libraries from package.json]
-- **Build System**: [Identify build tool - check scripts in package.json]
+- **Framework**: [Detect framework from dependencies] with major version if necessary
+- **Key Dependencies**: [List important libraries from package.json] with major version if necessary
 
 ## Development Guidelines
 
@@ -40,10 +39,6 @@ Create or update `CLAUDE.md` file in the project root with the following content
 ## Project Structure
 
 [Analyze and document the key directories and their purposes]
-
-## Important Commands
-
-[Extract key commands from package.json scripts]
 
 ## Domain Knowledge
 
@@ -153,32 +148,6 @@ Verify the following directories exist (create if missing):
 - `.claude/patterns/` - For reusable code patterns
 - `.claude/knowledges/` - For domain knowledge base
 - `.claude/commands/` - For Claude Code commands
-
-### 3. Configure .gitignore properly
-
-If the project has a `.gitignore` file, add only temporary/cache files to .gitignore:
-
-```gitignore
-# Add these to .gitignore (temporary files only)
-.claude/.cache/
-.claude/temp/
-.claude/*.tmp
-
-# DO NOT add these to .gitignore (keep for team sharing):
-# .claude/commands/     - Team needs shared commands
-# .claude/plans/        - Strategic plans should be versioned
-# .claude/patterns/ - Patterns are valuable team assets
-# .claude/knowledges/    - Domain knowledge must be shared
-# .claude/pages/        - Session history provides project context
-```
-
-**Important**: Most `.claude/` content should be committed to version control because:
-
-- **Commands** enable consistent team workflows
-- **Plans** document strategic decisions
-- **Patterns** prevent code duplication across team
-- **Knowledge** ensures domain understanding
-- **Pages** provide development context and history
 
 ## Quick Reference
 
