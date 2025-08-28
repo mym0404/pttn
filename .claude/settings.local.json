@@ -22,7 +22,9 @@
       "Bash(git fetch:*)",
       "Bash(git merge:*)",
       "Bash(npm run build:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(pnpm run:*)"
     ],
     "deny": [],
     "ask": []
