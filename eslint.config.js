@@ -1,45 +1,22 @@
 import js from '@eslint/js';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-import prettier from 'eslint-config-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
 
 export default [
-  // Apply to all JS/TS files
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
-    languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-      globals: {
-        console: 'readonly',
-        process: 'readonly',
-        Buffer: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        global: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-      },
-    },
     plugins: {
-      '@typescript-eslint': tseslint,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
     rules: {
-      // ESLint recommended rules
-      ...js.configs.recommended.rules,
-
-      // TypeScript ESLint recommended rules
-      ...tseslint.configs.recommended.rules,
-
       // Simple import sort rules
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
@@ -62,12 +39,13 @@ export default [
       '@typescript-eslint/no-empty-function': 'warn',
     },
   },
-
-  // Ignore build output, dependencies, and scripts
   {
-    ignores: ['dist/**', 'node_modules/**', 'scripts/**'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'scripts/**',
+      '**/*.json',
+      '.eslintcache',
+    ],
   },
-
-  // Prettier config should come last to override conflicting rules
-  prettier,
 ];
