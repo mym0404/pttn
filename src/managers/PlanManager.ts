@@ -5,7 +5,7 @@ import { join, resolve } from 'path';
 import { PlanInfo, PlanManager, SearchResult } from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
-import { extractStatus,extractTitle } from '../utils/textExtraction.js';
+import { extractStatus, extractTitle } from '../utils/textExtraction.js';
 
 export const createPlanManager = (claudeDir: string): PlanManager => {
   const plansDir = resolve(claudeDir, 'plans');

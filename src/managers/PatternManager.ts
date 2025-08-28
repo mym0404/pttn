@@ -5,7 +5,7 @@ import { join, resolve } from 'path';
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
-import { extractLanguage,extractTitle } from '../utils/textExtraction.js';
+import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
 
 export const createPatternManager = (claudeDir: string): PatternManager => {
   const patternsDir = resolve(claudeDir, 'patterns');

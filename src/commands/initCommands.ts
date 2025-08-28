@@ -34,7 +34,9 @@ export const registerInitCommands = (program: Command): void => {
 
   program
     .command('init-setup-project')
-    .description('Setup Claude Code project directory structure and download command templates')
+    .description(
+      'Setup Claude Code project directory structure and download command templates'
+    )
     .option(
       '--repo <url>',
       'Custom repository URL',

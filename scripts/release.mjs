@@ -82,14 +82,14 @@ const input = async (message) => {
 
 // #endregion
 
-async function main () {
+async function main() {
   print('Starting release process...');
 
   // Check if git working directory is clean
   const gitStatus = await $`git status --porcelain`.quiet();
   asrt(
     gitStatus.stdout.trim() === '',
-    'Git working directory must be clean before release',
+    'Git working directory must be clean before release'
   );
 
   // Build the project

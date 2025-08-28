@@ -746,7 +746,8 @@ registerInitCommands(program);
 
 // Check if .claude directory exists (skip for init commands)
 const args = process.argv;
-const isInitCommand = args.includes('init-get-prompt') || args.includes('init-setup-project');
+const isInitCommand =
+  args.includes('init-get-prompt') || args.includes('init-setup-project');
 
 if (!isInitCommand) {
   const claudeDir = getClaudeDir();

@@ -2,10 +2,14 @@ import { readFile, stat } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { KnowledgeInfo, KnowledgeManager, SearchResult } from '../types/index.js';
+import {
+  KnowledgeInfo,
+  KnowledgeManager,
+  SearchResult,
+} from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
-import { extractCategory,extractTitle } from '../utils/textExtraction.js';
+import { extractCategory, extractTitle } from '../utils/textExtraction.js';
 
 export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
   const knowledgeDir = resolve(claudeDir, 'knowledges');

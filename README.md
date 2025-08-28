@@ -61,6 +61,7 @@ cd your-project
 ```
 
 The command will:
+
 1. First run `init-setup-project` to create the directory structure and download command templates
 2. Then run `init-get-prompt` to get Claude Code-specific instructions
 3. Follow the prompt instructions to complete the intelligent self-reference setup

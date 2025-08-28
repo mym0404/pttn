@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Commands
 
 ### Development Commands
+
 ```bash
 # Build the project
 pnpm build
@@ -29,6 +30,7 @@ pnpm release
 ```
 
 ### CLI Testing
+
 ```bash
 # Test CLI commands locally after building
 pnpm build
@@ -47,14 +49,14 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 
 ### Core Architecture Components
 
-1. **CLI Entry Point (`src/cli.ts`)**: 
+1. **CLI Entry Point (`src/cli.ts`)**:
    - Commander.js-based CLI with subcommands for different content types
    - Each command group (page, plan, pattern, knowledge) has CRUD operations
    - Supports both console output and AI-context formatted output (`--context` flag)
 
 2. **Manager Interfaces (`src/index.ts`)**:
    - `PageManager`: Session history management in `.claude/pages/`
-   - `PlanManager`: Strategic planning in `.claude/plans/` 
+   - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
    - `KnowledgeManager`: Domain knowledge base in `.claude/knowledges/`
 
@@ -71,6 +73,7 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 - **Semantic Search**: Jaro-Winkler distance + keyword matching for content retrieval
 
 ### Content Structure
+
 ```
 .claude/
 ├── commands/           # Claude Code command definitions
@@ -97,6 +100,7 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 ## Project-Specific Context
 
 This tool is designed to work with Claude Code's command system. The init process:
+
 1. Creates `.claude/` directory structure
 2. Downloads command templates from GitHub
 3. Provides slash commands for content management
