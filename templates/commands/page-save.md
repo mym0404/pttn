@@ -1,11 +1,11 @@
-# Page - Session History Dump with Citations and Memory Management
+# Page Save - Session History Dump with Citations and Memory Management
 
 Like OS paging for processes, this command saves the entire conversation state to disk by extracting it from Claude Code's local storage (~/.claude/projects/).
 
 ## Usage
 
 ```
-/page [filename_prefix] [output_directory]
+/page-save [filename_prefix] [output_directory]
 ```
 
 ## Arguments
@@ -38,7 +38,7 @@ This command implements a memory management strategy similar to OS paging:
      - Optimized for future context loading
 
 3. **Memory Management Workflow**:
-   - First: Run `/page` to save everything to disk
+   - First: Run `/page-save` to save everything to disk
    - Then: Run `/compact` to free up Claude's context memory
    - Result: Fresh context while preserving full history
    - Essential for long development sessions
@@ -231,13 +231,13 @@ Both files use consistent markdown formatting with proper citations and are imme
 
 ```bash
 # Basic usage - creates session-dump files in .claude/pages/
-/page
+/page-save
 
 # Custom prefix - saves in .claude/pages/
-/page feature-implementation
+/page-save feature-implementation
 
 # Custom prefix and directory
-/page bug-fix-session ./docs/sessions/
+/page-save bug-fix-session ./docs/sessions/
 
 # Results in .claude/pages/ (or specified directory):
 # - .claude/pages/feature-implementation-2025-06-20_143022-full.md

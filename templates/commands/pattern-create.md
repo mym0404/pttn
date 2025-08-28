@@ -2,7 +2,8 @@
 
 Save code patterns and implementation examples to `.claude/patterns/` directory with automatic numbering.
 
-**Usage**: 
+**Usage**:
+
 - `/pattern-create <pattern name>` - Interactive mode: Claude will ask for pattern content
 - `/pattern-create <pattern name> <code snippet>` - Direct mode: Create pattern with provided snippet
 
@@ -21,6 +22,7 @@ npx -y cc-self-refer pattern create "<pattern name>" "<pattern content>"
 ### CLI Usage Process
 
 #### Interactive Mode (Pattern Name Only)
+
 1. **Ask for Pattern Name**: Request a clear, descriptive name for the pattern
 2. **Collect Pattern Content**: Gather the complete pattern documentation including:
    - Pattern description
@@ -31,6 +33,7 @@ npx -y cc-self-refer pattern create "<pattern name>" "<pattern content>"
 3. **Execute CLI Command**: Run the pattern create command with the collected information
 
 #### Direct Mode (Pattern Name + Code Snippet)
+
 1. **Extract Pattern Name**: Use the provided pattern name
 2. **Process Code Snippet**: Enhance the provided code snippet with:
    - Proper markdown formatting
@@ -69,8 +72,6 @@ When creating pattern content, include:
 - [Use case n]
 ````
 
-
-
 ### 4. Content Enhancement
 
 When saving patterns:
@@ -95,11 +96,13 @@ When saving patterns:
 ### Save UI Pattern
 
 When user requests:
+
 ```bash
 /pattern-create "Dark Mode Toggle Component"
 ```
 
 Claude will:
+
 1. Ask for the pattern content (implementation details, code examples)
 2. Execute: `npx -y cc-self-refer pattern create "Dark Mode Toggle Component" "<collected content>"`
 3. Creates: `.claude/patterns/001-dark-mode-toggle-component.md`
@@ -107,11 +110,13 @@ Claude will:
 ### Save API Pattern
 
 When user requests:
+
 ```bash
 /pattern-create "Error Handling with Tanstack Query"
 ```
 
 Claude will:
+
 1. Collect the pattern implementation and examples
 2. Execute: `npx -y cc-self-refer pattern create "Error Handling with Tanstack Query" "<collected content>"`
 3. Creates: `.claude/patterns/002-error-handling-with-tanstack-query.md`
@@ -119,11 +124,13 @@ Claude will:
 ### Save Code Snippet Pattern (Interactive Mode)
 
 When user provides a code pattern:
+
 ```bash
 /pattern-create "Async Form Submit Pattern"
 ```
 
 Claude will:
+
 1. Ask for or collect the pattern code and documentation
 2. Format the content with proper markdown and code blocks
 3. Execute: `npx -y cc-self-refer pattern create "Async Form Submit Pattern" "<formatted content>"`
@@ -132,11 +139,13 @@ Claude will:
 ### Save Code Snippet Pattern (Direct Mode)
 
 When user provides both name and code:
+
 ```bash
 /pattern-create "Button Click Handler" const handleClick = (e) => { e.preventDefault(); console.log('clicked'); };
 ```
 
 Claude will:
+
 1. Extract the pattern name and code snippet
 2. Format the code snippet with proper markdown structure
 3. Execute: `npx -y cc-self-refer pattern create "Button Click Handler" "<formatted snippet>"`
