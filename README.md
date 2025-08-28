@@ -129,7 +129,7 @@ your-project/
 ### 🧠 `.claude/knowledges/` - Domain Knowledge
 
 - **Purpose**: Business logic, domain rules, and architectural constraints
-- **Usage**: `/knowledge-refer` to access; manually curated domain information
+- **Usage**: `/knowledge-refer` to access; `/knowledge-create` to add new entries; manually curated domain information
 - **Content**: Business rules, API limitations, performance requirements, compliance needs
 - **AI Benefit**: Claude makes technically sound decisions aligned with your domain
 

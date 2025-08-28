@@ -152,6 +152,7 @@ Key interdependencies to consider:
 - `plan-resolve.md` - Plan resolution
 - `pattern-create.md` - Pattern creation
 - `pattern-use.md` - Pattern usage
+- `knowledge-create.md` - Knowledge creation
 - `knowledge-refer.md` - Knowledge reference
 
 Always verify that changes maintain compatibility across:
