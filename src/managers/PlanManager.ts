@@ -4,8 +4,8 @@ import { join, resolve } from 'path';
 
 import { PlanInfo, PlanManager, SearchResult } from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
-import { calculateSimilarity } from '../utils/similarity.js';
 import { extractStatus, extractTitle } from '../utils/textExtraction.js';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPlanManager = (contentDir: string): PlanManager => {
   const plansDir = resolve(contentDir, 'plans');
@@ -41,25 +41,44 @@ export const createPlanManager = (contentDir: string): PlanManager => {
 
     async search(keyword: string): Promise<SearchResult[]> {
       const plans = await this.list();
-      const results: SearchResult[] = [];
+      
+      // Convert PlanInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = plans
+        .filter(plan => plan.content)
+        .map(plan => ({
+          id: plan.id,
+          title: plan.title,
+          content: plan.content!,
+          category: plan.status, // Use status as category for plans
+          lastUpdated: plan.lastUpdated,
+          file: plan.file,
+        }));
 
-      for (const plan of plans) {
-        if (!plan.content) continue;
+      // Initialize advanced search engine
+      const searchEngine = new AdvancedSearchEngine({
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        const titleScore = calculateSimilarity(keyword, plan.title);
-        const contentScore = calculateSimilarity(keyword, plan.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-        if (score > 0.3) {
-          results.push({
-            title: plan.title,
-            file: plan.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
-
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map(result => ({
+        title: result.item.title,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        category: result.item.category, // This will be the plan status
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
