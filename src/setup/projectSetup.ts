@@ -40,7 +40,6 @@ export const setupClaudeSelfReferProject = async (
 
   console.log('📡 Downloading command templates...');
 
-  const successCount = 0;
   let failCount = 0;
 
   for (const file of commandFiles) {
