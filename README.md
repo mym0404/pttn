@@ -40,9 +40,7 @@ Create `~/.claude/commands/init-claude.md`:
 
 ## Implementation
 
-```bash
-npx -y cc-self-refer init
-```
+    npx -y cc-self-refer init
 ```
 
 ### 2. Initialize Any Project

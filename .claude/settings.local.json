@@ -10,7 +10,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(npx tsc:*)",
       "mcp__github__create_repository",
-      "Bash(git remote add:*)"
+      "Bash(git remote add:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "ask": []
