@@ -8,6 +8,33 @@ import { ensureDir } from '../utils/index.js';
 
 const execAsync = promisify(exec);
 
+// Fetch list of command files from GitHub API
+const fetchCommandFileList = async (): Promise<string[]> => {
+  try {
+    const apiUrl = 'https://api.github.com/repos/mym0404/cc-self-refer/contents/templates/commands';
+    const { stdout } = await execAsync(`curl -fsSL "${apiUrl}"`);
+    const files = JSON.parse(stdout);
+    
+    return files
+      .filter((file: any) => file.type === 'file' && file.name.endsWith('.md'))
+      .map((file: any) => file.name);
+  } catch (error) {
+    console.log('⚠️  Failed to fetch file list from GitHub API, using fallback list...');
+    // Fallback to known files if API fails
+    return [
+      'page-save.md',
+      'plan-create.md',
+      'plan-edit.md',
+      'plan-resolve.md',
+      'page-refer.md',
+      'knowledge-refer.md',
+      'pattern-use.md',
+      'pattern-create.md',
+      'knowledge-create.md',
+    ];
+  }
+};
+
 export const setupClaudeSelfReferProject = async (
   projectDir: string,
   repoUrl: string = 'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
@@ -25,17 +52,10 @@ export const setupClaudeSelfReferProject = async (
   await ensureDir(resolve(claudeDir, 'knowledges'));
   await ensureDir(commandsDir);
 
-  // Command files to download
-  const commandFiles = [
-    'page-save.md',
-    'plan-create.md',
-    'plan-edit.md',
-    'plan-resolve.md',
-    'page-refer.md',
-    'knowledge-refer.md',
-    'pattern-use.md',
-    'pattern-create.md',
-  ];
+  // Fetch command files dynamically
+  console.log('🔍 Fetching available command templates...');
+  const commandFiles = await fetchCommandFileList();
+  console.log(`📋 Found ${commandFiles.length} command templates to download`);
 
   console.log('📡 Downloading command templates...');
 
