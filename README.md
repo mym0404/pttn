@@ -77,11 +77,10 @@ your-project/
 ├── CLAUDE.md              # 📜 Project Overview for Claude and command usages (merged if exists)
 ├── .claude/
 │   ├── commands/           # 🎯 Claude Code Commands
-│   ├── commands/           # 🎯 Claude Code Commands
 │   │   ├── plan-create.md # Create strategic plans
 │   │   ├── plan-edit.md   # Edit existing plans
 │   │   ├── plan-resolve.md# View and load plans
-│   │   ├── page.md        # Session management
+│   │   ├── page-save.md   # Session management
 │   │   ├── page-refer.md  # Load session context
 │   │   ├── knowledge-refer.md # Access domain knowledge
 │   │   ├── pattern-use.md # Apply code patterns
@@ -127,7 +126,7 @@ your-project/
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
-### 🧠 `.claude/knowledge/` - Domain Knowledge
+### 🧠 `.claude/knowledges/` - Domain Knowledge
 
 - **Purpose**: Business logic, domain rules, and architectural constraints
 - **Usage**: `/knowledge-refer` to access; manually curated domain information
@@ -147,9 +146,19 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ---
 
+## CLI Options
+
+### Directory Configuration
+
+The `--dir` option allows you to specify a custom directory for content storage (default: `.claude`):
+
+```bash
+# Use custom directory (e.g., self-refer)
+npx cc-self-refer --dir self-refer page list
+```
+
 ## Todo
 
-- `self-refer` dir not `.claude`
 - Spec Feature
 - Docs
 - Guide files on init

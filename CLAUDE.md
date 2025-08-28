@@ -76,6 +76,7 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 ### Directory Structure
 
 #### Project Structure
+
 ```
 cc-self-refer/
 ├── src/
@@ -93,6 +94,7 @@ cc-self-refer/
 ```
 
 #### Generated `.claude` Structure
+
 ```
 .claude/
 ├── commands/           # Claude Code command definitions (from templates)
@@ -135,13 +137,15 @@ The CLI supports both human-readable console output and AI-optimized context out
 - **High context sharing** means changes in one area often require updates in multiple other areas
 
 Key interdependencies to consider:
+
 1. CLI argument structure → Command template invocation syntax
 2. Output format changes → Command template parsing logic
 3. New features → New command templates and documentation
 4. Error messages → Command template error handling
 
 #### Command Templates in `templates/commands/`:
-- `page.md` - Page management commands
+
+- `page-save.md` - Page management commands
 - `page-refer.md` - Page reference commands
 - `plan-create.md` - Plan creation
 - `plan-edit.md` - Plan editing
@@ -151,6 +155,7 @@ Key interdependencies to consider:
 - `knowledge-refer.md` - Knowledge reference
 
 Always verify that changes maintain compatibility across:
+
 - `src/cli.ts` (CLI implementation)
 - `templates/commands/*.md` (Claude Code command definitions)
 - `README.md` (User documentation)
