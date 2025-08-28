@@ -47,7 +47,7 @@ export const createPageManager = (contentDir: string): PageManager => {
           id: page.id,
           title: page.title,
           content: page.content!,
-          lastUpdated: page.lastUpdated,
+          lastUpdated: page.createdAt,
           file: page.file,
         }));
 
