@@ -1,10 +1,10 @@
+import { exec } from 'child_process';
 import { existsSync } from 'fs';
 import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import * as natural from 'natural';
 import { join, resolve } from 'path';
 import { promisify } from 'util';
-import { exec } from 'child_process';
 
 const execAsync = promisify(exec);
 
@@ -698,7 +698,7 @@ export const initClaudeProject = async (
 
       // Download using curl
       const { stdout, stderr } = await execAsync(`curl -fsSL "${url}"`);
-      
+
       if (stderr) {
         console.log(`❌ Failed to download ${file}: ${stderr}`);
         failCount++;
