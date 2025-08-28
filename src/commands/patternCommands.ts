@@ -44,11 +44,10 @@ export const registerPatternCommands = (
     .description('Search code patterns')
     .argument('<keyword>', 'Search keyword')
     .option('-l, --language <lang>', 'Filter by programming language')
-    .option('--context', 'Output formatted for AI context instead of console')
     .action(
       async (
         keyword: string,
-        cmdOptions: { language?: string; context?: boolean }
+        cmdOptions: { language?: string }
       ) => {
         const globalOptions = program.opts();
         const manager = createPatternManager(getContentDir(globalOptions));
@@ -56,64 +55,46 @@ export const registerPatternCommands = (
           const results = await manager.search(keyword, cmdOptions.language);
           const patterns = await manager.list();
 
-          if (cmdOptions.context) {
-            const {
-              formatSingleMatch,
-              formatMultipleMatches,
-              formatNoMatches,
-            } = await import('../formatters.js');
+          // Always use AI-optimized output
+          const {
+            formatSingleMatch,
+            formatMultipleMatches,
+            formatNoMatches,
+          } = await import('../formatters.js');
 
-            const formattedItems = results.map((result) => {
-              const pattern = patterns.find((p) => p.file === result.file);
-              return {
-                id: pattern?.id || 0,
-                title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove language suffix
-                file: result.file,
-                metadata: `Language: ${pattern?.language || 'Unknown'} | Updated: ${pattern?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
-                content: pattern?.content || '',
-              };
-            });
-
-            const formatOptions = {
-              type: 'pattern' as const,
-              searchTerm: keyword,
-              emoji: '🧩',
-              title: 'Code Pattern',
-              outputMode: 'context' as const,
+          const formattedItems = results.map((result) => {
+            const pattern = patterns.find((p) => p.file === result.file);
+            return {
+              id: pattern?.id || 0,
+              title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove language suffix
+              file: result.file,
+              metadata: `Language: ${pattern?.language || 'Unknown'} | Updated: ${pattern?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
+              content: pattern?.content || '',
             };
+          });
 
-            if (results.length === 0) {
-              const availablePatterns = patterns.slice(0, 5).map((pattern) => ({
-                id: pattern.id,
-                title: pattern.title,
-                file: pattern.file,
-                metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
-                content: pattern.content || '',
-              }));
-              console.log(formatNoMatches(availablePatterns, formatOptions));
-            } else if (results.length === 1) {
-              console.log(formatSingleMatch(formattedItems[0], formatOptions));
-            } else {
-              console.log(formatMultipleMatches(formattedItems, formatOptions));
-            }
-            return;
-          }
+          const formatOptions = {
+            type: 'pattern' as const,
+            searchTerm: keyword,
+            emoji: '🧩',
+            title: 'Code Pattern',
+          };
 
           if (results.length === 0) {
-            console.log(pc.yellow(`No patterns found matching "${keyword}"`));
-            return;
+            const availablePatterns = patterns.slice(0, 5).map((pattern) => ({
+              id: pattern.id,
+              title: pattern.title,
+              file: pattern.file,
+              metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
+              content: pattern.content || '',
+            }));
+            console.log(formatNoMatches(availablePatterns, formatOptions));
+          } else if (results.length === 1) {
+            console.log(formatSingleMatch(formattedItems[0], formatOptions));
+          } else {
+            console.log(formatMultipleMatches(formattedItems, formatOptions));
           }
 
-          console.log(pc.cyan(`\n🔍 Pattern search results for "${keyword}":`));
-          results.forEach((result, index) => {
-            console.log(
-              `  ${index + 1}. ${pc.bold(result.title)} ${pc.dim(`(${result.language})`)}`
-            );
-            console.log(
-              `     ${pc.dim(`Score: ${result.score} | ${result.file}`)}`
-            );
-          });
-          console.log();
         } catch (error) {
           console.error(pc.red('Error searching patterns:'), error);
         }
@@ -124,8 +105,7 @@ export const registerPatternCommands = (
     .command('view')
     .description('View a specific code pattern by ID or search term')
     .argument('<idOrKeyword>', 'Pattern ID or search keyword')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
+    .action(async (idOrKeyword: string, cmdOptions: {} = {}) => {
       const globalOptions = program.opts();
       const manager = createPatternManager(getContentDir(globalOptions));
       try {
@@ -200,52 +180,4 @@ export const registerPatternCommands = (
       }
     );
 
-  patternCmd
-    .command('use')
-    .description('Use a code pattern by ID or search term')
-    .argument('<idOrKeyword>', 'Pattern ID or search keyword')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
-      const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
-      try {
-        const content = await manager.use(idOrKeyword);
-
-        if (cmdOptions.context) {
-          const patterns = await manager.list();
-          const pattern = patterns.find(
-            (p) =>
-              p.id.toString() === idOrKeyword ||
-              p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-          );
-
-          if (pattern) {
-            const { formatSingleMatch } = await import('../formatters.js');
-
-            const formattedItem = {
-              id: pattern.id,
-              title: pattern.title,
-              file: pattern.file,
-              metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
-              content: content,
-            };
-
-            const formatOptions = {
-              type: 'pattern' as const,
-              emoji: '🧩',
-              title: 'Code Pattern',
-              outputMode: 'context' as const,
-            };
-
-            console.log(formatSingleMatch(formattedItem, formatOptions));
-            return;
-          }
-        }
-
-        console.log(pc.cyan('\n🧩 Pattern Content:\n'));
-        console.log(content);
-      } catch (error) {
-        console.error(pc.red('Error using pattern:'), error);
-      }
-    });
 };

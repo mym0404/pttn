@@ -189,7 +189,6 @@ export const registerSpecCommands = (
         );
         console.log(pc.dim('   • Iterative refinement and validation\n'));
 
-
         // Suggest creating a simple spec if they provided content via CLI
         if (concept) {
           console.log(
@@ -213,7 +212,6 @@ export const registerSpecCommands = (
         );
       }
     });
-
 
   specCmd
     .command('view')

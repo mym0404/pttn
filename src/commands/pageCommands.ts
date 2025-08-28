@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import pc from 'picocolors';
 
 import { createPageManager } from '../managers';
+import { SessionExtractor } from '../utils/sessionExtractor.js';
 
 export const registerPageCommands = (
   program: Command,
@@ -44,68 +45,51 @@ export const registerPageCommands = (
     .command('search')
     .description('Search session pages by keyword')
     .argument('<keyword>', 'Search keyword')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(async (keyword: string, cmdOptions: { context?: boolean }) => {
+    .action(async (keyword: string) => {
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
       try {
         const results = await manager.search(keyword);
         const pages = await manager.list();
 
-        if (cmdOptions.context) {
-          const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-            await import('../formatters.js');
+        // Always use AI-optimized output
+        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
+          await import('../formatters.js');
 
-          const formattedItems = results.map((result) => {
-            const page = pages.find((p) => p.file === result.file);
-            return {
-              id: page?.id || 0,
-              title: result.title,
-              file: result.file,
-              metadata: `Created: ${page?.createdAt.toLocaleDateString() || 'Unknown'}`,
-              content: page?.content || '',
-            };
-          });
-
-          const formatOptions = {
-            type: 'page' as const,
-            searchTerm: keyword,
-            emoji: '📄',
-            title: 'Session Page',
-            outputMode: 'context' as const,
+        const formattedItems = results.map((result) => {
+          const page = pages.find((p) => p.file === result.file);
+          return {
+            id: page?.id || 0,
+            title: result.title,
+            file: result.file,
+            metadata: `Created: ${page?.createdAt.toLocaleDateString() || 'Unknown'}`,
+            content: page?.content || '',
           };
-
-          if (results.length === 0) {
-            const availablePages = pages.slice(0, 5).map((page) => ({
-              id: page.id,
-              title: page.title,
-              file: page.file,
-              metadata: `Created: ${page.createdAt.toLocaleDateString()}`,
-              content: page.content || '',
-            }));
-            console.log(formatNoMatches(availablePages, formatOptions));
-          } else if (results.length === 1) {
-            console.log(formatSingleMatch(formattedItems[0], formatOptions));
-          } else {
-            console.log(formatMultipleMatches(formattedItems, formatOptions));
-          }
-          return;
-        }
-
-        // Original console output
-        if (results.length === 0) {
-          console.log(pc.yellow(`No pages found matching "${keyword}"`));
-          return;
-        }
-
-        console.log(pc.cyan(`\n🔍 Search results for "${keyword}":`));
-        results.forEach((result, index) => {
-          console.log(
-            `  ${index + 1}. ${pc.bold(result.title)} ${pc.dim(`(score: ${result.score})`)}`
-          );
-          console.log(`     ${pc.dim(result.file)}`);
         });
-        console.log();
+
+        const formatOptions = {
+          type: 'page' as const,
+          searchTerm: keyword,
+          emoji: '📄',
+          title: 'Session Page',
+          outputMode: 'context' as const,
+        };
+
+        if (results.length === 0) {
+          const availablePages = pages.slice(0, 5).map((page) => ({
+            id: page.id,
+            title: page.title,
+            file: page.file,
+            metadata: `Created: ${page.createdAt.toLocaleDateString()}`,
+            content: page.content || '',
+          }));
+          console.log(formatNoMatches(availablePages, formatOptions));
+        } else if (results.length === 1) {
+          console.log(formatSingleMatch(formattedItems[0], formatOptions));
+        } else {
+          console.log(formatMultipleMatches(formattedItems, formatOptions));
+        }
+        // Always return AI-optimized output, no need for console output
       } catch (error) {
         console.error(pc.red('Error searching pages:'), error);
       }
@@ -115,8 +99,7 @@ export const registerPageCommands = (
     .command('view')
     .description('View a specific page by ID or search term')
     .argument('<idOrKeyword>', 'Page ID or search keyword')
-    .option('--context', 'Output formatted for AI context instead of console')
-    .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
+    .action(async (idOrKeyword: string) => {
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
       try {
@@ -128,7 +111,8 @@ export const registerPageCommands = (
             p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
         );
 
-        if (cmdOptions.context && page) {
+        if (page) {
+          // Always use AI-optimized output
           const { formatSingleMatch } = await import('../formatters.js');
 
           const formattedItem = {
@@ -147,12 +131,16 @@ export const registerPageCommands = (
           };
 
           console.log(formatSingleMatch(formattedItem, formatOptions));
-          return;
-        }
+        } else {
+          // If page metadata not found, still output content in AI format
+          console.log(`# Page Content
 
-        // Original console output
-        console.log(pc.cyan('\n📄 Page Content:\n'));
-        console.log(content);
+${content}
+
+---
+
+*Page loaded successfully.*`);
+        }
       } catch (error) {
         console.error(pc.red('Error viewing page:'), error);
       }
@@ -174,20 +162,125 @@ export const registerPageCommands = (
       }
     });
 
-  // Alias for save command
+  // Alias for save command - automatically extracts session if no content provided
   pageCmd
     .command('create')
-    .description('Create a new page (alias for save)')
-    .argument('<title>', 'Page title')
-    .argument('<content>', 'Page content')
-    .action(async (title: string, content: string) => {
+    .description(
+      'Create a new page - automatically extracts current session if no content provided'
+    )
+    .argument(
+      '[title]',
+      'Page title (optional, defaults to "Session-{timestamp}")'
+    )
+    .argument(
+      '[content]',
+      'Page content (optional, extracts current session if not provided)'
+    )
+    .action(async (title?: string, content?: string) => {
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
+
       try {
-        const pageId = await manager.create(title, content);
-        console.log(pc.green(`✅ Page created successfully: ${pageId}`));
+        let finalTitle =
+          title ||
+          `Session-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
+        let finalContent = content;
+        let isSessionExtracted = false;
+
+        // If no content provided, automatically extract the current session
+        if (!content) {
+          try {
+            const extractor = new SessionExtractor();
+            finalContent = await extractor.extractCurrentSession();
+            isSessionExtracted = true;
+
+            if (!title) {
+              // Auto-generate title from session
+              finalTitle = `Session-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
+            }
+
+            // Silent extraction for AI usage
+          } catch (extractError) {
+            // Session extraction failed, but we need content
+            throw new Error(`Session extraction failed: ${extractError}`);
+          }
+        }
+
+        if (!finalContent) {
+          throw new Error('No content provided and session extraction failed');
+        }
+
+        const pageId = await manager.create(finalTitle, finalContent);
+
+        // Always use AI-optimized output
+        console.log(`# Page Created Successfully
+
+**ID**: ${pageId}
+**Title**: ${finalTitle}
+**Location**: .claude/pages/${pageId}-${finalTitle
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '')}.md
+${isSessionExtracted ? '**Type**: Extracted Session' : '**Type**: User Content'}
+
+## Content Preview
+
+${finalContent.substring(0, 500)}${finalContent.length > 500 ? '...' : ''}
+
+---
+
+*Page has been saved ${isSessionExtracted ? '(session extracted automatically)' : ''} and is ready for future reference.*`);
       } catch (error) {
-        console.error(pc.red('Error creating page:'), error);
+        // Always use AI-optimized error output
+        console.error(`# Page Creation Failed
+
+**Error**: ${error}
+
+## Troubleshooting
+
+1. If session extraction: Ensure Claude Code has an active session
+2. Check ~/.claude/projects/ directory exists
+3. Verify write permissions for .claude/pages/
+
+*Unable to create page. Please check the error message above.*`);
+      }
+    });
+
+  // Extract current Claude Code session
+  pageCmd
+    .command('extract-session')
+    .description('Extract current Claude Code session from local storage')
+    .option('--project <path>', 'Project path (defaults to current directory)')
+    .action(async (cmdOptions: { project?: string }) => {
+      try {
+        const extractor = new SessionExtractor();
+        const sessionContent = await extractor.extractCurrentSession(
+          cmdOptions.project
+        );
+
+        // Always use AI-optimized output with full session content
+        console.log(`# Claude Code Session Extracted
+
+## Session Information
+
+${sessionContent}
+
+---
+
+*Session extracted successfully. Use 'page create' to save this content.*`);
+      } catch (error) {
+        // Always use AI-optimized error output
+        console.error(`# Session Extraction Failed
+
+**Error**: ${error}
+
+## Troubleshooting
+
+1. Ensure Claude Code has an active session for this project
+2. Check that ~/.claude/projects/ directory exists
+3. Verify you have read permissions for Claude's local storage
+
+*Unable to extract session. Please check the error message above.*`);
       }
     });
 };

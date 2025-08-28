@@ -14,8 +14,9 @@ export interface PlanManager {
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(name: string, description: string): Promise<string>;
-  edit(idOrKeyword: string, modifications: string): Promise<void>;
+  edit(idOrKeyword: string, fullContent: string): Promise<void>;
   resolve(idOrKeyword: string): Promise<void>;
+  delete(idOrKeyword: string): Promise<void>;
 }
 
 export interface PatternManager {
@@ -23,7 +24,6 @@ export interface PatternManager {
   search(keyword: string, language?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(name: string, content: string, language?: string): Promise<string>;
-  use(idOrKeyword: string): Promise<string>;
 }
 
 export interface SpecManager {

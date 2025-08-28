@@ -5,7 +5,6 @@ export interface FormatOptions {
   searchTerm?: string;
   emoji: string;
   title: string;
-  outputMode?: 'console' | 'context' | 'both';
 }
 
 export interface FormattedItem {

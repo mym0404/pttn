@@ -156,31 +156,5 @@ ${content}
       return filename;
     },
 
-    async use(idOrKeyword: string): Promise<string> {
-      const patterns = await this.list();
-
-      // Try to find by ID first
-      const idNum = parseInt(idOrKeyword);
-      if (!isNaN(idNum)) {
-        const pattern = patterns.find((p: PatternInfo) => p.id === idNum);
-        if (pattern?.content) {
-          return pattern.content;
-        }
-      }
-
-      // Search by keyword
-      const results = await this.search(idOrKeyword);
-      if (results.length > 0) {
-        const bestMatch = results[0];
-        const pattern = patterns.find(
-          (p: PatternInfo) => p.file === bestMatch.file
-        );
-        if (pattern?.content) {
-          return pattern.content;
-        }
-      }
-
-      throw new Error(`Pattern not found: ${idOrKeyword}`);
-    },
   };
 };
