@@ -2,25 +2,25 @@ import { readFile, stat } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { KnowledgeInfo, KnowledgeManager, SearchResult } from '../types';
+import { SpecInfo, SpecManager, SearchResult } from '../types';
 import { calculateSimilarity, ensureDir } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
 
-export const createKnowledgeManager = (
+export const createSpecManager = (
   contentDir: string
-): KnowledgeManager => {
-  const knowledgeDir = resolve(contentDir, 'knowledges');
+): SpecManager => {
+  const specDir = resolve(contentDir, 'specs');
 
   return {
-    async list(category?: string): Promise<KnowledgeInfo[]> {
-      await ensureDir(knowledgeDir);
+    async list(category?: string): Promise<SpecInfo[]> {
+      await ensureDir(specDir);
 
-      // For numbered files in knowledge directory
-      const files = await glob('*.md', { cwd: knowledgeDir });
-      const entries: KnowledgeInfo[] = [];
+      // For numbered files in spec directory
+      const files = await glob('*.md', { cwd: specDir });
+      const entries: SpecInfo[] = [];
 
       for (const file of files) {
-        const filepath = join(knowledgeDir, file);
+        const filepath = join(specDir, file);
         const stats = await stat(filepath);
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
@@ -73,7 +73,7 @@ export const createKnowledgeManager = (
       // Try to find by ID first
       const idNum = parseInt(idOrKeyword);
       if (!isNaN(idNum)) {
-        const entry = entries.find((e: KnowledgeInfo) => e.id === idNum);
+        const entry = entries.find((e: SpecInfo) => e.id === idNum);
         if (entry?.content) {
           return entry.content;
         }
@@ -84,14 +84,14 @@ export const createKnowledgeManager = (
       if (results.length > 0) {
         const bestMatch = results[0];
         const entry = entries.find(
-          (e: KnowledgeInfo) => e.file === bestMatch.file
+          (e: SpecInfo) => e.file === bestMatch.file
         );
         if (entry?.content) {
           return entry.content;
         }
       }
 
-      throw new Error(`Knowledge entry not found: ${idOrKeyword}`);
+      throw new Error(`Spec entry not found: ${idOrKeyword}`);
     },
   };
 };

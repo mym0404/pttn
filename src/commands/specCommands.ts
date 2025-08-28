@@ -3,35 +3,35 @@ import { existsSync } from 'fs';
 import { join, resolve } from 'path';
 import pc from 'picocolors';
 
-import { createKnowledgeManager } from '../managers';
+import { createSpecManager } from '../managers';
 
-export const registerKnowledgeCommands = (
+export const registerSpecCommands = (
   program: Command,
   getContentDir: (options: { dir?: string }) => string
 ): void => {
-  const knowledgeCmd = program
-    .command('knowledge')
-    .description('Manage knowledge base in .claude/knowledges/');
+  const specCmd = program
+    .command('spec')
+    .description('Manage technical specifications in .claude/specs/');
 
-  knowledgeCmd
+  specCmd
     .command('list')
-    .description('List all knowledge entries')
+    .description('List all spec entries')
     .option('-c, --category <category>', 'Filter by category')
     .action(async (cmdOptions: { category?: string }) => {
       const globalOptions = program.opts();
-      const manager = createKnowledgeManager(getContentDir(globalOptions));
+      const manager = createSpecManager(getContentDir(globalOptions));
       try {
         const entries = await manager.list(cmdOptions.category);
 
         if (entries.length === 0) {
           const msg = cmdOptions.category
-            ? `No knowledge entries found in category "${cmdOptions.category}"`
-            : 'No knowledge entries found in .claude/knowledges/';
+            ? `No spec entries found in category "${cmdOptions.category}"`
+            : 'No spec entries found in .claude/specs/';
           console.log(pc.yellow(msg));
           return;
         }
 
-        console.log(pc.cyan('\n🧠 Knowledge Base:'));
+        console.log(pc.cyan('\n📋 Technical Specifications:'));
         entries.forEach((entry) => {
           console.log(`  ${pc.bold(`${entry.id}.`)} ${entry.title}`);
           console.log(
@@ -40,13 +40,13 @@ export const registerKnowledgeCommands = (
         });
         console.log();
       } catch (error) {
-        console.error(pc.red('Error listing knowledge:'), error);
+        console.error(pc.red('Error listing specs:'), error);
       }
     });
 
-  knowledgeCmd
+  specCmd
     .command('search')
-    .description('Search knowledge base')
+    .description('Search specification repository')
     .argument('<keyword>', 'Search keyword')
     .option('-c, --category <category>', 'Filter by category')
     .option('--context', 'Output formatted for AI context instead of console')
@@ -56,10 +56,10 @@ export const registerKnowledgeCommands = (
         cmdOptions: { category?: string; context?: boolean }
       ) => {
         const globalOptions = program.opts();
-        const manager = createKnowledgeManager(getContentDir(globalOptions));
+        const manager = createSpecManager(getContentDir(globalOptions));
         try {
           const results = await manager.search(keyword, cmdOptions.category);
-          const knowledge = await manager.list(cmdOptions.category);
+          const specs = await manager.list(cmdOptions.category);
 
           if (cmdOptions.context) {
             const {
@@ -69,7 +69,7 @@ export const registerKnowledgeCommands = (
             } = await import('../formatters.js');
 
             const formattedItems = results.map((result) => {
-              const entry = knowledge.find((k) => k.file === result.file);
+              const entry = specs.find((s) => s.file === result.file);
               return {
                 id: entry?.id || 0,
                 title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove category suffix
@@ -80,22 +80,22 @@ export const registerKnowledgeCommands = (
             });
 
             const formatOptions = {
-              type: 'knowledge' as const,
+              type: 'spec' as const,
               searchTerm: keyword,
-              emoji: '🧠',
-              title: 'Domain Knowledge',
+              emoji: '📋',
+              title: 'Technical Specifications',
               outputMode: 'context' as const,
             };
 
             if (results.length === 0) {
-              const availableKnowledge = knowledge.slice(0, 5).map((entry) => ({
+              const availableSpecs = specs.slice(0, 5).map((entry) => ({
                 id: entry.id,
                 title: entry.title,
                 file: entry.file,
                 metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
                 content: entry.content || '',
               }));
-              console.log(formatNoMatches(availableKnowledge, formatOptions));
+              console.log(formatNoMatches(availableSpecs, formatOptions));
             } else if (results.length === 1) {
               console.log(formatSingleMatch(formattedItems[0], formatOptions));
             } else {
@@ -106,13 +106,13 @@ export const registerKnowledgeCommands = (
 
           if (results.length === 0) {
             console.log(
-              pc.yellow(`No knowledge entries found matching "${keyword}"`)
+              pc.yellow(`No spec entries found matching "${keyword}"`)
             );
             return;
           }
 
           console.log(
-            pc.cyan(`\n🔍 Knowledge search results for "${keyword}":`)
+            pc.cyan(`\n🔍 Specification search results for "${keyword}":`)
           );
           results.forEach((result, index) => {
             console.log(
@@ -124,19 +124,19 @@ export const registerKnowledgeCommands = (
           });
           console.log();
         } catch (error) {
-          console.error(pc.red('Error searching knowledge:'), error);
+          console.error(pc.red('Error searching specs:'), error);
         }
       }
     );
 
-  knowledgeCmd
+  specCmd
     .command('create')
-    .description('Create a new knowledge entry')
-    .argument('<title>', 'Title for the knowledge entry')
-    .argument('<content>', 'Knowledge content')
+    .description('Create a new specification entry')
+    .argument('<title>', 'Title for the specification entry')
+    .argument('<content>', 'Specification content')
     .option(
       '-c, --category <category>',
-      'Category for the knowledge entry',
+      'Category for the specification entry',
       'general'
     )
     .action(
@@ -147,18 +147,18 @@ export const registerKnowledgeCommands = (
       ) => {
         const globalOptions = program.opts();
         const contentDir = getContentDir(globalOptions);
-        const knowledgeDir = resolve(contentDir, 'knowledges');
+        const specDir = resolve(contentDir, 'specs');
 
         try {
           // Ensure directory exists
-          if (!existsSync(knowledgeDir)) {
+          if (!existsSync(specDir)) {
             await import('fs/promises').then((fs) =>
-              fs.mkdir(knowledgeDir, { recursive: true })
+              fs.mkdir(specDir, { recursive: true })
             );
           }
 
-          // Get existing knowledge entries to determine next ID
-          const manager = createKnowledgeManager(contentDir);
+          // Get existing spec entries to determine next ID
+          const manager = createSpecManager(contentDir);
           const entries = await manager.list();
           const nextId =
             entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
@@ -169,7 +169,7 @@ export const registerKnowledgeCommands = (
             .toLowerCase()
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-]/g, '')}.md`;
-          const filepath = join(knowledgeDir, filename);
+          const filepath = join(specDir, filename);
 
           // Create full content with metadata
           const fullContent = `# ${title}
@@ -187,35 +187,35 @@ ${content}
           );
 
           console.log(
-            pc.green(`✅ Created knowledge entry #${nextId}: ${title}`)
+            pc.green(`✅ Created specification entry #${nextId}: ${title}`)
           );
-          console.log(pc.dim(`   File: .claude/knowledges/${filename}`));
+          console.log(pc.dim(`   File: .claude/specs/${filename}`));
           console.log(
             pc.dim(`   Category: ${cmdOptions.category || 'general'}`)
           );
         } catch (error) {
-          console.error(pc.red('Error creating knowledge entry:'), error);
+          console.error(pc.red('Error creating spec entry:'), error);
         }
       }
     );
 
-  knowledgeCmd
+  specCmd
     .command('view')
-    .description('View a specific knowledge entry by ID or search term')
-    .argument('<idOrKeyword>', 'Knowledge ID or search keyword')
+    .description('View a specific specification entry by ID or search term')
+    .argument('<idOrKeyword>', 'Specification ID or search keyword')
     .option('--context', 'Output formatted for AI context instead of console')
     .action(async (idOrKeyword: string, cmdOptions: { context?: boolean }) => {
       const globalOptions = program.opts();
-      const manager = createKnowledgeManager(getContentDir(globalOptions));
+      const manager = createSpecManager(getContentDir(globalOptions));
       try {
         const content = await manager.view(idOrKeyword);
 
         if (cmdOptions.context) {
-          const knowledge = await manager.list();
-          const entry = knowledge.find(
-            (k) =>
-              k.id.toString() === idOrKeyword ||
-              k.title.toLowerCase().includes(idOrKeyword.toLowerCase())
+          const specs = await manager.list();
+          const entry = specs.find(
+            (s) =>
+              s.id.toString() === idOrKeyword ||
+              s.title.toLowerCase().includes(idOrKeyword.toLowerCase())
           );
 
           if (entry) {
@@ -230,9 +230,9 @@ ${content}
             };
 
             const formatOptions = {
-              type: 'knowledge' as const,
-              emoji: '🧠',
-              title: 'Domain Knowledge',
+              type: 'spec' as const,
+              emoji: '📋',
+              title: 'Technical Specifications',
               outputMode: 'context' as const,
             };
 
@@ -241,10 +241,10 @@ ${content}
           }
         }
 
-        console.log(pc.cyan('\n🧠 Knowledge Content:\n'));
+        console.log(pc.cyan('\n📋 Specification Content:\n'));
         console.log(content);
       } catch (error) {
-        console.error(pc.red('Error viewing knowledge:'), error);
+        console.error(pc.red('Error viewing spec:'), error);
       }
     });
 };
