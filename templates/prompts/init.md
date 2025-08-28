@@ -12,7 +12,7 @@ Set up this project with intelligent self-reference capabilities by creating pro
 
 - **Merge Strategy**: Improve and integrate existing sections while preserving valuable content
 - **New Sections**: Add any missing sections at the end of the file
-- **Preserve**: Keep any project-specific customizations and domain knowledge
+- **Preserve**: Keep any project-specific customizations and technical specifications
 
 Create or update `CLAUDE.md` file in the project root with the following content, customizing it for this specific project:
 
@@ -48,12 +48,12 @@ Claude Code agents should use these CLI commands to access and manage project co
 ```bash
 # IMPORTANT: Claude Code agents should use these commands proactively
 # Search and access existing content before starting tasks
-npx cc-self-refer knowledge search "topic"    # Find domain knowledge
+npx cc-self-refer spec search "topic"    # Find technical specifications
 npx cc-self-refer pattern search "keyword"    # Find reusable patterns
 
 # List and view specific content
-npx cc-self-refer knowledge list              # List all knowledge
-npx cc-self-refer knowledge view <id>         # Load specific knowledge
+npx cc-self-refer spec list              # List all specifications
+npx cc-self-refer spec view <id>         # Load specific specification
 npx cc-self-refer pattern list                # List all patterns
 npx cc-self-refer pattern view <id>           # Load specific pattern
 ```
@@ -69,13 +69,13 @@ npx cc-self-refer pattern view <id>           # Load specific pattern
 
 ====================== END CLAUDE.md CONTENT ======================
 
-### 2. Analyze and Initialize Knowledge Base and Patterns
+### 2. Analyze and Initialize Specification Repository and Patterns
 
-**Important**: Instead of manually adding domain knowledge and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the knowledge and pattern directories:
+**Important**: Instead of manually adding technical specifications and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the spec and pattern directories:
 
-#### Domain Knowledge Analysis
+#### Technical Specification Analysis
 
-After analyzing the project's business logic, or knowledge, read `.claude/commands/knowledge-create.md` and apply it's usage
+After analyzing the project's technical requirements and specifications, read `.claude/commands/spec-create.md` and apply it's usage
 
 #### Code Pattern Analysis
 
@@ -88,7 +88,7 @@ Verify the following directories exist (create if missing):
 - `.claude/pages/` - For session history
 - `.claude/plans/` - For strategic planning documents
 - `.claude/patterns/` - For reusable code patterns
-- `.claude/knowledges/` - For domain knowledge base
+- `.claude/specs/` - For technical specification repository
 - `.claude/commands/` - For Claude Code commands
 
 ## Quick Reference
@@ -102,4 +102,4 @@ After completion:
 - `CLAUDE.md` exists with project-specific context
 - `.claude/` directory structure is ready with all commands
 - Self-referential development system ready for intelligent, context-aware sessions
-- Team can build and share knowledge incrementally across development cycles
+- Team can build and share specifications incrementally across development cycles

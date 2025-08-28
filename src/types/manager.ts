@@ -1,4 +1,4 @@
-import { KnowledgeInfo, PageInfo, PatternInfo, PlanInfo } from './content.js';
+import { SpecInfo, PageInfo, PatternInfo, PlanInfo } from './content.js';
 import { SearchResult } from './search.js';
 
 export interface PageManager {
@@ -23,8 +23,8 @@ export interface PatternManager {
   create(name: string, content: string, language?: string): Promise<string>;
 }
 
-export interface KnowledgeManager {
-  list(category?: string): Promise<KnowledgeInfo[]>;
+export interface SpecManager {
+  list(category?: string): Promise<SpecInfo[]>;
   search(keyword: string, category?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
 }

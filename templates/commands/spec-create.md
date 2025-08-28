@@ -1,79 +1,79 @@
-# Knowledge - Save Domain Knowledge and Business Rules
+# Spec - Create Technical Specifications
 
-Save domain-specific knowledge, business rules, and constraints to `.claude/knowledges/` directory with automatic numbering.
+Create detailed technical specifications and project requirements in `.claude/specs/` directory with automatic numbering.
 
 **Usage**:
 
-- `/knowledge-create <topic name>` - Interactive mode: Claude will ask for knowledge content
-- `/knowledge-create <topic name> <content>` - Direct mode: Create knowledge with provided content
+- `/spec-create <specification name>` - Interactive mode: Claude will ask for specification content
+- `/spec-create <specification name> <content>` - Direct mode: Create spec with provided content
 
 ## Purpose
 
-This command saves domain knowledge, business rules, API constraints, architectural decisions, and project-specific requirements. This knowledge serves as a reference for maintaining consistency across development decisions.
+This command creates comprehensive technical specifications, system requirements, API documentation, architectural decisions, and project constraints. These specifications serve as authoritative reference for implementation and maintain consistency across development decisions.
 
 ## Implementation
 
-Execute the `cc-self-refer` CLI tool's knowledge creation functionality:
+Execute the `cc-self-refer` CLI tool's specification creation functionality:
 
 ```bash
-npx -y cc-self-refer knowledge create "<topic name>" "<knowledge content>"
+npx -y cc-self-refer spec create "<specification name>" "<specification content>"
 ```
 
 ### CLI Usage Process
 
-#### Interactive Mode (Topic Name Only)
+#### Interactive Mode (Specification Name Only)
 
-1. **Ask for Topic Name**: Request a clear, descriptive name for the knowledge topic
-2. **Collect Knowledge Content**: Gather comprehensive knowledge documentation including:
-   - Domain rules and constraints
-   - Business logic requirements
-   - API limitations and behaviors
+1. **Ask for Specification Name**: Request a clear, descriptive name for the technical specification
+2. **Collect Specification Content**: Gather comprehensive specification documentation including:
+   - System requirements and constraints
+   - Technical implementation requirements
+   - API specifications and behaviors
    - Architectural decisions and rationale
    - Performance requirements
    - Security considerations
-3. **Execute CLI Command**: Run the knowledge create command with collected information
+3. **Execute CLI Command**: Run the spec create command with collected information
 
-#### Direct Mode (Topic Name + Content)
+#### Direct Mode (Specification Name + Content)
 
-1. **Extract Topic Name**: Use the provided topic name
+1. **Extract Specification Name**: Use the provided specification name
 2. **Process Content**: Enhance the provided content with:
    - Proper markdown formatting
    - Structured sections for clarity
    - Examples and use cases
    - Implementation implications
-3. **Execute CLI Command**: Run the knowledge create command with formatted content
+3. **Execute CLI Command**: Run the spec create command with formatted content
 
-### Knowledge Content Structure
+### Specification Content Structure
 
-When creating knowledge content, include:
+When creating specification content, include:
 
 ````markdown
-# <Topic Name>
+# <Specification Name>
 
 ## Overview
 
-[Brief description of the knowledge domain or business rule]
+[Brief description of the system or component being specified]
 
-## Rules and Constraints
+## Requirements and Constraints
 
-- [Rule or constraint 1]
-- [Rule or constraint 2]
+- [Requirement or constraint 1]
+- [Requirement or constraint 2]
 
 ## Implementation Guidelines
 
-[How this knowledge affects code implementation]
+[How this specification affects code implementation]
 
 ## Examples
 
 ```[language if applicable]
-// Code examples showing how to apply this knowledge
+// Code examples showing how to implement this specification
 [example code]
 ```
 
-## Related Topics
+## Related Specifications
 
-- [Related knowledge entry 1]
-- [Related knowledge entry 2]
+- [Related specification entry 1]
+- [Related specification entry 2]
 
 ## Last Updated
 
@@ -82,86 +82,86 @@ When creating knowledge content, include:
 
 ### Content Enhancement
 
-When saving knowledge:
+When saving specifications:
 
-1. **Domain Analysis**:
-   - Extract business rules from requirements or discussions
+1. **System Analysis**:
+   - Extract technical requirements from discussions or documentation
    - Document API behaviors and limitations
    - Capture architectural constraints and decisions
 
 2. **Context Integration**:
-   - Relate knowledge to current project's architecture
+   - Relate specifications to current project's architecture
    - Include project-specific implications
-   - Cross-reference with existing knowledge entries
+   - Cross-reference with existing specification entries
 
-3. **Knowledge Categorization**:
-   - Identify knowledge type (business rules, API constraints, etc.)
+3. **Specification Categorization**:
+   - Identify specification type (system requirements, API specs, etc.)
    - Tag with relevant domains (authentication, payments, etc.)
    - Cross-reference with related patterns and plans
 
 ## Usage Examples
 
-### Save Business Rules
+### Save System Specifications
 
 When user requests:
 
 ```bash
-/knowledge-create "User Permission System"
+/spec-create "User Authentication System"
 ```
 
 Claude will:
 
-1. Ask for the business rules and permission logic
-2. Execute: `npx -y cc-self-refer knowledge create "User Permission System" "<collected content>"`
-3. Creates: `.claude/knowledges/001-user-permission-system.md`
+1. Ask for the authentication requirements and system logic
+2. Execute: `npx -y cc-self-refer spec create "User Authentication System" "<collected content>"`
+3. Creates: `.claude/specs/001-user-authentication-system.md`
 
-### Save API Constraints
+### Save API Specifications
 
 When user requests:
 
 ```bash
-/knowledge-create "Rate Limiting Rules"
+/spec-create "Rate Limiting Implementation"
 ```
 
 Claude will:
 
-1. Collect rate limiting constraints and retry strategies
-2. Execute: `npx -y cc-self-refer knowledge create "Rate Limiting Rules" "<collected content>"`
-3. Creates: `.claude/knowledges/002-rate-limiting-rules.md`
+1. Collect rate limiting specifications and retry strategies
+2. Execute: `npx -y cc-self-refer spec create "Rate Limiting Implementation" "<collected content>"`
+3. Creates: `.claude/specs/002-rate-limiting-implementation.md`
 
-### Save Domain Knowledge (Direct Mode)
+### Save Technical Specifications (Direct Mode)
 
 When user provides both name and content:
 
 ```bash
-/knowledge-create "Payment Processing" "All payments must be processed through Stripe. Minimum amount $1.00. Failed payments retry 3 times with exponential backoff."
+/spec-create "Payment Processing Module" "Payment system must integrate with Stripe API. Minimum transaction amount $1.00. Failed payments retry 3 times with exponential backoff starting at 1 second."
 ```
 
 Claude will:
 
-1. Extract the topic name and knowledge content
+1. Extract the specification name and content
 2. Format the content with proper markdown structure
-3. Execute: `npx -y cc-self-refer knowledge create "Payment Processing" "<formatted content>"`
-4. Creates: `.claude/knowledges/003-payment-processing.md`
+3. Execute: `npx -y cc-self-refer spec create "Payment Processing Module" "<formatted content>"`
+4. Creates: `.claude/specs/003-payment-processing-module.md`
 
 ## Directory Management
 
-- Ensure `.claude/knowledges/` directory exists (create if needed)
-- Knowledge entries are numbered sequentially for easy reference
-- Knowledge files include:
-  - Actionable business rules and constraints
+- Ensure `.claude/specs/` directory exists (create if needed)
+- Specification entries are numbered sequentially for easy reference
+- Specification files include:
+  - Actionable technical requirements and constraints
   - Implementation implications and examples
-  - Cross-references to related knowledge
+  - Cross-references to related specifications
   - Update history for tracking changes
 
 ## Integration Benefits
 
-Knowledge created with this command:
+Specifications created with this command:
 
-- Provides consistent business rule application across features
-- Documents critical domain constraints for all team members
-- Serves as authoritative source for business logic questions
+- Provides consistent technical implementation across features
+- Documents critical system constraints for all team members
+- Serves as authoritative source for technical requirements
 - Enables faster development through shared understanding
-- Creates searchable repository of project-specific knowledge
+- Creates searchable repository of project-specific specifications
 
-This command helps maintain business rule consistency and accelerates development by preserving critical domain knowledge.
+This command helps maintain technical consistency and accelerates development by preserving critical project specifications.

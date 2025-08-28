@@ -22,7 +22,7 @@ export const setupClaudeSelfReferProject = async (
   await ensureDir(resolve(claudeDir, 'pages'));
   await ensureDir(resolve(claudeDir, 'plans'));
   await ensureDir(resolve(claudeDir, 'patterns'));
-  await ensureDir(resolve(claudeDir, 'knowledges'));
+  await ensureDir(resolve(claudeDir, 'specs'));
   await ensureDir(commandsDir);
 
   // Command files to download
@@ -32,10 +32,10 @@ export const setupClaudeSelfReferProject = async (
     'plan-edit.md',
     'plan-resolve.md',
     'page-refer.md',
-    'knowledge-refer.md',
+    'spec-refer.md',
     'pattern-use.md',
     'pattern-create.md',
-    'knowledge-create.md',
+    'spec-create.md',
   ];
 
   console.log('📡 Downloading command templates...');
