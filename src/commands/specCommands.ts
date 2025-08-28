@@ -7,108 +7,8 @@ export const registerSpecCommands = (
   program: Command,
   getContentDir: (options: { dir?: string }) => string
 ): void => {
-  // Main spec command - Interactive specification planning
-  program
-    .command('spec')
-    .description('Launch interactive specification planning system')
-    .argument('[concept]', 'Initial concept or feature name (optional)')
-    .action(async (concept?: string) => {
-      const globalOptions = program.opts();
-      const _contentDir = getContentDir(globalOptions);
-
-      try {
-        console.log(
-          pc.cyan(
-            '\n🚀 Launching Interactive Specification Planning System...\n'
-          )
-        );
-
-        if (concept) {
-          console.log(
-            pc.blue(`Starting specification planning for: "${concept}"`)
-          );
-        } else {
-          console.log(
-            pc.blue('Ready to begin comprehensive specification planning')
-          );
-        }
-
-        console.log(
-          pc.dim(
-            '🔄 Interactive specification planning is available through Claude Code...\n'
-          )
-        );
-
-        console.log(
-          pc.yellow('📋 To use the Interactive Specification Planning System:')
-        );
-        console.log(pc.dim('   1. Open Claude Code in your project'));
-
-        if (concept) {
-          console.log(pc.dim(`   2. Type: ${pc.bold(`/spec ${concept}`)}`));
-        } else {
-          console.log(pc.dim(`   2. Type: ${pc.bold('/spec')} [concept name]`));
-        }
-
-        console.log(
-          pc.dim('   3. Engage in deep collaborative planning with AI agents')
-        );
-        console.log(
-          pc.dim('   4. Generate multiple comprehensive specification files\n')
-        );
-
-        console.log(pc.green('✨ Features available in Claude Code:'));
-        console.log(
-          pc.dim(
-            '   • Multi-agent collaboration (Research, Architecture, UX, Business, Security)'
-          )
-        );
-        console.log(
-          pc.dim('   • Deep requirement analysis with "why-chain" questioning')
-        );
-        console.log(pc.dim('   • Multiple interconnected specification files'));
-        console.log(
-          pc.dim('   • Professional-grade, implementation-ready output')
-        );
-        console.log(pc.dim('   • Iterative refinement and validation\n'));
-
-        console.log(
-          pc.cyan(
-            '💡 Alternative: For simple single-file specifications, you can use:'
-          )
-        );
-        console.log(
-          pc.dim(
-            `   ${pc.bold('npx -y cc-self-refer spec simple')} to use the basic creation mode\n`
-          )
-        );
-
-        // Suggest creating a simple spec if they provided content via CLI
-        if (concept) {
-          console.log(
-            pc.blue(`Ready to plan specifications for: "${concept}"`)
-          );
-          console.log(
-            pc.dim(
-              'Use the Claude Code command above for the full interactive experience.'
-            )
-          );
-        }
-      } catch (error) {
-        console.error(
-          pc.red('\n❌ Error launching specification planning system:'),
-          error
-        );
-        console.log(
-          pc.dim(
-            '\nTip: Ensure you have proper network connectivity and try again.'
-          )
-        );
-      }
-    });
-
   const specCmd = program
-    .command('spec-mgmt')
+    .command('spec')
     .description('Specification management commands');
 
   specCmd
@@ -289,16 +189,6 @@ export const registerSpecCommands = (
         );
         console.log(pc.dim('   • Iterative refinement and validation\n'));
 
-        console.log(
-          pc.cyan(
-            '💡 Alternative: For simple single-file specifications, you can use:'
-          )
-        );
-        console.log(
-          pc.dim(
-            `   ${pc.bold('npx -y cc-self-refer spec simple')} to use the basic creation mode\n`
-          )
-        );
 
         // Suggest creating a simple spec if they provided content via CLI
         if (concept) {
@@ -324,48 +214,6 @@ export const registerSpecCommands = (
       }
     });
 
-  specCmd
-    .command('simple')
-    .description('Create a simple specification entry (traditional mode)')
-    .argument('<title>', 'Title for the specification entry')
-    .argument('<content>', 'Specification content')
-    .option(
-      '-c, --category <category>',
-      'Category for the specification entry',
-      'general'
-    )
-    .action(
-      async (
-        title: string,
-        content: string,
-        cmdOptions: { category?: string }
-      ) => {
-        const globalOptions = program.opts();
-        const manager = createSpecManager(getContentDir(globalOptions));
-
-        try {
-          const { id, filename } = await manager.create(
-            title,
-            content,
-            cmdOptions.category || 'general'
-          );
-
-          console.log(
-            pc.green(`✅ Created specification entry #${id}: ${title}`)
-          );
-          console.log(pc.dim(`   File: .claude/specs/${filename}`));
-          console.log(
-            pc.dim(`   Category: ${cmdOptions.category || 'general'}`)
-          );
-          console.log(
-            pc.dim('\n💡 For comprehensive interactive planning, use:')
-          );
-          console.log(pc.dim(`   ${pc.bold('/spec')} in Claude Code`));
-        } catch (error) {
-          console.error(pc.red('Error creating spec entry:'), error);
-        }
-      }
-    );
 
   specCmd
     .command('view')
