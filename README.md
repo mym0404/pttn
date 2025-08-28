@@ -149,7 +149,6 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- Pattern create
 - `self-refer` dir not `.claude`
 - Spec Feature
 - Docs

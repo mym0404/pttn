@@ -2,7 +2,9 @@
 
 Save code patterns and implementation examples to `.claude/patterns/` directory with automatic numbering.
 
-**Usage**: `/pattern-create <code snippets or explanation>`
+**Usage**: 
+- `/pattern-create <pattern name>` - Interactive mode: Claude will ask for pattern content
+- `/pattern-create <pattern name> <code snippet>` - Direct mode: Create pattern with provided snippet
 
 ## Purpose
 
@@ -10,26 +12,39 @@ This command saves reusable code patterns, common implementations, and project-s
 
 ## Implementation
 
-### 1. Pattern Number Detection
+Execute the `cc-self-refer` CLI tool's pattern creation functionality:
 
-- Check existing files in `.claude/patterns/` directory
-- Find the highest numbered pattern file
-- Auto-increment to create next pattern number
-- If no patterns exist, start with pattern number 1
+```bash
+npx -y cc-self-refer pattern create "<pattern name>" "<pattern content>"
+```
 
-### 2. Pattern File Creation
+### CLI Usage Process
 
-- Create file in format: `.claude/patterns/<number>-<sanitized-name>.md`
-- Sanitize the pattern name for filename (lowercase, hyphens for spaces, remove special chars)
-- Auto-generate name from first few words if not explicitly provided
-- Example: `/pattern-create dark mode tailwind colors` → `.claude/patterns/3-dark-mode-tailwind-colors.md`
+#### Interactive Mode (Pattern Name Only)
+1. **Ask for Pattern Name**: Request a clear, descriptive name for the pattern
+2. **Collect Pattern Content**: Gather the complete pattern documentation including:
+   - Pattern description
+   - Code examples with proper syntax highlighting
+   - Usage instructions
+   - When to use this pattern
+   - Implementation notes
+3. **Execute CLI Command**: Run the pattern create command with the collected information
 
-### 3. Pattern Content Structure
+#### Direct Mode (Pattern Name + Code Snippet)
+1. **Extract Pattern Name**: Use the provided pattern name
+2. **Process Code Snippet**: Enhance the provided code snippet with:
+   - Proper markdown formatting
+   - Code syntax highlighting
+   - Brief explanation or context
+   - Usage notes if applicable
+3. **Execute CLI Command**: Run the pattern create command with formatted content
 
-Generate pattern document with following structure:
+### Pattern Content Structure
+
+When creating pattern content, include:
 
 ````markdown
-# <Number>. <Pattern Name>
+# <Pattern Name>
 
 ## Pattern Description
 
@@ -37,30 +52,21 @@ Generate pattern document with following structure:
 
 ## Implementation
 
-### Code Example
-
 ```[language]
 // Main implementation example
 [code snippet with comments]
 ```
 
-### Variations
+## Usage Example
 
 ```[language]
-// Alternative approach 1
-[code snippet]
+// How to use this pattern
+[example code]
 ```
 
-```[language]
-// Alternative approach 2 (if applicable)
-[code snippet]
-```
+## When to Use
 
-## Examples in Project
-
-- [File reference where this pattern is used: file.js:45]
-- [Another usage example: component.tsx:122]
-
+- [Use case n]
 ````
 
 
@@ -87,33 +93,54 @@ When saving patterns:
 ## Usage Examples
 
 ### Save UI Pattern
-```bash
-/pattern-create dark mode button with tailwind
-````
 
-Creates: `.claude/patterns/4-dark-mode-button-tailwind.md`
+When user requests:
+```bash
+/pattern-create "Dark Mode Toggle Component"
+```
+
+Claude will:
+1. Ask for the pattern content (implementation details, code examples)
+2. Execute: `npx -y cc-self-refer pattern create "Dark Mode Toggle Component" "<collected content>"`
+3. Creates: `.claude/patterns/001-dark-mode-toggle-component.md`
 
 ### Save API Pattern
 
+When user requests:
 ```bash
-/pattern-create tanstack query with error handling
+/pattern-create "Error Handling with Tanstack Query"
 ```
 
-Creates: `.claude/patterns/5-tanstack-query-error-handling.md`
+Claude will:
+1. Collect the pattern implementation and examples
+2. Execute: `npx -y cc-self-refer pattern create "Error Handling with Tanstack Query" "<collected content>"`
+3. Creates: `.claude/patterns/002-error-handling-with-tanstack-query.md`
 
-### Save Code Snippet
+### Save Code Snippet Pattern (Interactive Mode)
 
+When user provides a code pattern:
 ```bash
-/pattern-create const handleSubmit = async (data) => {
-  try {
-    await mutate(data);
-  } catch (error) {
-    toast.error(error.message);
-  }
-}
+/pattern-create "Async Form Submit Pattern"
 ```
 
-Creates: `.claude/patterns/6-form-submit-pattern.md`
+Claude will:
+1. Ask for or collect the pattern code and documentation
+2. Format the content with proper markdown and code blocks
+3. Execute: `npx -y cc-self-refer pattern create "Async Form Submit Pattern" "<formatted content>"`
+4. Creates: `.claude/patterns/003-async-form-submit-pattern.md`
+
+### Save Code Snippet Pattern (Direct Mode)
+
+When user provides both name and code:
+```bash
+/pattern-create "Button Click Handler" const handleClick = (e) => { e.preventDefault(); console.log('clicked'); };
+```
+
+Claude will:
+1. Extract the pattern name and code snippet
+2. Format the code snippet with proper markdown structure
+3. Execute: `npx -y cc-self-refer pattern create "Button Click Handler" "<formatted snippet>"`
+4. Creates: `.claude/patterns/004-button-click-handler.md`
 
 ## Directory Management
 

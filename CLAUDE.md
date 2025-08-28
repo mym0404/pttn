@@ -54,11 +54,12 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
    - Each command group (page, plan, pattern, knowledge) has CRUD operations
    - Supports both console output and AI-context formatted output (`--context` flag)
 
-2. **Manager Interfaces (`src/index.ts`)**:
+2. **Manager Layer (`src/managers/`)**:
    - `PageManager`: Session history management in `.claude/pages/`
    - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
    - `KnowledgeManager`: Domain knowledge base in `.claude/knowledges/`
+   - Factory functions exported from `src/managers/index.ts`
 
 3. **Content Organization**:
    - All content uses numbered markdown files (001-title.md format)
@@ -72,11 +73,29 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 - **File-based Storage**: Markdown files with structured naming conventions
 - **Semantic Search**: Jaro-Winkler distance + keyword matching for content retrieval
 
-### Content Structure
+### Directory Structure
 
+#### Project Structure
+```
+cc-self-refer/
+├── src/
+│   ├── cli.ts              # Main CLI entry point
+│   ├── managers/           # Content manager implementations
+│   ├── commands/           # CLI command implementations
+│   ├── setup/              # Initialization and setup logic
+│   ├── types/              # TypeScript type definitions
+│   ├── utils/              # Utility functions
+│   └── formatters.ts       # Output formatting utilities
+├── templates/
+│   ├── commands/           # Claude Code command templates
+│   └── prompts/            # Prompt templates
+└── dist/                   # Built output (CommonJS + ESM)
+```
+
+#### Generated `.claude` Structure
 ```
 .claude/
-├── commands/           # Claude Code command definitions
+├── commands/           # Claude Code command definitions (from templates)
 ├── pages/             # Session history (auto-generated)
 ├── plans/             # Strategic planning documents
 ├── patterns/          # Reusable code templates
@@ -120,6 +139,16 @@ Key interdependencies to consider:
 2. Output format changes → Command template parsing logic
 3. New features → New command templates and documentation
 4. Error messages → Command template error handling
+
+#### Command Templates in `templates/commands/`:
+- `page.md` - Page management commands
+- `page-refer.md` - Page reference commands
+- `plan-create.md` - Plan creation
+- `plan-edit.md` - Plan editing
+- `plan-resolve.md` - Plan resolution
+- `pattern-create.md` - Pattern creation
+- `pattern-use.md` - Pattern usage
+- `knowledge-refer.md` - Knowledge reference
 
 Always verify that changes maintain compatibility across:
 - `src/cli.ts` (CLI implementation)
