@@ -40,54 +40,23 @@ Create or update `CLAUDE.md` file in the project root with the following content
 
 [Analyze and document the key directories and their purposes]
 
-## Domain Knowledge
-
-[If this is a domain-specific project, document relevant business logic or constraints]
-
-## Code Patterns & Conventions
-
-[Observe and document coding patterns, naming conventions, and architectural decisions used in this project]
-
 ## cc-self-refer System
 
-This project uses cc-self-refer for intelligent self-reference capabilities. Claude Code agents should use these CLI commands to access and manage project context automatically:
+This project uses cc-self-refer for intelligent self-reference capabilities.
+Claude Code agents should use these CLI commands to access and manage project context automatically:
 
 ```bash
 # IMPORTANT: Claude Code agents should use these commands proactively
 # Search and access existing content before starting tasks
-npx cc-self-refer plan search "keyword"       # Find relevant plans
 npx cc-self-refer knowledge search "topic"    # Find domain knowledge
 npx cc-self-refer pattern search "keyword"    # Find reusable patterns
-npx cc-self-refer page search "session"       # Find previous sessions
 
 # List and view specific content
-npx cc-self-refer plan list                   # List all plans
-npx cc-self-refer plan view <id>              # Load specific plan
 npx cc-self-refer knowledge list              # List all knowledge
 npx cc-self-refer knowledge view <id>         # Load specific knowledge
 npx cc-self-refer pattern list                # List all patterns
 npx cc-self-refer pattern view <id>           # Load specific pattern
-npx cc-self-refer page list                   # List all sessions
-npx cc-self-refer page view <id>              # Load session context
-
-# Create new content when discovering valuable information
-npx cc-self-refer plan create "title" "desc"      # Create strategic plans
-npx cc-self-refer knowledge create "title" "desc" # Document domain knowledge
-npx cc-self-refer pattern create "title" "desc"   # Save reusable patterns
-npx cc-self-refer page save "title" "desc"      # Save session context
 ```
-
-**Agent Guidelines:**
-
-- Search for relevant context before starting tasks
-- Use existing knowledge, patterns, and plans for implementation
-- Create entries when discovering valuable insights
-
-.claude/
-├── pages/ # Session History  
-├── plans/ # Strategic Plans
-├── patterns/ # Code Templates
-└── knowledges/ # Domain Knowledge
 
 ### Usage Workflow
 
