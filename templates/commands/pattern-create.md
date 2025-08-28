@@ -1,8 +1,8 @@
 # Code Pattern - Save Reusable Code Patterns
 
-Save code patterns and implementation examples to `.claude/code-patterns/` directory with automatic numbering.
+Save code patterns and implementation examples to `.claude/patterns/` directory with automatic numbering.
 
-**Usage**: `/code-pattern <code snippets or explanation>`
+**Usage**: `/pattern-create <code snippets or explanation>`
 
 ## Purpose
 
@@ -12,17 +12,17 @@ This command saves reusable code patterns, common implementations, and project-s
 
 ### 1. Pattern Number Detection
 
-- Check existing files in `.claude/code-patterns/` directory
+- Check existing files in `.claude/patterns/` directory
 - Find the highest numbered pattern file
 - Auto-increment to create next pattern number
 - If no patterns exist, start with pattern number 1
 
 ### 2. Pattern File Creation
 
-- Create file in format: `.claude/code-patterns/<number>-<sanitized-name>.md`
+- Create file in format: `.claude/patterns/<number>-<sanitized-name>.md`
 - Sanitize the pattern name for filename (lowercase, hyphens for spaces, remove special chars)
 - Auto-generate name from first few words if not explicitly provided
-- Example: `/code-pattern dark mode tailwind colors` → `.claude/code-patterns/3-dark-mode-tailwind-colors.md`
+- Example: `/pattern-create dark mode tailwind colors` → `.claude/patterns/3-dark-mode-tailwind-colors.md`
 
 ### 3. Pattern Content Structure
 
@@ -111,23 +111,23 @@ When saving patterns:
 
 ### Save UI Pattern
 ```bash
-/code-pattern dark mode button with tailwind
+/pattern-create dark mode button with tailwind
 ````
 
-Creates: `.claude/code-patterns/4-dark-mode-button-tailwind.md`
+Creates: `.claude/patterns/4-dark-mode-button-tailwind.md`
 
 ### Save API Pattern
 
 ```bash
-/code-pattern tanstack query with error handling
+/pattern-create tanstack query with error handling
 ```
 
-Creates: `.claude/code-patterns/5-tanstack-query-error-handling.md`
+Creates: `.claude/patterns/5-tanstack-query-error-handling.md`
 
 ### Save Code Snippet
 
 ```bash
-/code-pattern const handleSubmit = async (data) => {
+/pattern-create const handleSubmit = async (data) => {
   try {
     await mutate(data);
   } catch (error) {
@@ -136,11 +136,11 @@ Creates: `.claude/code-patterns/5-tanstack-query-error-handling.md`
 }
 ```
 
-Creates: `.claude/code-patterns/6-form-submit-pattern.md`
+Creates: `.claude/patterns/6-form-submit-pattern.md`
 
 ## Directory Management
 
-- Ensure `.claude/code-patterns/` directory exists (create if needed)
+- Ensure `.claude/patterns/` directory exists (create if needed)
 - Patterns are numbered sequentially for easy reference
 - Pattern files include:
   - Actual runnable code examples

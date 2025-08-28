@@ -63,10 +63,10 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 │ ├── plan-create.md # Create strategic plans (/plan-create)
 │ ├── plan-edit.md # Edit existing plans (/plan-edit)
 │ ├── plan-resolve.md # View and load plans (/plan-resolve)
-│ ├── refer-page.md # Load session context (/refer-page)
-│ ├── refer-knowledge.md # Access domain knowledge (/refer-knowledge)
-│ ├── use-code-pattern.md # Apply code patterns (/use-code-pattern)
-│ └── code-pattern.md # Save new patterns (/code-pattern)
+│ ├── page-refer.md # Load session context (/page-refer)
+│ ├── knowledge-refer.md # Access domain knowledge (/knowledge-refer)
+│ ├── pattern-use.md # Apply code patterns (/pattern-use)
+│ └── pattern-create.md # Save new patterns (/pattern-create)
 │
 ├── pages/ # 📄 Session History & Context
 │ └── [numbered session files like: 001-login-implementation.md]
@@ -74,7 +74,7 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 ├── plans/ # 📋 Strategic Plans & Architecture  
 │ └── [numbered plan files like: 001-user-authentication.md]
 │
-├── code-patterns/ # 🧩 Reusable Code Templates
+├── patterns/ # 🧩 Reusable Code Templates
 │ └── [numbered pattern files like: 001-react-hook-typescript.md]
 │
 └── knowledge/ # 🧠 Domain Knowledge Base
@@ -86,10 +86,10 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 - `/plan-create "Feature Name" "Description"` - Create strategic planning document
 - `/plan-edit "id|keyword" "modifications"` - Edit existing strategic plans
 - `/plan-resolve "id|keyword"` - View and load strategic plans
-- `/refer-page "keyword"` - Load previous session context
-- `/refer-knowledge "topic"` - Access domain knowledge
-- `/code-pattern` - Save reusable code patterns
-- `/use-code-pattern` - Apply existing patterns
+- `/page-refer "keyword"` - Load previous session context
+- `/knowledge-refer "topic"` - Access domain knowledge
+- `/pattern-create` - Save reusable code patterns
+- `/pattern-use` - Apply existing patterns
 
 ### How to Use Each Directory
 
@@ -107,19 +107,19 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 - **Content**: Implementation phases, success criteria, technical decisions, risks
 - **Command**: `/plan-create "Feature Name" "Description of what this feature does"`
 
-#### 🧩 `.claude/code-patterns/` - Reusable Templates
+#### 🧩 `.claude/patterns/` - Reusable Templates
 
 - **Purpose**: Project-specific code patterns and templates
 - **When to use**: After implementing reusable solutions
 - **Content**: Component templates, utility functions, configuration patterns
-- **Command**: `/code-pattern` to save patterns; `/use-code-pattern` to apply them
+- **Command**: `/pattern-create` to save patterns; `/pattern-use` to apply them
 
 #### 🧠 `.claude/knowledge/` - Domain Knowledge
 
 - **Purpose**: Business logic, domain rules, and architectural constraints
 - **When to use**: Document domain-specific information that affects code decisions
 - **Content**: Business rules, API limitations, performance requirements, compliance
-- **Command**: `/refer-knowledge` to access existing knowledge
+- **Command**: `/knowledge-refer` to access existing knowledge
 - **Format**: Numbered files (001-topic.md) with categories in content metadata
 
 ### Workflow Examples
@@ -128,19 +128,19 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 
 1. `/plan-create "User Profile Feature" "Allow users to manage their profile information"`
 2. Work on implementation with Claude
-3. `/code-pattern` to save any reusable patterns discovered
+3. `/pattern-create` to save any reusable patterns discovered
 4. `/page create "Profile Implementation Session" "Completed user profile CRUD with validation"`
 
 #### Continuing Previous Work
 
-1. `/refer-page "profile"` - Load previous session context
-2. `/refer-knowledge "user permissions"` - Check domain constraints
+1. `/page-refer "profile"` - Load previous session context
+2. `/knowledge-refer "user permissions"` - Check domain constraints
 3. Continue development with full context
 
 #### Building Team Knowledge
 
 1. Document domain knowledge: manually create files in `.claude/knowledge/`
-2. Save proven patterns: `/code-pattern` after successful implementations
+2. Save proven patterns: `/pattern-create` after successful implementations
 3. Plan major features: `/plan-create` before starting complex work
    ====================== END CLAUDE.md CONTENT ======================
 
@@ -150,7 +150,7 @@ Verify the following directories exist (create if missing):
 
 - `.claude/pages/` - For session history
 - `.claude/plans/` - For strategic planning documents
-- `.claude/code-patterns/` - For reusable code patterns
+- `.claude/patterns/` - For reusable code patterns
 - `.claude/knowledge/` - For domain knowledge base
 - `.claude/commands/` - For Claude Code commands
 
@@ -167,7 +167,7 @@ If the project has a `.gitignore` file, add only temporary/cache files to .gitig
 # DO NOT add these to .gitignore (keep for team sharing):
 # .claude/commands/     - Team needs shared commands
 # .claude/plans/        - Strategic plans should be versioned
-# .claude/code-patterns/ - Patterns are valuable team assets
+# .claude/patterns/ - Patterns are valuable team assets
 # .claude/knowledge/    - Domain knowledge must be shared
 # .claude/pages/        - Session history provides project context
 ```

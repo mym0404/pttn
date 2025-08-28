@@ -1,8 +1,8 @@
 # Use Code Pattern - Apply Saved Code Patterns
 
-Retrieve and apply code patterns from `.claude/code-patterns/` directory by number or keyword search.
+Retrieve and apply code patterns from `.claude/patterns/` directory by number or keyword search.
 
-**Usage**: `/use-code-pattern <number|keyword>`
+**Usage**: `/pattern-use <number|keyword>`
 
 ## Purpose
 
@@ -25,7 +25,7 @@ npx -y cc-self-refer pattern view <id_or_keyword> --context
 
 The CLI tool handles:
 
-- **Directory Management**: Automatically checks `.claude/code-patterns/` directory
+- **Directory Management**: Automatically checks `.claude/patterns/` directory
 - **Smart Matching**: Supports both exact number matches and keyword searches
 - **Language Filtering**: Filter patterns by programming language
 - **Content Analysis**: Searches in filenames and pattern content
@@ -38,7 +38,7 @@ The CLI tool handles:
 ````markdown
 # Code Pattern: [Pattern Name]
 
-## Pattern: `.claude/code-patterns/[filename]`
+## Pattern: `.claude/patterns/[filename]`
 
 [Display pattern description]
 
@@ -69,14 +69,14 @@ The CLI tool handles:
 
 ## Matching Patterns:
 
-### 1. **[Pattern 1]** (`.claude/code-patterns/2-pattern-name.md`)
+### 1. **[Pattern 1]** (`.claude/patterns/2-pattern-name.md`)
 ```[language]
 [Code snippet preview]
 ````
 
 _[Brief description]_
 
-### 2. **[Pattern 2]** (`.claude/code-patterns/4-another-pattern.md`)
+### 2. **[Pattern 2]** (`.claude/patterns/4-another-pattern.md`)
 
 ```[language]
 [Code snippet preview]
@@ -84,7 +84,7 @@ _[Brief description]_
 
 _[Brief description]_
 
-**Select Pattern**: `/use-code-pattern <number>` to load specific pattern
+**Select Pattern**: `/pattern-use <number>` to load specific pattern
 
 ````
 
@@ -99,8 +99,8 @@ No patterns found for "[search term]".
 2. **[Pattern 2]** - [Brief description]
 3. **[Pattern 3]** - [Brief description]
 
-**Usage**: `/use-code-pattern <number>` or try different keywords
-**Create New**: `/code-pattern <description>` to save new pattern
+**Usage**: `/pattern-use <number>` or try different keywords
+**Create New**: `/pattern-create <description>` to save new pattern
 ````
 
 ### 4. Enhanced Features
@@ -168,7 +168,7 @@ Finds TypeScript hooks patterns specifically
 ## Error Handling
 
 - **Directory Missing**: Suggest running `/init-claude` first
-- **No Patterns**: Guide user to create patterns with `/code-pattern` command
+- **No Patterns**: Guide user to create patterns with `/pattern-create` command
 - **File Access Issues**: Report permission problems clearly
 - **Invalid Pattern Files**: Handle corrupted markdown gracefully
 

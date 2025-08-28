@@ -2,7 +2,7 @@
 
 Retrieve and access domain knowledge from `.claude/knowledge/` directory by number or keyword search.
 
-**Usage**: `/refer-knowledge <number|keyword>`
+**Usage**: `/knowledge-refer <number|keyword>`
 
 ## Purpose
 
@@ -78,7 +78,7 @@ The CLI tool handles:
 ⚡ _[Brief summary of insights]_
 🎯 _Relevance: [Why it matched search]_
 
-**Access Specific**: `/refer-knowledge <number>` to view detailed knowledge
+**Access Specific**: `/knowledge-refer <number>` to view detailed knowledge
 ```
 
 **No Matches**:
@@ -94,7 +94,7 @@ No domain knowledge found for "[search term]".
 2. **[Topic 2]** - [Brief description]
 3. **[Topic 3]** - [Brief description]
 
-**Usage**: `/refer-knowledge <number>` or try different keywords
+**Usage**: `/knowledge-refer <number>` or try different keywords
 **Add Knowledge**: Document new insights as they arise during development
 ```
 

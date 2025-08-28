@@ -53,7 +53,8 @@
     "glob": "^11.0.0",
     "minimatch": "^10.0.1",
     "natural": "^6.10.0",
-    "picocolors": "^1.1.1"
+    "picocolors": "^1.1.1",
+    "workspace-tools": "^0.38.4"
   },
   "engines": {
     "node": ">=18.0.0"

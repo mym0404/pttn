@@ -66,10 +66,10 @@ your-project/
 │   │   ├── plan-edit.md   # Edit existing plans
 │   │   ├── plan-resolve.md# View and load plans
 │   │   ├── page.md        # Session management
-│   │   ├── refer-page.md  # Load session context
-│   │   ├── refer-knowledge.md # Access domain knowledge
-│   │   ├── use-code-pattern.md # Apply code patterns
-│   │   └── code-pattern.md     # Save new patterns
+│   │   ├── page-refer.md  # Load session context
+│   │   ├── knowledge-refer.md # Access domain knowledge
+│   │   ├── pattern-use.md # Apply code patterns
+│   │   └── pattern-create.md     # Save new patterns
 │   │
 │   ├── plans/             # 📋 Strategic Plans & Architecture
 │   │   └── [numbered plans like: 001-user-authentication.md]
@@ -77,7 +77,7 @@ your-project/
 │   ├── pages/             # 📄 Session History & Context
 │   │   └── [numbered sessions like: 001-login-implementation.md]
 │   │
-│   ├── code-patterns/     # 🧩 Reusable Code Templates
+│   ├── patterns/     # 🧩 Reusable Code Templates
 │   │   └── [numbered patterns like: 001-react-hook.md]
 │   │
 │   └── knowledge/         # 🧠 Domain Knowledge Base
@@ -100,21 +100,21 @@ your-project/
 ### 📄 `.claude/pages/` - Session Context
 
 - **Purpose**: Preserve development context between Claude sessions
-- **Usage**: Automatically captures session state; `/refer-page` to load previous context
+- **Usage**: Automatically captures session state; `/page-refer` to load previous context
 - **Content**: Code changes, decisions made, problems solved, next steps
 - **AI Benefit**: Eliminates need to re-explain project status each session
 
-### 🧩 `.claude/code-patterns/` - Reusable Templates
+### 🧩 `.claude/patterns/` - Reusable Templates
 
 - **Purpose**: Project-specific code patterns and templates
-- **Usage**: `/code-pattern` to save patterns; `/use-code-pattern` to apply them
+- **Usage**: `/pattern-create` to save patterns; `/pattern-use` to apply them
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
 ### 🧠 `.claude/knowledge/` - Domain Knowledge
 
 - **Purpose**: Business logic, domain rules, and architectural constraints
-- **Usage**: `/refer-knowledge` to access; manually curated domain information
+- **Usage**: `/knowledge-refer` to access; manually curated domain information
 - **Content**: Business rules, API limitations, performance requirements, compliance needs
 - **AI Benefit**: Claude makes technically sound decisions aligned with your domain
 

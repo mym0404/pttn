@@ -2,7 +2,7 @@
 
 Retrieve and load session history from `.claude/pages/` directory by timestamp, keyword, or partial name search.
 
-**Usage**: `/refer-page <timestamp|keyword>`
+**Usage**: `/page-refer <timestamp|keyword>`
 
 ## Purpose
 
@@ -80,7 +80,7 @@ The CLI tool handles:
 ✨ _[Brief summary of features added]_
 📁 Files: [key files modified]
 
-**Load Specific**: `/refer-page <timestamp>` to load specific session
+**Load Specific**: `/page-refer <timestamp>` to load specific session
 **Recent Work**: Most recent relevant session is #1
 ```
 
@@ -97,7 +97,7 @@ No sessions found for "[search term]".
 - **[Date]**: [Session name] - [brief description]
 - **[Date]**: [Session name] - [brief description]
 
-**Usage**: `/refer-page <timestamp|keyword>` or try different search terms
+**Usage**: `/page-refer <timestamp|keyword>` or try different search terms
 **Save Current**: Use `/page` to save current session
 ```
 

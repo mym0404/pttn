@@ -3,9 +3,9 @@
 import { intro, outro } from '@clack/prompts';
 import { Command } from 'commander';
 import { existsSync, readFileSync } from 'fs';
-import { homedir } from 'os';
 import { join, resolve } from 'path';
 import pc from 'picocolors';
+import {findPackageRoot} from "workspace-tools";
 
 import {
   createKnowledgeManager,
@@ -19,7 +19,7 @@ const program = new Command();
 
 // Get .claude directory path
 const getClaudeDir = (): string => {
-  return resolve(homedir(), '.claude');
+  return resolve(findPackageRoot(process.cwd()), '.claude');
 };
 
 program
@@ -363,7 +363,7 @@ planCmd
 // Code pattern management commands
 const patternCmd = program
   .command('pattern')
-  .description('Manage code patterns in .claude/code-patterns/');
+  .description('Manage code patterns in .claude/patterns/');
 
 patternCmd
   .command('list')
@@ -374,7 +374,7 @@ patternCmd
       const patterns = await manager.list();
 
       if (patterns.length === 0) {
-        console.log(pc.yellow('No patterns found in .claude/code-patterns/'));
+        console.log(pc.yellow('No patterns found in .claude/patterns/'));
         return;
       }
 

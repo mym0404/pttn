@@ -476,7 +476,7 @@ export interface PatternManager {
 }
 
 export const createPatternManager = (claudeDir: string): PatternManager => {
-  const patternsDir = resolve(claudeDir, 'code-patterns');
+  const patternsDir = resolve(claudeDir, 'patterns');
 
   return {
     async list(): Promise<PatternInfo[]> {
@@ -670,7 +670,7 @@ export const initClaudeProject = async (
   console.log('📁 Creating directory structure...');
   await ensureDir(resolve(claudeDir, 'pages'));
   await ensureDir(resolve(claudeDir, 'plans'));
-  await ensureDir(resolve(claudeDir, 'code-patterns'));
+  await ensureDir(resolve(claudeDir, 'patterns'));
   await ensureDir(resolve(claudeDir, 'knowledge'));
   await ensureDir(commandsDir);
 
@@ -680,10 +680,10 @@ export const initClaudeProject = async (
     'plan-create.md',
     'plan-edit.md',
     'plan-resolve.md',
-    'refer-page.md',
-    'refer-knowledge.md',
-    'use-code-pattern.md',
-    'code-pattern.md',
+    'page-refer.md',
+    'knowledge-refer.md',
+    'pattern-use.md',
+    'pattern-create.md',
   ];
 
   console.log('📡 Downloading command templates...');
@@ -731,7 +731,7 @@ export const initClaudeProject = async (
   console.log('  .claude/commands/     - Claude Code commands');
   console.log('  .claude/pages/        - Session history');
   console.log('  .claude/plans/        - Strategic plans');
-  console.log('  .claude/code-patterns/ - Reusable code patterns');
+  console.log('  .claude/patterns/ - Reusable code patterns');
   console.log('  .claude/knowledge/    - Domain knowledge base');
 
   console.log('\n🎯 Available commands:');
@@ -739,17 +739,17 @@ export const initClaudeProject = async (
   console.log('  /plan-create          - Create new strategic plans');
   console.log('  /plan-edit            - Edit existing strategic plans');
   console.log('  /plan-resolve         - View and load strategic plans');
-  console.log('  /refer-page           - Load session context');
-  console.log('  /refer-knowledge      - Access domain knowledge');
-  console.log('  /use-code-pattern     - Apply saved code patterns');
-  console.log('  /code-pattern         - Save new code patterns');
+  console.log('  /page-refer           - Load session context');
+  console.log('  /knowledge-refer      - Access domain knowledge');
+  console.log('  /pattern-use     - Apply saved code patterns');
+  console.log('  /pattern-create         - Save new code patterns');
 
   console.log('\n🚀 Next steps:');
   console.log(
     '  1. Start using commands: /plan-create "My Project" "Description"'
   );
   console.log(
-    '  2. Build your knowledge: /refer-knowledge and /use-code-pattern'
+    '  2. Build your knowledge: /knowledge-refer and /pattern-use'
   );
   console.log(
     "  3. All commands work with your project's local .claude directory"
