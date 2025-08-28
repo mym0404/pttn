@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo.svg" alt="cc-self-refer" width="400" />
+  <img src="assets/logo.svg" alt="cc-self-refer" width="100%" max-width="800px" />
 </div>
 
 # cc-self-refer
