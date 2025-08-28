@@ -20,6 +20,7 @@ export interface PatternManager {
   list(): Promise<PatternInfo[]>;
   search(keyword: string, language?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
+  create(name: string, content: string, language?: string): Promise<string>;
 }
 
 export interface KnowledgeManager {

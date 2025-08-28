@@ -106,3 +106,23 @@ This tool is designed to work with Claude Code's command system. The init proces
 3. Provides slash commands for content management
 
 The CLI supports both human-readable console output and AI-optimized context output for seamless integration with Claude Code workflows.
+
+### Important: CLI and Command Template Interdependencies
+
+**This project's CLI commands are designed to be invoked from Claude Code's command templates located in `templates/commands/`.** Due to this tight coupling:
+
+- **When CLI interfaces change, all corresponding command templates must be updated** to match the new usage patterns
+- **Documentation updates are required** across multiple locations (README.md, command templates, examples)
+- **High context sharing** means changes in one area often require updates in multiple other areas
+
+Key interdependencies to consider:
+1. CLI argument structure → Command template invocation syntax
+2. Output format changes → Command template parsing logic
+3. New features → New command templates and documentation
+4. Error messages → Command template error handling
+
+Always verify that changes maintain compatibility across:
+- `src/cli.ts` (CLI implementation)
+- `templates/commands/*.md` (Claude Code command definitions)
+- `README.md` (User documentation)
+- Example usage in documentation

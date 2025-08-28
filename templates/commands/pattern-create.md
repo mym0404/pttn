@@ -35,12 +35,6 @@ Generate pattern document with following structure:
 
 [Brief description of what this pattern solves or achieves]
 
-## When to Use
-
-- [Scenario 1 when this pattern is useful]
-- [Scenario 2 when this pattern applies]
-- [Context where this pattern should be preferred]
-
 ## Implementation
 
 ### Code Example
@@ -49,7 +43,6 @@ Generate pattern document with following structure:
 // Main implementation example
 [code snippet with comments]
 ```
-````
 
 ### Variations
 
@@ -63,30 +56,14 @@ Generate pattern document with following structure:
 [code snippet]
 ```
 
-## Usage Notes
-
-- ✅ **Do**: [Best practice 1]
-- ✅ **Do**: [Best practice 2]
-- ❌ **Don't**: [Anti-pattern to avoid]
-- ❌ **Don't**: [Common mistake]
-
-## Related Patterns
-
-- [Reference to other related patterns if any]
-- [Cross-references to knowledge base items if relevant]
-
 ## Examples in Project
 
 - [File reference where this pattern is used: file.js:45]
 - [Another usage example: component.tsx:122]
 
-## Dependencies
-
-- [Required libraries or frameworks]
-- [Configuration requirements]
-- [Environment setup needed]
-
 ````
+
+
 
 ### 4. Content Enhancement
 

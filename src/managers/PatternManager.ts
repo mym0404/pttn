@@ -1,4 +1,4 @@
-import { readFile, stat } from 'fs/promises';
+import { readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
@@ -89,6 +89,27 @@ export const createPatternManager = (claudeDir: string): PatternManager => {
       }
 
       throw new Error(`Pattern not found: ${idOrKeyword}`);
+    },
+
+    async create(name: string, content: string): Promise<string> {
+      await ensureDir(patternsDir);
+
+      const patterns = await this.list();
+      const nextId = patterns.length > 0
+        ? Math.max(...patterns.map((p: PatternInfo) => p.id)) + 1
+        : 1;
+
+      const paddedId = nextId.toString().padStart(3, '0');
+      const filename = `${paddedId}-${name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const filepath = join(patternsDir, filename);
+
+      const fullContent = content;
+
+      await writeFile(filepath, fullContent);
+      return filename;
     },
   };
 };

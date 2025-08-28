@@ -516,6 +516,23 @@ patternCmd
     }
   });
 
+patternCmd
+  .command('create')
+  .description('Create a new code pattern')
+  .argument('<name>', 'Pattern name')
+  .argument('<content>', 'Pattern description or content')
+  .action(async (name: string, content: string) => {
+    intro(pc.cyan('Creating Code Pattern'));
+
+    const manager = createPatternManager(getClaudeDir());
+    try {
+      const filename = await manager.create(name, content);
+      outro(pc.green(`✅ Pattern created successfully: ${filename}`));
+    } catch (error) {
+      outro(pc.red(`❌ Error creating pattern: ${error}`));
+    }
+  });
+
 // Knowledge management commands
 const knowledgeCmd = program
   .command('knowledge')
