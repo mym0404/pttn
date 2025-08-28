@@ -1,196 +1,74 @@
-# Init Claude - Initialize Claude Code Project with Self-Reference Commands
-
-Initialize a Claude Code project with cc-self-refer command integration.
+# Init Claude - Initialize Project with Self-Reference Commands
 
 **Usage**: `/init-claude`
 
-## Purpose
-
-This command sets up a new or existing project with Claude Code self-reference capabilities by:
-1. Creating the `.claude` directory structure
-2. Installing cc-self-refer command templates
-3. Setting up project-specific command integration
-
 ## Implementation
 
-Execute the following steps to initialize Claude Code with cc-self-refer integration:
+Initialize this project with cc-self-refer capabilities and create project-specific Claude Code configuration.
 
-### 1. Create Project Structure
-
-```bash
-mkdir -p .claude/commands
-mkdir -p .claude/pages
-mkdir -p .claude/plans  
-mkdir -p .claude/code-patterns
-mkdir -p .claude/knowledge
-```
-
-### 2. Download Command Templates
-
-Install cc-self-refer command templates from the official repository:
+### 1. Run cc-self-refer initialization
 
 ```bash
-# Base URL for cc-self-refer command templates
-BASE_URL="https://raw.githubusercontent.com/user/cc-self-refer/main/templates/commands"
-
-# Download core self-reference commands
-curl -s "$BASE_URL/page.md" > .claude/commands/page.md
-curl -s "$BASE_URL/plan.md" > .claude/commands/plan.md  
-curl -s "$BASE_URL/refer-page.md" > .claude/commands/refer-page.md
-curl -s "$BASE_URL/refer-knowledge.md" > .claude/commands/refer-knowledge.md
-curl -s "$BASE_URL/use-code-pattern.md" > .claude/commands/use-code-pattern.md
-curl -s "$BASE_URL/code-pattern.md" > .claude/commands/code-pattern.md
+npx -y cc-self-refer init
 ```
 
-### 3. Verify Installation
+This automatically creates the directory structure and downloads command templates.
+
+### 2. Create/Update project CLAUDE.md
+
+Create or update the project's `CLAUDE.md` file with project-specific instructions:
+
+```markdown
+# Project Context for Claude Code
+
+## Project Overview
+This is a [describe project type] that [main purpose and key features].
+
+## Architecture & Tech Stack
+- **Language**: [Primary language - e.g., TypeScript, Python]
+- **Framework**: [Main framework if applicable]
+- **Key Dependencies**: [Important libraries/tools used]
+- **Build System**: [Build tool - e.g., Vite, pnpm, etc.]
+
+## Development Guidelines
+- **Code Style**: [Coding standards and formatting preferences]
+- **Testing Strategy**: [Testing approach and tools]
+- **Documentation**: [Documentation standards and practices]
+
+## Project Structure
+- `src/` - [Describe source code organization]
+- `[key-directory]/` - [Purpose of important directories]
+
+## Important Commands
+- **Dev**: `[development command]`
+- **Build**: `[build command]` 
+- **Test**: `[test command]`
+- **Lint**: `[linting command]`
+
+## Domain Knowledge
+[Any business logic, constraints, or domain-specific information that Claude should understand about this project]
+
+## Code Patterns & Conventions
+[Document frequently used patterns, architectural decisions, and coding conventions specific to this project]
+
+## Dependencies & Tools
+[List and explain key dependencies, their purposes, and any important configuration details]
+```
+
+### 3. Verify setup
+
+Check that all components are properly installed:
 
 ```bash
-echo "✅ Claude Code project initialized with cc-self-refer integration"
-echo ""
-echo "📁 Created directories:"
-echo "  .claude/commands/     - Claude Code commands"
-echo "  .claude/pages/        - Session history"  
-echo "  .claude/plans/        - Strategic plans"
-echo "  .claude/code-patterns/ - Reusable code patterns"
-echo "  .claude/knowledge/    - Domain knowledge base"
-echo ""
-echo "🎯 Available commands:"
-echo "  /page                 - Manage session pages"
-echo "  /plan                 - Create and manage strategic plans"
-echo "  /refer-page           - Load session context"
-echo "  /refer-knowledge      - Access domain knowledge" 
-echo "  /use-code-pattern     - Apply saved code patterns"
-echo "  /code-pattern         - Save new code patterns"
-echo ""
-echo "🚀 Next steps:"
-echo "  1. Install cc-self-refer: npm install -g cc-self-refer"
-echo "  2. Start using commands: /plan create 'My Project' 'Description'"
-echo "  3. Build your knowledge: /refer-knowledge and /use-code-pattern"
+ls -la .claude/
+echo "✅ Project initialized with cc-self-refer capabilities"
+echo "📋 Available commands: /page, /plan, /refer-page, /refer-knowledge, /use-code-pattern, /code-pattern"
 ```
 
-## Advanced Setup
+## Result
 
-### Custom Repository
-
-To use a custom cc-self-refer repository:
-
-```bash
-# Set custom base URL
-CUSTOM_BASE_URL="https://raw.githubusercontent.com/yourorg/your-cc-self-refer/main/templates/commands"
-
-# Download with custom URL
-curl -s "$CUSTOM_BASE_URL/page.md" > .claude/commands/page.md
-# ... repeat for other commands
-```
-
-### Selective Installation
-
-Install only specific commands:
-
-```bash
-BASE_URL="https://raw.githubusercontent.com/user/cc-self-refer/main/templates/commands"
-
-# Install only planning commands
-curl -s "$BASE_URL/plan.md" > .claude/commands/plan.md
-
-# Install only pattern commands  
-curl -s "$BASE_URL/use-code-pattern.md" > .claude/commands/use-code-pattern.md
-curl -s "$BASE_URL/code-pattern.md" > .claude/commands/code-pattern.md
-```
-
-## Integration Features
-
-### Project-Local Commands
-
-All installed commands work with the local `.claude` directory:
-- Commands automatically use project-specific content
-- No global command pollution
-- Each project maintains its own context
-
-### cc-self-refer Integration  
-
-Commands use `npx -y cc-self-refer` for optimal performance:
-- Fast Node.js-based operations
-- Intelligent semantic search
-- AI-optimized context formatting
-- Cross-platform compatibility
-
-### Command Syncing
-
-Keep commands updated:
-
-```bash
-# Re-run installation to update commands
-BASE_URL="https://raw.githubusercontent.com/user/cc-self-refer/main/templates/commands"
-curl -s "$BASE_URL/page.md" > .claude/commands/page.md
-# ... repeat for other commands
-
-echo "🔄 Commands updated to latest version"
-```
-
-## Directory Structure
-
-After initialization, your project will have:
-
-```
-project/
-├── .claude/
-│   ├── commands/           # Claude Code commands  
-│   │   ├── page.md
-│   │   ├── plan.md
-│   │   ├── refer-page.md
-│   │   ├── refer-knowledge.md
-│   │   ├── use-code-pattern.md
-│   │   └── code-pattern.md
-│   ├── pages/             # Session history files
-│   ├── plans/             # Strategic plan documents
-│   ├── code-patterns/     # Reusable code patterns
-│   └── knowledge/         # Domain knowledge base
-└── [your project files]
-```
-
-## Usage Examples
-
-### Initialize New Project
-
-```bash
-cd my-new-project
-# Run /init-claude command
-# Commands are now available in this project
-```
-
-### Add to Existing Project
-
-```bash  
-cd existing-project
-# Run /init-claude command  
-# Adds Claude Code capabilities without disrupting existing structure
-```
-
-### Team Collaboration
-
-```bash
-# Team member clones project
-git clone project-repo
-cd project-repo
-
-# Initialize Claude Code (commands already in repo)
-# Ready to use project-specific Claude context
-```
-
-## Error Handling
-
-### Network Issues
-- **Connection Failed**: Check internet connection and try again
-- **404 Errors**: Verify repository URL and branch name
-- **Timeout**: Retry command or check repository availability
-
-### Permission Issues  
-- **Write Failed**: Ensure write permissions in project directory
-- **Directory Creation**: Check if `.claude` can be created in current directory
-
-### Command Conflicts
-- **Existing Commands**: Backup existing `.claude/commands/` before reinstalling
-- **Custom Commands**: Avoid overwriting custom command modifications
-
-This command provides seamless Claude Code project initialization with integrated cc-self-refer capabilities, enabling powerful self-referential development workflows.
+After completion:
+- Project has complete `.claude/` directory structure
+- All cc-self-refer commands are available
+- `CLAUDE.md` provides project-specific context
+- Ready for intelligent, context-aware development sessions
