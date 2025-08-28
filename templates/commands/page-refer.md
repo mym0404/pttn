@@ -98,7 +98,7 @@ No sessions found for "[search term]".
 - **[Date]**: [Session name] - [brief description]
 
 **Usage**: `/page-refer <timestamp|keyword>` or try different search terms
-**Save Current**: Use `/page` to save current session
+**Save Current**: Use `/page-save` to save current session
 ```
 
 ### 4. Context Integration Features
@@ -186,7 +186,7 @@ Loads page #1 directly by ID number
 ## Error Handling
 
 - **Directory Missing**: Suggest running `/init-claude` first
-- **No Pages**: Guide user to use `/page` command to save sessions
+- **No Pages**: Guide user to use `/page-save` command to save sessions
 - **Corrupted Files**: Handle malformed markdown gracefully
 - **Large Sessions**: Efficiently handle very long session files
 
