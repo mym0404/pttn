@@ -11,7 +11,8 @@
       "Bash(npx tsc:*)",
       "mcp__github__create_repository",
       "Bash(git remote add:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
