@@ -2,7 +2,7 @@
 
 import { intro, outro } from '@clack/prompts';
 import { Command } from 'commander';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
 import { resolve } from 'path';
 import pc from 'picocolors';
@@ -682,15 +682,20 @@ knowledgeCmd
 program
   .command('init')
   .description('Initialize Claude Code project with cc-self-refer commands')
-  .option('--repo <url>', 'Custom repository URL', 'https://raw.githubusercontent.com/user/cc-self-refer/main')
+  .option('--repo <url>', 'Custom repository URL', 'https://raw.githubusercontent.com/mym0404/cc-self-refer/main')
   .action(async (options: { repo?: string }) => {
-    intro(pc.cyan('🚀 Initializing Claude Code Project'));
-    
     try {
+      // First, output the prompt for Claude Code to execute
+      const promptPath = resolve(__dirname, '..', 'templates', 'prompts', 'init.md');
+      if (existsSync(promptPath)) {
+        const promptContent = readFileSync(promptPath, 'utf-8');
+        console.log(promptContent);
+      }
+      
+      // Then run the actual initialization
       await initClaudeProject(process.cwd(), options.repo);
-      outro(pc.green('✅ Claude Code project initialized successfully!'));
     } catch (error) {
-      outro(pc.red(`❌ Initialization failed: ${error}`));
+      console.error(`❌ Initialization failed: ${error}`);
       process.exit(1);
     }
   });
