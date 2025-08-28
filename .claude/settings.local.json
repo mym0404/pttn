@@ -14,7 +14,9 @@
       "Bash(git log:*)",
       "Bash(mkdir:*)",
       "Bash(pnpm t:*)",
-      "Bash(pnpm lint:*)"
+      "Bash(pnpm lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
