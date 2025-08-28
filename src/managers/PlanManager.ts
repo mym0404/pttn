@@ -104,64 +104,64 @@ export const createPlanManager = (contentDir: string): PlanManager => {
 
       const template = `# ${nextId}. ${name}
 
-## 개요 (Overview)
+## Overview
 ${description}
 
-## 목표 및 성공 기준 (Goals & Success Criteria)
-### 주요 목표
+## Goals & Success Criteria
+### Main Goals
 - [ ] Primary objective to be defined
 
-### 성공 기준
+### Success Criteria
 - ✅ Success metric 1
 - ✅ Success metric 2
 - ✅ Success metric 3
 
-## 전체적인 구현 방식 (Implementation Approach)
-### 아키텍처 접근법
+## Implementation Approach
+### Architecture Approach
 To be defined based on requirements
 
-### 기술 스택 및 도구
+### Tech Stack & Tools
 - **Frontend**: TBD
 - **Backend**: TBD
 - **Tools**: TBD
 
-### 핵심 설계 결정사항
+### Key Design Decisions
 1. Key design decision and rationale
 2. Technical approach justification
 
-## 세부 구현 항목 및 체크리스트 (Implementation Checklist)
-### Phase 1: 기초 설정 및 준비
-- [ ] 환경 설정 및 의존성 확인
-- [ ] 기본 구조 설계 검토
-- [ ] 필요한 패키지/라이브러리 조사
+## Implementation Checklist
+### Phase 1: Initial Setup & Preparation
+- [ ] Environment setup and dependency verification
+- [ ] Basic structure design review
+- [ ] Required packages/libraries research
 
-### Phase 2: 핵심 기능 구현
+### Phase 2: Core Feature Implementation
 - [ ] Core feature implementation
 - [ ] Integration points
 - [ ] Data flow implementation
 
-### Phase 3: 통합 및 최적화
-- [ ] 컴포넌트 통합 테스트
-- [ ] 성능 최적화
-- [ ] 에러 핸들링 강화
+### Phase 3: Integration & Optimization
+- [ ] Component integration testing
+- [ ] Performance optimization
+- [ ] Enhanced error handling
 
-### Phase 4: 검증 및 마무리
-- [ ] 전체 기능 테스트
-- [ ] 문서화 업데이트
-- [ ] 배포 준비
+### Phase 4: Validation & Finalization
+- [ ] End-to-end testing
+- [ ] Documentation updates
+- [ ] Deployment preparation
 
-## 주요 고려사항 (Key Considerations)
-### 기술적 고려사항
-- **성능**: Performance requirements
-- **확장성**: Scalability considerations
-- **보안**: Security requirements
+## Key Considerations
+### Technical Considerations
+- **Performance**: Performance requirements
+- **Scalability**: Scalability considerations
+- **Security**: Security requirements
 
-### 리스크 및 완화 방안
-| 리스크 | 영향도 | 확률 | 완화 방안 |
+### Risks & Mitigation
+| Risk | Impact | Probability | Mitigation |
 |--------|--------|------|-----------|
 | Risk 1 | Medium | Low | Mitigation strategy |
 
-## 예상 일정 (Timeline Estimation)
+## Timeline Estimation
 - **Phase 1**: TBD
 - **Phase 2**: TBD
 - **Phase 3**: TBD

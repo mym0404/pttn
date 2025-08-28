@@ -92,9 +92,9 @@ No plans matching "[search term]".
 
 ## Available Plans:
 
-1. **다크모드 구현** - UI theme switching
-2. **API 최적화** - Performance improvements
-3. **인증 시스템** - User authentication
+1. **Dark Mode Implementation** - UI theme switching
+2. **API Optimization** - Performance improvements
+3. **Authentication System** - User authentication
 
 **Usage**: `/plan-resolve <number|keyword>`
 ```

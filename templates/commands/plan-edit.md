@@ -2,7 +2,7 @@
 
 Edit and update existing strategic planning documents with targeted modifications.
 
-**Usage**: `/plan-edit <id|keyword> <수정 가이드>`
+**Usage**: `/plan-edit <id|keyword> <modification-guide>`
 
 ## Purpose
 
@@ -35,19 +35,19 @@ This will:
 ### Edit by Plan Number
 
 ```bash
-/plan-edit 3 "Phase 2에 인증 통합 작업 추가해줘"
+/plan-edit 3 "Add authentication integration task to Phase 2"
 ```
 
 ### Edit by Keyword Search
 
 ```bash
-/plan-edit darkmode "성능 고려사항에 CSS 변수 최적화 추가"
+/plan-edit darkmode "Add CSS variable optimization to performance considerations"
 ```
 
 ### Major Revision
 
 ```bash
-/plan-edit authentication "전체 아키텍처를 JWT에서 OAuth2로 변경"
+/plan-edit authentication "Change entire architecture from JWT to OAuth2"
 ```
 
 ## Modification Types
@@ -83,9 +83,9 @@ Claude will ask minimal questions focused on:
 
 ### Example Questions
 
-- "Phase 2의 어느 부분에 인증 로직을 추가할까요?"
-- "성능 최적화는 어떤 측면에서 진행할까요?"
-- "기존 아키텍처와 충돌하는 부분이 있는지 확인해드릴까요?"
+- "Which part of Phase 2 should we add authentication logic?"
+- "Which aspects should performance optimization focus on?"
+- "Should I check for any conflicts with existing architecture?"
 
 ## Edit Scope Guidelines
 
@@ -122,25 +122,25 @@ Claude will ask minimal questions focused on:
 ### Adding Authentication
 
 ```bash
-/plan-edit myproject "Phase 2에 JWT 토큰 기반 인증 시스템 추가: 로그인/로그아웃 API, 토큰 검증 미들웨어, 사용자 세션 관리"
+/plan-edit myproject "Add JWT token-based authentication system to Phase 2: login/logout API, token validation middleware, user session management"
 ```
 
 ### Performance Optimization
 
 ```bash
-/plan-edit performance "성능 고려사항에 다음 추가: 메모이제이션 전략, 지연 로딩 구현, 번들 크기 최적화"
+/plan-edit performance "Add to performance considerations: memoization strategy, lazy loading implementation, bundle size optimization"
 ```
 
 ### Timeline Adjustment
 
 ```bash
-/plan-edit timeline "Phase 3 일정을 2주에서 3주로 조정, 통합 테스트 기간 확장"
+/plan-edit timeline "Adjust Phase 3 schedule from 2 weeks to 3 weeks, extend integration testing period"
 ```
 
 ### Risk Update
 
 ```bash
-/plan-edit risks "새로운 리스크 추가: 서드파티 API 의존성 - 영향도 High, 확률 Medium, 완화방안: 대체 API 준비"
+/plan-edit risks "Add new risk: third-party API dependency - Impact High, Probability Medium, Mitigation: prepare alternative API"
 ```
 
 ## File Management

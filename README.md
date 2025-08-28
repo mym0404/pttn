@@ -146,17 +146,6 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ---
 
-## CLI Options
-
-### Directory Configuration
-
-The `--dir` option allows you to specify a custom directory for content storage (default: `.claude`):
-
-```bash
-# Use custom directory (e.g., self-refer)
-npx cc-self-refer --dir self-refer page list
-```
-
 ## Todo
 
 - Spec Feature
