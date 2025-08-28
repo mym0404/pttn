@@ -4,8 +4,8 @@ import { join, resolve } from 'path';
 
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
-import { calculateSimilarity } from '../utils/similarity.js';
 import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
@@ -41,27 +41,49 @@ export const createPatternManager = (contentDir: string): PatternManager => {
 
     async search(keyword: string, language?: string): Promise<SearchResult[]> {
       const patterns = await this.list();
-      const results: SearchResult[] = [];
+      
+      // Filter by language first if specified
+      const filteredPatterns = language 
+        ? patterns.filter(pattern => pattern.language === language.toLowerCase())
+        : patterns;
+      
+      // Convert PatternInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = filteredPatterns
+        .filter(pattern => pattern.content)
+        .map(pattern => ({
+          id: pattern.id,
+          title: pattern.title,
+          content: pattern.content!,
+          category: pattern.language, // Use language as category for patterns
+          lastUpdated: pattern.lastUpdated,
+          file: pattern.file,
+        }));
 
-      for (const pattern of patterns) {
-        if (!pattern.content) continue;
-        if (language && pattern.language !== language.toLowerCase()) continue;
+      // Initialize advanced search engine
+      const searchEngine = new AdvancedSearchEngine({
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        const titleScore = calculateSimilarity(keyword, pattern.title);
-        const contentScore =
-          calculateSimilarity(keyword, pattern.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-        if (score > 0.3) {
-          results.push({
-            title: `${pattern.title} (${pattern.language})`,
-            file: pattern.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
-
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map(result => ({
+        title: `${result.item.title} (${result.item.category})`,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        language: result.item.category, // This will be the pattern language
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
@@ -91,7 +113,11 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
 
-    async create(name: string, content: string): Promise<string> {
+    async create(
+      name: string,
+      content: string,
+      language: string = 'text'
+    ): Promise<string> {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
@@ -107,10 +133,49 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         .replace(/[^a-z0-9-]/g, '')}.md`;
       const filepath = join(patternsDir, filename);
 
-      const fullContent = content;
+      // Add language metadata if not already present
+      let fullContent = content;
+      if (!content.includes('**Language**:')) {
+        fullContent = `# ${name}
+
+**Language**: ${language}
+
+${content}
+
+---
+**Created**: ${new Date().toISOString()}
+`;
+      }
 
       await writeFile(filepath, fullContent);
       return filename;
+    },
+
+    async use(idOrKeyword: string): Promise<string> {
+      const patterns = await this.list();
+
+      // Try to find by ID first
+      const idNum = parseInt(idOrKeyword);
+      if (!isNaN(idNum)) {
+        const pattern = patterns.find((p: PatternInfo) => p.id === idNum);
+        if (pattern?.content) {
+          return pattern.content;
+        }
+      }
+
+      // Search by keyword
+      const results = await this.search(idOrKeyword);
+      if (results.length > 0) {
+        const bestMatch = results[0];
+        const pattern = patterns.find(
+          (p: PatternInfo) => p.file === bestMatch.file
+        );
+        if (pattern?.content) {
+          return pattern.content;
+        }
+      }
+
+      throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
   };
 };

@@ -193,4 +193,21 @@ export const registerPlanCommands = (
         outro(pc.red(`❌ Error editing plan: ${error}`));
       }
     });
+
+  planCmd
+    .command('resolve')
+    .description('Mark a plan as completed')
+    .argument('<idOrKeyword>', 'Plan ID or search keyword')
+    .action(async (idOrKeyword: string) => {
+      intro(pc.cyan('Resolving Strategic Plan'));
+
+      const globalOptions = program.opts();
+      const manager = createPlanManager(getContentDir(globalOptions));
+      try {
+        await manager.resolve(idOrKeyword);
+        outro(pc.green('✅ Plan marked as completed'));
+      } catch (error) {
+        outro(pc.red(`❌ Error resolving plan: ${error}`));
+      }
+    });
 };

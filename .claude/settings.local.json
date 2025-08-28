@@ -17,7 +17,9 @@
       "Bash(pnpm lint:*)",
       "Bash(npm run:*)",
       "Bash(npx pnpm run:*)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

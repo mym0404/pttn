@@ -1,10 +1,12 @@
-import { readFile, stat } from 'fs/promises';
+import { existsSync } from 'fs';
+import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { SpecInfo, SpecManager, SearchResult } from '../types';
-import { calculateSimilarity, ensureDir } from '../utils';
+import { ensureDir } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
 export const createSpecManager = (
   contentDir: string
@@ -46,25 +48,45 @@ export const createSpecManager = (
 
     async search(keyword: string, category?: string): Promise<SearchResult[]> {
       const entries = await this.list(category);
-      const results: SearchResult[] = [];
+      
+      // Convert SpecInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = entries
+        .filter(entry => entry.content)
+        .map(entry => ({
+          id: entry.id,
+          title: entry.title,
+          content: entry.content!,
+          category: entry.category,
+          lastUpdated: entry.lastUpdated,
+          file: entry.file,
+        }));
 
-      for (const entry of entries) {
-        if (!entry.content) continue;
+      // Initialize advanced search engine with category filter
+      const searchEngine = new AdvancedSearchEngine({
+        categoryFilter: category,
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        const titleScore = calculateSimilarity(keyword, entry.title);
-        const contentScore = calculateSimilarity(keyword, entry.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-        if (score > 0.3) {
-          results.push({
-            title: `${entry.title} (${entry.category})`,
-            file: entry.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
-
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map(result => ({
+        title: `${result.item.title} (${result.item.category})`,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        category: result.item.category,
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
@@ -92,6 +114,45 @@ export const createSpecManager = (
       }
 
       throw new Error(`Spec entry not found: ${idOrKeyword}`);
+    },
+
+    async create(
+      title: string,
+      content: string,
+      category: string = 'general'
+    ): Promise<{ id: number; filename: string }> {
+      // Ensure directory exists
+      if (!existsSync(specDir)) {
+        await mkdir(specDir, { recursive: true });
+      }
+
+      // Get existing spec entries to determine next ID
+      const entries = await this.list();
+      const nextId =
+        entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
+
+      // Create filename with zero-padded ID
+      const paddedId = nextId.toString().padStart(3, '0');
+      const filename = `${paddedId}-${title
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const filepath = join(specDir, filename);
+
+      // Create full content with metadata
+      const fullContent = `# ${title}
+
+**Category**: ${category}
+
+${content}
+
+---
+**Created**: ${new Date().toISOString()}
+`;
+
+      await writeFile(filepath, fullContent);
+
+      return { id: nextId, filename };
     },
   };
 };

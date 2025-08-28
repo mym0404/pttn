@@ -31,40 +31,20 @@
 
 ## Quick Setup
 
-### 1. Add the Global Command
+### 1. Run Initialization Commands
 
-Create `~/.claude/commands/init-claude.md`:
-
-```markdown
-# Init Claude - Initialize Project with Self-Reference Commands
-
-**Usage**: `/init-claude`
-
-## Implementation
-
-First, setup the project structure:
-
-`npx -y cc-self-refer init-setup-project`
-
-Then get the initialization prompt:
-
-`npx -y cc-self-refer init-get-prompt`
-
-Follow the instructions from the prompt output to complete the setup.
+```shell
+# Download commands & other stuffs for self refer structure
+npx -y cc-self-refer init-setup-project
 ```
 
-### 2. Initialize Any Project
+### 2. Run your **claude-code** in your project root and pass this prompt.
 
-```bash
-cd your-project
-/init-claude  # Run in Claude Code
+```shell
+The following commands will print the prompt out for setting up claude code self referring context management system.
+
+Run `npx -y cc-self-refer init-get-prompt` and follow instructions step by step.
 ```
-
-The command will:
-
-1. First run `init-setup-project` to create the directory structure and download command templates
-2. Then run `init-get-prompt` to get Claude Code-specific instructions
-3. Follow the prompt instructions to complete the intelligent self-reference setup
 
 That's it! Your project now has intelligent self-reference capabilities.
 
@@ -83,6 +63,7 @@ your-project/
 │   │   ├── page-save.md   # Session management
 │   │   ├── page-refer.md  # Load session context
 │   │   ├── spec-refer.md # Access technical specifications
+│   │   ├── spec-create.md # Create technical specifications
 │   │   ├── pattern-use.md # Apply code patterns
 │   │   └── pattern-create.md     # Save new patterns
 │   │
@@ -148,7 +129,10 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- Spec Feature
+- Enhance search algorithm
+- Spec Feature (drop knowledge)
+- Each component can refer others
+- Test
 - Docs
 - Guide files on init
 
