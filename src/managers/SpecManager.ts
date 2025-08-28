@@ -3,14 +3,12 @@ import { mkdir, readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { SpecInfo, SpecManager, SearchResult } from '../types';
+import { SearchResult, SpecInfo, SpecManager } from '../types';
 import { ensureDir } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
 import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
-export const createSpecManager = (
-  contentDir: string
-): SpecManager => {
+export const createSpecManager = (contentDir: string): SpecManager => {
   const specDir = resolve(contentDir, 'specs');
 
   return {
@@ -48,11 +46,11 @@ export const createSpecManager = (
 
     async search(keyword: string, category?: string): Promise<SearchResult[]> {
       const entries = await this.list(category);
-      
+
       // Convert SpecInfo to SearchableItem format
       const searchableItems: SearchableItem[] = entries
-        .filter(entry => entry.content)
-        .map(entry => ({
+        .filter((entry) => entry.content)
+        .map((entry) => ({
           id: entry.id,
           title: entry.title,
           content: entry.content!,
@@ -71,7 +69,7 @@ export const createSpecManager = (
       const enhancedResults = searchEngine.search(keyword, searchableItems);
 
       // Convert enhanced results back to SearchResult format
-      return enhancedResults.map(result => ({
+      return enhancedResults.map((result) => ({
         title: `${result.item.title} (${result.item.category})`,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,
@@ -105,9 +103,7 @@ export const createSpecManager = (
       const results = await this.search(idOrKeyword);
       if (results.length > 0) {
         const bestMatch = results[0];
-        const entry = entries.find(
-          (e: SpecInfo) => e.file === bestMatch.file
-        );
+        const entry = entries.find((e: SpecInfo) => e.file === bestMatch.file);
         if (entry?.content) {
           return entry.content;
         }

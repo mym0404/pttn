@@ -1,4 +1,4 @@
-import { SpecInfo, PageInfo, PatternInfo, PlanInfo } from './content.js';
+import { PageInfo, PatternInfo, PlanInfo, SpecInfo } from './content.js';
 import { SearchResult } from './search.js';
 
 export interface PageManager {

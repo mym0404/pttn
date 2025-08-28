@@ -7,10 +7,10 @@ import { fileURLToPath } from 'url';
 import { findPackageRoot } from 'workspace-tools';
 
 import { registerInitCommands } from './commands/initCommands.js';
-import { registerSpecCommands } from './commands/specCommands.js';
 import { registerPageCommands } from './commands/pageCommands.js';
 import { registerPatternCommands } from './commands/patternCommands.js';
 import { registerPlanCommands } from './commands/planCommands.js';
+import { registerSpecCommands } from './commands/specCommands.js';
 
 const program = new Command();
 

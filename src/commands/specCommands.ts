@@ -113,9 +113,7 @@ export const registerSpecCommands = (
             pc.cyan(`\n🔍 Specification search results for "${keyword}":`)
           );
           results.forEach((result, index) => {
-            console.log(
-              `  ${index + 1}. ${pc.bold(result.title)}`
-            );
+            console.log(`  ${index + 1}. ${pc.bold(result.title)}`);
             console.log(
               `     ${pc.dim(`Score: ${result.score} | ${result.file}`)}`
             );
@@ -153,7 +151,9 @@ export const registerSpecCommands = (
             cmdOptions.category || 'general'
           );
 
-          console.log(pc.green(`✅ Created specification entry #${id}: ${title}`));
+          console.log(
+            pc.green(`✅ Created specification entry #${id}: ${title}`)
+          );
           console.log(pc.dim(`   File: .claude/specs/${filename}`));
           console.log(
             pc.dim(`   Category: ${cmdOptions.category || 'general'}`)

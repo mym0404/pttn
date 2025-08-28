@@ -3,9 +3,12 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PageInfo, PageManager, SearchResult } from '../types/index.js';
+import {
+  AdvancedSearchEngine,
+  SearchableItem,
+} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
 import { extractTitle } from '../utils/textExtraction.js';
-import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPageManager = (contentDir: string): PageManager => {
   const pagesDir = resolve(contentDir, 'pages');
@@ -39,11 +42,11 @@ export const createPageManager = (contentDir: string): PageManager => {
 
     async search(keyword: string): Promise<SearchResult[]> {
       const pages = await this.list();
-      
+
       // Convert PageInfo to SearchableItem format
       const searchableItems: SearchableItem[] = pages
-        .filter(page => page.content)
-        .map(page => ({
+        .filter((page) => page.content)
+        .map((page) => ({
           id: page.id,
           title: page.title,
           content: page.content!,
@@ -60,7 +63,7 @@ export const createPageManager = (contentDir: string): PageManager => {
       const enhancedResults = searchEngine.search(keyword, searchableItems);
 
       // Convert enhanced results back to SearchResult format
-      return enhancedResults.map(result => ({
+      return enhancedResults.map((result) => ({
         title: result.item.title,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,

@@ -3,9 +3,12 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PlanInfo, PlanManager, SearchResult } from '../types/index.js';
+import {
+  AdvancedSearchEngine,
+  SearchableItem,
+} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
 import { extractStatus, extractTitle } from '../utils/textExtraction.js';
-import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPlanManager = (contentDir: string): PlanManager => {
   const plansDir = resolve(contentDir, 'plans');
@@ -41,11 +44,11 @@ export const createPlanManager = (contentDir: string): PlanManager => {
 
     async search(keyword: string): Promise<SearchResult[]> {
       const plans = await this.list();
-      
+
       // Convert PlanInfo to SearchableItem format
       const searchableItems: SearchableItem[] = plans
-        .filter(plan => plan.content)
-        .map(plan => ({
+        .filter((plan) => plan.content)
+        .map((plan) => ({
           id: plan.id,
           title: plan.title,
           content: plan.content!,
@@ -63,7 +66,7 @@ export const createPlanManager = (contentDir: string): PlanManager => {
       const enhancedResults = searchEngine.search(keyword, searchableItems);
 
       // Convert enhanced results back to SearchResult format
-      return enhancedResults.map(result => ({
+      return enhancedResults.map((result) => ({
         title: result.item.title,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,
