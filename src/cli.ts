@@ -519,7 +519,7 @@ patternCmd
 // Knowledge management commands
 const knowledgeCmd = program
   .command('knowledge')
-  .description('Manage knowledge base in .claude/knowledge/');
+  .description('Manage knowledge base in .claude/knowledges/');
 
 knowledgeCmd
   .command('list')
@@ -533,7 +533,7 @@ knowledgeCmd
       if (entries.length === 0) {
         const msg = options.category
           ? `No knowledge entries found in category "${options.category}"`
-          : 'No knowledge entries found in .claude/knowledge/';
+          : 'No knowledge entries found in .claude/knowledges/';
         console.log(pc.yellow(msg));
         return;
       }
@@ -643,7 +643,7 @@ knowledgeCmd
   .action(
     async (title: string, content: string, options: { category?: string }) => {
       const claudeDir = getClaudeDir();
-      const knowledgeDir = resolve(claudeDir, 'knowledge');
+      const knowledgeDir = resolve(claudeDir, 'knowledges');
 
       try {
         // Ensure directory exists

@@ -569,7 +569,7 @@ export interface KnowledgeManager {
 }
 
 export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
-  const knowledgeDir = resolve(claudeDir, 'knowledge');
+  const knowledgeDir = resolve(claudeDir, 'knowledges');
 
   return {
     async list(category?: string): Promise<KnowledgeInfo[]> {
@@ -671,7 +671,7 @@ export const initClaudeProject = async (
   await ensureDir(resolve(claudeDir, 'pages'));
   await ensureDir(resolve(claudeDir, 'plans'));
   await ensureDir(resolve(claudeDir, 'patterns'));
-  await ensureDir(resolve(claudeDir, 'knowledge'));
+  await ensureDir(resolve(claudeDir, 'knowledges'));
   await ensureDir(commandsDir);
 
   // Command files to download
@@ -732,7 +732,7 @@ export const initClaudeProject = async (
   console.log('  .claude/pages/        - Session history');
   console.log('  .claude/plans/        - Strategic plans');
   console.log('  .claude/patterns/ - Reusable code patterns');
-  console.log('  .claude/knowledge/    - Domain knowledge base');
+  console.log('  .claude/knowledges/    - Domain knowledge base');
 
   console.log('\n🎯 Available commands:');
   console.log('  /page                 - Manage session pages');

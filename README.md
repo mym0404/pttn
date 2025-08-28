@@ -42,7 +42,7 @@ Create `~/.claude/commands/init-claude.md`:
 
 ## Implementation
 
-    npx -y cc-self-refer init
+run `npx -y cc-self-refer init` and read messages from it and follow.
 ```
 
 ### 2. Initialize Any Project
@@ -60,7 +60,9 @@ After running `/init-claude`, your project will have:
 
 ```
 your-project/
+├── CLAUDE.md              # 📜 Project Overview for Claude and command usages (merged if exists)
 ├── .claude/
+│   ├── commands/           # 🎯 Claude Code Commands
 │   ├── commands/           # 🎯 Claude Code Commands
 │   │   ├── plan-create.md # Create strategic plans
 │   │   ├── plan-edit.md   # Edit existing plans
@@ -80,7 +82,7 @@ your-project/
 │   ├── patterns/     # 🧩 Reusable Code Templates
 │   │   └── [numbered patterns like: 001-react-hook.md]
 │   │
-│   └── knowledge/         # 🧠 Domain Knowledge Base
+│   └── knowledges/         # 🧠 Domain Knowledge Base
 │       └── [numbered entries like: 001-api-limits.md]
 └── [your project files]
 ```

@@ -77,7 +77,7 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 ├── patterns/ # 🧩 Reusable Code Templates
 │ └── [numbered pattern files like: 001-react-hook-typescript.md]
 │
-└── knowledge/ # 🧠 Domain Knowledge Base
+└── knowledges/ # 🧠 Domain Knowledge Base
 └── [numbered knowledge files like: 001-api-rate-limits.md]
 
 ### Available Commands:
@@ -114,7 +114,7 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 - **Content**: Component templates, utility functions, configuration patterns
 - **Command**: `/pattern-create` to save patterns; `/pattern-use` to apply them
 
-#### 🧠 `.claude/knowledge/` - Domain Knowledge
+#### 🧠 `.claude/knowledges/` - Domain Knowledge
 
 - **Purpose**: Business logic, domain rules, and architectural constraints
 - **When to use**: Document domain-specific information that affects code decisions
@@ -139,7 +139,7 @@ This project uses cc-self-refer for intelligent self-reference capabilities:
 
 #### Building Team Knowledge
 
-1. Document domain knowledge: manually create files in `.claude/knowledge/`
+1. Document domain knowledge: manually create files in `.claude/knowledges/`
 2. Save proven patterns: `/pattern-create` after successful implementations
 3. Plan major features: `/plan-create` before starting complex work
    ====================== END CLAUDE.md CONTENT ======================
@@ -151,7 +151,7 @@ Verify the following directories exist (create if missing):
 - `.claude/pages/` - For session history
 - `.claude/plans/` - For strategic planning documents
 - `.claude/patterns/` - For reusable code patterns
-- `.claude/knowledge/` - For domain knowledge base
+- `.claude/knowledges/` - For domain knowledge base
 - `.claude/commands/` - For Claude Code commands
 
 ### 3. Configure .gitignore properly
@@ -168,7 +168,7 @@ If the project has a `.gitignore` file, add only temporary/cache files to .gitig
 # .claude/commands/     - Team needs shared commands
 # .claude/plans/        - Strategic plans should be versioned
 # .claude/patterns/ - Patterns are valuable team assets
-# .claude/knowledge/    - Domain knowledge must be shared
+# .claude/knowledges/    - Domain knowledge must be shared
 # .claude/pages/        - Session history provides project context
 ```
 

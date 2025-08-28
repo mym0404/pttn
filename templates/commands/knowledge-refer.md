@@ -1,6 +1,6 @@
 # Refer Knowledge - Access Domain Knowledge
 
-Retrieve and access domain knowledge from `.claude/knowledge/` directory by number or keyword search.
+Retrieve and access domain knowledge from `.claude/knowledges/` directory by number or keyword search.
 
 **Usage**: `/knowledge-refer <number|keyword>`
 
@@ -26,7 +26,7 @@ npx -y cc-self-refer knowledge view <id_or_keyword> --context
 
 The CLI tool handles:
 
-- **Directory Management**: Automatically checks `.claude/knowledge/` directory
+- **Directory Management**: Automatically checks `.claude/knowledges/` directory
 - **Smart Search**: Supports both exact ID matches and keyword searches
 - **Category Filtering**: Filter knowledge by specific categories
 - **Content Analysis**: Searches in filenames and knowledge content
@@ -39,7 +39,7 @@ The CLI tool handles:
 ```markdown
 # Domain Knowledge: [Knowledge Topic]
 
-## Source: `.claude/knowledge/[filename]`
+## Source: `.claude/knowledges/[filename]`
 
 [Display full knowledge content with proper formatting]
 
@@ -63,17 +63,17 @@ The CLI tool handles:
 
 ## Matching Knowledge:
 
-### 1. **[Knowledge 1]** (`.claude/knowledge/001-topic.md`)
+### 1. **[Knowledge 1]** (`.claude/knowledges/001-topic.md`)
 
 💡 _[Brief summary of key insights]_
 🎯 _Relevance: [How it applies to search]_
 
-### 2. **[Knowledge 2]** (`.claude/knowledge/003-another-topic.md`)
+### 2. **[Knowledge 2]** (`.claude/knowledges/003-another-topic.md`)
 
 📋 _[Brief summary of content]_
 🎯 _Relevance: [Connection to search term]_
 
-### 3. **[Knowledge 3]** (`.claude/knowledge/005-related-topic.md`)
+### 3. **[Knowledge 3]** (`.claude/knowledges/005-related-topic.md`)
 
 ⚡ _[Brief summary of insights]_
 🎯 _Relevance: [Why it matched search]_
