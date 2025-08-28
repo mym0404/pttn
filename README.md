@@ -42,7 +42,17 @@ Create `~/.claude/commands/init-claude.md`:
 
 ## Implementation
 
-run `npx -y cc-self-refer init` and read messages from it and follow.
+First, setup the project structure:
+```bash
+npx -y cc-self-refer init-setup-project
+```
+
+Then get the initialization prompt:
+```bash
+npx -y cc-self-refer init-get-prompt
+```
+
+Follow the instructions from the prompt output to complete the setup.
 ```
 
 ### 2. Initialize Any Project
@@ -51,6 +61,11 @@ run `npx -y cc-self-refer init` and read messages from it and follow.
 cd your-project
 /init-claude  # Run in Claude Code
 ```
+
+The command will:
+1. First run `init-setup-project` to create the directory structure and download command templates
+2. Then run `init-get-prompt` to get Claude Code-specific instructions
+3. Follow the prompt instructions to complete the intelligent self-reference setup
 
 That's it! Your project now has intelligent self-reference capabilities.
 

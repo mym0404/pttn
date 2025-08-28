@@ -657,7 +657,7 @@ export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
 };
 
 // Project initialization function
-export const initClaudeProject = async (
+export const setupClaudeSelfReferProject = async (
   projectDir: string,
   repoUrl: string = 'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
 ): Promise<void> => {

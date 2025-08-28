@@ -12,7 +12,7 @@ import {
   createPageManager,
   createPatternManager,
   createPlanManager,
-  initClaudeProject,
+  setupClaudeSelfReferProject,
 } from './index.js';
 
 const program = new Command();
@@ -741,18 +741,12 @@ knowledgeCmd
     }
   });
 
-// Project initialization command
+// Project initialization commands
 program
-  .command('init')
-  .description('Initialize Claude Code project with cc-self-refer commands')
-  .option(
-    '--repo <url>',
-    'Custom repository URL',
-    'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
-  )
-  .action(async (options: { repo?: string }) => {
+  .command('init-get-prompt')
+  .description('Get initialization prompt for Claude Code to execute')
+  .action(async () => {
     try {
-      // First, output the prompt for Claude Code to execute
       const promptPath = resolve(
         __dirname,
         '..',
@@ -763,19 +757,36 @@ program
       if (existsSync(promptPath)) {
         const promptContent = readFileSync(promptPath, 'utf-8');
         console.log(promptContent);
+      } else {
+        console.error(pc.red('❌ Prompt template not found'));
+        process.exit(1);
       }
-
-      // Then run the actual initialization
-      await initClaudeProject(process.cwd(), options.repo);
     } catch (error) {
-      console.error(`❌ Initialization failed: ${error}`);
+      console.error(pc.red(`❌ Failed to read prompt: ${error}`));
       process.exit(1);
     }
   });
 
-// Check if .claude directory exists (skip for init command)
+program
+  .command('init-setup-project')
+  .description('Setup Claude Code project directory structure and download command templates')
+  .option(
+    '--repo <url>',
+    'Custom repository URL',
+    'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
+  )
+  .action(async (options: { repo?: string }) => {
+    try {
+      await setupClaudeSelfReferProject(process.cwd(), options.repo);
+    } catch (error) {
+      console.error(`❌ Project setup failed: ${error}`);
+      process.exit(1);
+    }
+  });
+
+// Check if .claude directory exists (skip for init commands)
 const args = process.argv;
-const isInitCommand = args.includes('init');
+const isInitCommand = args.includes('init-get-prompt') || args.includes('init-setup-project');
 
 if (!isInitCommand) {
   const claudeDir = getClaudeDir();
