@@ -4,8 +4,8 @@ import { join, resolve } from 'path';
 
 import { PageInfo, PageManager, SearchResult } from '../types/index.js';
 import { ensureDir } from '../utils/index.js';
-import { calculateSimilarity } from '../utils/similarity.js';
 import { extractTitle } from '../utils/textExtraction.js';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPageManager = (contentDir: string): PageManager => {
   const pagesDir = resolve(contentDir, 'pages');
@@ -39,25 +39,42 @@ export const createPageManager = (contentDir: string): PageManager => {
 
     async search(keyword: string): Promise<SearchResult[]> {
       const pages = await this.list();
-      const results: SearchResult[] = [];
+      
+      // Convert PageInfo to SearchableItem format
+      const searchableItems: SearchableItem[] = pages
+        .filter(page => page.content)
+        .map(page => ({
+          id: page.id,
+          title: page.title,
+          content: page.content!,
+          lastUpdated: page.lastUpdated,
+          file: page.file,
+        }));
 
-      for (const page of pages) {
-        if (!page.content) continue;
+      // Initialize advanced search engine
+      const searchEngine = new AdvancedSearchEngine({
+        minScore: 0.3,
+        maxResults: 50,
+      });
 
-        const titleScore = calculateSimilarity(keyword, page.title);
-        const contentScore = calculateSimilarity(keyword, page.content) * 0.7;
-        const score = Math.max(titleScore, contentScore);
+      const enhancedResults = searchEngine.search(keyword, searchableItems);
 
-        if (score > 0.3) {
-          results.push({
-            title: page.title,
-            file: page.file,
-            score: Math.round(score * 100) / 100,
-          });
-        }
-      }
-
-      return results.sort((a, b) => b.score - a.score);
+      // Convert enhanced results back to SearchResult format
+      return enhancedResults.map(result => ({
+        title: result.item.title,
+        file: result.item.file,
+        score: Math.round(result.score.final * 100) / 100,
+        matchedFields: result.matchedFields,
+        highlights: result.matchHighlights,
+        scoreBreakdown: {
+          exactMatch: result.score.exactMatch,
+          semanticSimilarity: result.score.semanticSimilarity,
+          keywordRelevance: result.score.keywordRelevance,
+          categoryBoost: result.score.categoryBoost,
+          recencyScore: result.score.recencyScore,
+          fieldBoost: result.score.fieldBoost,
+        },
+      }));
     },
 
     async view(idOrKeyword: string): Promise<string> {
