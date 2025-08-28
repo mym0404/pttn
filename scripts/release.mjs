@@ -105,7 +105,7 @@ async function main() {
 
   // Run release-it
   print('Running release-it...');
-  await $`npx -y release-it`;
+  await $`npx -y release-it ${argv._}`;
   printSuccess('Release completed successfully!');
 }
 
