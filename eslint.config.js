@@ -23,12 +23,12 @@ export default [
       'simple-import-sort/exports': 'error',
 
       // Unused imports rules
-      'unused-imports/no-unused-imports': 'off',
+      'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
-        'warn',
+        'error',
         {
           vars: 'all',
-          varsIgnorePattern: '^_',
+          // varsIgnorePattern: '^_',
           args: 'after-used',
           argsIgnorePattern: '^_',
           caughtErrors: 'none',
