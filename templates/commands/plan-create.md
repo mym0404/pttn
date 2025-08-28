@@ -121,7 +121,7 @@ This will:
 
 ### Main Risks
 
-| Risk   | Impact          | Probability            | Mitigation Strategy             |
+| Risk     | Impact          | Probability     | Mitigation Strategy   |
 | -------- | --------------- | --------------- | --------------------- |
 | [Risk 1] | High/Medium/Low | High/Medium/Low | [Mitigation strategy] |
 | [Risk 2] | High/Medium/Low | High/Medium/Low | [Mitigation strategy] |

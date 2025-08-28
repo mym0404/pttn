@@ -1,0 +1,17 @@
+# Ignore everything by default
+*
+
+# Only format src directory
+!src/
+!src/**/*
+
+# Ignore specific file types globally
+*.md
+*.json
+*.yml
+*.yaml
+
+# Ignore build and dependency directories
+dist/
+node_modules/
+.git/

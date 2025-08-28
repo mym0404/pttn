@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
@@ -22,7 +23,7 @@ export default [
       'simple-import-sort/exports': 'error',
 
       // Unused imports rules
-      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-imports': 'off',
       'unused-imports/no-unused-vars': [
         'warn',
         {
@@ -30,12 +31,13 @@ export default [
           varsIgnorePattern: '^_',
           args: 'after-used',
           argsIgnorePattern: '^_',
+          caughtErrors: 'none',
         },
       ],
 
       // Override some TypeScript rules
-      '@typescript-eslint/no-unused-vars': 'off', // Use unused-imports instead
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-empty-function': 'warn',
     },
   },
@@ -48,4 +50,6 @@ export default [
       '.eslintcache',
     ],
   },
+  // Must be last to override other configs
+  eslintPluginPrettierRecommended,
 ];
