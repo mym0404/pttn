@@ -23,6 +23,7 @@ npx -y cc-self-refer page list
 ### Search Process
 
 The CLI tool handles:
+
 - **Directory Management**: Automatically checks `.claude/pages/` directory
 - **Smart Search**: Supports both exact ID matches and keyword searches
 - **Content Matching**: Searches in filenames and content
@@ -32,19 +33,24 @@ The CLI tool handles:
 ### 3. Output Format
 
 **Single Match Found**:
+
 ```markdown
 # Session Context Loaded: [Session Name]
 
 ## File: `.claude/pages/[filename]`
+
 ## Session Date: [Extracted from timestamp]
 
 ### Quick Summary
+
 [Display compact summary from the session file]
 
 ### Key Accomplishments
+
 [Major achievements from that session]
 
 ### Important Context
+
 [Critical information for current work]
 
 ---
@@ -53,21 +59,25 @@ The CLI tool handles:
 ```
 
 **Multiple Matches**:
+
 ```markdown
 # Multiple Sessions Found for "[search term]"
 
 ## Matching Sessions (newest first):
 
 ### 1. **[Session 1]** (2025-08-27_14:30:22)
-📝 *[Brief summary of what was accomplished]*
+
+📝 _[Brief summary of what was accomplished]_
 📁 Files: [key files modified]
 
-### 2. **[Session 2]** (2025-08-26_09:15:33)  
-🔧 *[Brief summary of work done]*
+### 2. **[Session 2]** (2025-08-26_09:15:33)
+
+🔧 _[Brief summary of work done]_
 📁 Files: [key files modified]
 
 ### 3. **[Session 3]** (2025-08-25_16:45:11)
-✨ *[Brief summary of features added]*
+
+✨ _[Brief summary of features added]_
 📁 Files: [key files modified]
 
 **Load Specific**: `/refer-page <timestamp>` to load specific session
@@ -75,12 +85,14 @@ The CLI tool handles:
 ```
 
 **No Matches**:
+
 ```markdown
 # No Session History Found
 
 No sessions found for "[search term]".
 
 ## Available Sessions:
+
 - **Latest**: [Most recent session] - [brief description]
 - **[Date]**: [Session name] - [brief description]
 - **[Date]**: [Session name] - [brief description]
@@ -99,48 +111,60 @@ No sessions found for "[search term]".
 ## Usage Examples
 
 ### Load Recent Session
+
 ```bash
 npx -y cc-self-refer page view 2025-08-27
 ```
+
 Loads session from August 27, 2025
 
 ### Search by Feature Work
+
 ```bash
 npx -y cc-self-refer page search "authentication"
 ```
+
 Finds sessions where authentication was worked on
 
 ### List All Sessions
+
 ```bash
 npx -y cc-self-refer page list
 ```
+
 Shows all available session pages with creation dates
 
 ### View Specific Page
+
 ```bash
 npx -y cc-self-refer page view 1
 ```
+
 Loads page #1 directly by ID number
 
 ## Integration with Development Workflow
 
 ### Starting New Work
+
 - Load context from related previous sessions
 - Understand what was tried before
 - Avoid repeating failed approaches
 - Build on previous progress
 
 ### Debugging Issues
+
 - Find sessions where similar issues were addressed
 - Recover debugging context and solutions
 - Understand historical problem patterns
 
 ### Feature Development
+
 - Load context from related feature work
 - Understand previous implementation decisions
 - Maintain consistency with past approaches
 
 ### Knowledge Transfer
+
 - Access detailed implementation history
 - Understand evolution of project decisions
 - Recover lost context between sessions
@@ -148,18 +172,20 @@ Loads page #1 directly by ID number
 ## Advanced Features
 
 ### Context Prioritization
+
 - Emphasize recent and relevant sessions
 - Filter by development activity type
 - Highlight sessions with significant outcomes
 
 ### Smart Loading
+
 - Load only relevant portions for current context
 - Summarize long sessions for quick consumption
 - Extract actionable items and next steps
 
 ## Error Handling
 
-- **Directory Missing**: Suggest running `/init-claude` first  
+- **Directory Missing**: Suggest running `/init-claude` first
 - **No Pages**: Guide user to use `/page` command to save sessions
 - **Corrupted Files**: Handle malformed markdown gracefully
 - **Large Sessions**: Efficiently handle very long session files

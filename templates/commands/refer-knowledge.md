@@ -25,8 +25,9 @@ npx -y cc-self-refer knowledge view <id_or_keyword> --context
 ### Search Process
 
 The CLI tool handles:
+
 - **Directory Management**: Automatically checks `.claude/knowledge/` directory
-- **Smart Search**: Supports both exact ID matches and keyword searches  
+- **Smart Search**: Supports both exact ID matches and keyword searches
 - **Category Filtering**: Filter knowledge by specific categories
 - **Content Analysis**: Searches in filenames and knowledge content
 - **Relevance Ranking**: Returns results sorted by relevance score
@@ -34,6 +35,7 @@ The CLI tool handles:
 ### 3. Output Format
 
 **Single Match Found**:
+
 ```markdown
 # Domain Knowledge: [Knowledge Topic]
 
@@ -42,9 +44,11 @@ The CLI tool handles:
 [Display full knowledge content with proper formatting]
 
 ## Key Insights
+
 [Highlight important points for quick reference]
 
 ## Applicable Context
+
 [How this knowledge applies to current development work]
 
 ---
@@ -53,35 +57,41 @@ The CLI tool handles:
 ```
 
 **Multiple Matches**:
+
 ```markdown
 # Knowledge Items Found for "[search term]"
 
 ## Matching Knowledge:
 
 ### 1. **[Knowledge 1]** (`.claude/knowledge/001-topic.md`)
-💡 *[Brief summary of key insights]*
-🎯 *Relevance: [How it applies to search]*
 
-### 2. **[Knowledge 2]** (`.claude/knowledge/003-another-topic.md`) 
-📋 *[Brief summary of content]*
-🎯 *Relevance: [Connection to search term]*
+💡 _[Brief summary of key insights]_
+🎯 _Relevance: [How it applies to search]_
+
+### 2. **[Knowledge 2]** (`.claude/knowledge/003-another-topic.md`)
+
+📋 _[Brief summary of content]_
+🎯 _Relevance: [Connection to search term]_
 
 ### 3. **[Knowledge 3]** (`.claude/knowledge/005-related-topic.md`)
-⚡ *[Brief summary of insights]*
-🎯 *Relevance: [Why it matched search]*
+
+⚡ _[Brief summary of insights]_
+🎯 _Relevance: [Why it matched search]_
 
 **Access Specific**: `/refer-knowledge <number>` to view detailed knowledge
 ```
 
 **No Matches**:
+
 ```markdown
 # No Knowledge Found
 
 No domain knowledge found for "[search term]".
 
 ## Available Knowledge Base:
+
 1. **[Topic 1]** - [Brief description]
-2. **[Topic 2]** - [Brief description]  
+2. **[Topic 2]** - [Brief description]
 3. **[Topic 3]** - [Brief description]
 
 **Usage**: `/refer-knowledge <number>` or try different keywords
@@ -98,47 +108,59 @@ No domain knowledge found for "[search term]".
 ## Usage Examples
 
 ### List All Knowledge
+
 ```bash
 npx -y cc-self-refer knowledge list
 ```
+
 Shows all available knowledge entries with categories
 
 ### Search Business Rules
+
 ```bash
 npx -y cc-self-refer knowledge search "authentication"
 ```
+
 Finds authentication-related business knowledge
 
 ### Search by Category
+
 ```bash
 npx -y cc-self-refer knowledge list --category "payment"
 ```
+
 Lists all payment-related knowledge entries
 
 ### Search in Specific Category
+
 ```bash
 npx -y cc-self-refer knowledge search "user roles" --category "authorization"
 ```
+
 Finds user role knowledge within authorization category
 
 ## Integration with Development
 
 ### Before Implementation
+
 - Review relevant business knowledge
 - Understand domain constraints and requirements
 - Apply business rules to technical decisions
 
-### During Development  
+### During Development
+
 - Quick access to business logic requirements
 - Verify implementation against business rules
 - Ensure compliance with domain constraints
 
 ### Problem Solving
+
 - Access historical context for business decisions
 - Understand why certain approaches were chosen
 - Apply domain expertise to technical challenges
 
 ### Knowledge Building
+
 - Document new insights during development
 - Capture business rule clarifications
 - Record important project context for future reference
@@ -146,8 +168,9 @@ Finds user role knowledge within authorization category
 ## Knowledge Categories
 
 Typical knowledge stored includes:
+
 - **Business Rules**: Domain-specific constraints and logic
-- **User Requirements**: Functional and non-functional requirements  
+- **User Requirements**: Functional and non-functional requirements
 - **API Limitations**: External service constraints and behaviors
 - **Performance Requirements**: System performance expectations
 - **Security Policies**: Security guidelines and compliance requirements
@@ -157,7 +180,7 @@ Typical knowledge stored includes:
 
 - **Directory Missing**: Suggest running `/init-claude` first
 - **No Knowledge**: Guide user to document knowledge during development
-- **Access Issues**: Report file permission problems clearly  
+- **Access Issues**: Report file permission problems clearly
 - **Content Errors**: Handle malformed knowledge files gracefully
 
 ## Search Quality Features

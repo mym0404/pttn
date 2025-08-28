@@ -24,7 +24,8 @@ npx -y cc-self-refer pattern view <id_or_keyword> --context
 ### Search Process
 
 The CLI tool handles:
-- **Directory Management**: Automatically checks `.claude/code-patterns/` directory  
+
+- **Directory Management**: Automatically checks `.claude/code-patterns/` directory
 - **Smart Matching**: Supports both exact number matches and keyword searches
 - **Language Filtering**: Filter patterns by programming language
 - **Content Analysis**: Searches in filenames and pattern content
@@ -33,7 +34,8 @@ The CLI tool handles:
 ### 3. Output Format
 
 **Single Match Found**:
-```markdown
+
+````markdown
 # Code Pattern: [Pattern Name]
 
 ## Pattern: `.claude/code-patterns/[filename]`
@@ -45,17 +47,21 @@ The CLI tool handles:
 ```[language]
 [Main code example with syntax highlighting]
 ```
+````
 
 ## Usage Instructions
+
 [Step-by-step usage guidelines]
 
 ## Customization Notes
+
 [How to adapt this pattern for current context]
 
 ---
 
 **Pattern loaded and ready for implementation**
-```
+
+````
 
 **Multiple Matches**:
 ```markdown
@@ -66,17 +72,21 @@ The CLI tool handles:
 ### 1. **[Pattern 1]** (`.claude/code-patterns/2-pattern-name.md`)
 ```[language]
 [Code snippet preview]
-```
-*[Brief description]*
+````
 
-### 2. **[Pattern 2]** (`.claude/code-patterns/4-another-pattern.md`) 
+_[Brief description]_
+
+### 2. **[Pattern 2]** (`.claude/code-patterns/4-another-pattern.md`)
+
 ```[language]
 [Code snippet preview]
 ```
-*[Brief description]*
+
+_[Brief description]_
 
 **Select Pattern**: `/use-code-pattern <number>` to load specific pattern
-```
+
+````
 
 **No Matches**:
 ```markdown
@@ -91,7 +101,7 @@ No patterns found for "[search term]".
 
 **Usage**: `/use-code-pattern <number>` or try different keywords
 **Create New**: `/code-pattern <description>` to save new pattern
-```
+````
 
 ### 4. Enhanced Features
 
@@ -103,43 +113,54 @@ No patterns found for "[search term]".
 ## Usage Examples
 
 ### List All Patterns
+
 ```bash
 npx -y cc-self-refer pattern list
 ```
+
 Shows all available code patterns with languages and dates
 
 ### Search by Technology
+
 ```bash
 npx -y cc-self-refer pattern search "tailwind"
 ```
+
 Finds all TailwindCSS-related patterns
 
 ### Search by Feature
+
 ```bash
 npx -y cc-self-refer pattern search "authentication"
 ```
+
 Searches for auth-related code patterns
 
 ### Search by Language
+
 ```bash
 npx -y cc-self-refer pattern search "hook" --language typescript
 ```
+
 Finds TypeScript hooks patterns specifically
 
 ## Integration with Development
 
 ### During Implementation
+
 - Quickly access proven code patterns
 - Copy-paste reliable code snippets
 - Follow established project conventions
 - Reduce implementation time and errors
 
 ### Code Review
+
 - Reference patterns when reviewing code
 - Ensure consistency with established practices
 - Suggest pattern usage for repetitive code
 
 ### Refactoring
+
 - Identify opportunities to apply existing patterns
 - Replace ad-hoc implementations with proven patterns
 - Improve code maintainability and consistency

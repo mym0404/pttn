@@ -13,12 +13,14 @@
 ## Why do you need this?
 
 ### The Problem
+
 - **Context Loss**: AI conversations lose context between sessions
 - **Repeated Explanations**: You constantly re-explain project architecture, decisions, and patterns
 - **Knowledge Scattered**: Domain knowledge, code patterns, and planning documents are spread across different tools
 - **Inefficient Workflows**: No systematic way to build and reference project-specific knowledge
 
 ### The Solution
+
 `cc-self-refer` creates a **persistent, searchable knowledge layer** for your projects that Claude Code can intelligently reference:
 
 - 📋 **Strategic Plans**: Document and iterate on high-level project planning
@@ -65,7 +67,7 @@ your-project/
 │   │   ├── plan-resolve.md# View and load plans
 │   │   ├── page.md        # Session management
 │   │   ├── refer-page.md  # Load session context
-│   │   ├── refer-knowledge.md # Access domain knowledge  
+│   │   ├── refer-knowledge.md # Access domain knowledge
 │   │   ├── use-code-pattern.md # Apply code patterns
 │   │   └── code-pattern.md     # Save new patterns
 │   │
@@ -86,8 +88,9 @@ your-project/
 ## How Each Directory Works
 
 ### 📋 `.claude/plans/` - Strategic Planning
+
 - **Purpose**: High-level project planning and architecture decisions
-- **Usage**: 
+- **Usage**:
   - `/plan-create "Feature Name" "Description"` creates comprehensive planning documents
   - `/plan-edit "id|keyword" "modifications"` modifies existing plans
   - `/plan-resolve "id|keyword"` views and loads plans for reference
@@ -95,18 +98,21 @@ your-project/
 - **AI Benefit**: Claude references these plans to understand project direction and constraints
 
 ### 📄 `.claude/pages/` - Session Context
+
 - **Purpose**: Preserve development context between Claude sessions
 - **Usage**: Automatically captures session state; `/refer-page` to load previous context
 - **Content**: Code changes, decisions made, problems solved, next steps
 - **AI Benefit**: Eliminates need to re-explain project status each session
 
 ### 🧩 `.claude/code-patterns/` - Reusable Templates
+
 - **Purpose**: Project-specific code patterns and templates
 - **Usage**: `/code-pattern` to save patterns; `/use-code-pattern` to apply them
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
 ### 🧠 `.claude/knowledge/` - Domain Knowledge
+
 - **Purpose**: Business logic, domain rules, and architectural constraints
 - **Usage**: `/refer-knowledge` to access; manually curated domain information
 - **Content**: Business rules, API limitations, performance requirements, compliance needs
@@ -115,8 +121,9 @@ your-project/
 ## Why This Works
 
 Each directory serves a specific purpose in building **persistent AI context**:
+
 1. **Plans** provide strategic direction
-2. **Pages** maintain session continuity  
+2. **Pages** maintain session continuity
 3. **Patterns** ensure consistency
 4. **Knowledge** guides decision-making
 

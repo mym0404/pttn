@@ -4,7 +4,7 @@ import { intro, outro } from '@clack/prompts';
 import { Command } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 import { homedir } from 'os';
-import {join,resolve} from 'path';
+import { join, resolve } from 'path';
 import pc from 'picocolors';
 
 import {
@@ -635,34 +635,40 @@ knowledgeCmd
   .description('Create a new knowledge entry')
   .argument('<title>', 'Title for the knowledge entry')
   .argument('<content>', 'Knowledge content')
-  .option('-c, --category <category>', 'Category for the knowledge entry', 'general')
-  .action(async (title: string, content: string, options: { category?: string }) => {
-    const claudeDir = getClaudeDir();
-    const knowledgeDir = resolve(claudeDir, 'knowledge');
+  .option(
+    '-c, --category <category>',
+    'Category for the knowledge entry',
+    'general'
+  )
+  .action(
+    async (title: string, content: string, options: { category?: string }) => {
+      const claudeDir = getClaudeDir();
+      const knowledgeDir = resolve(claudeDir, 'knowledge');
 
-    try {
-      // Ensure directory exists
-      if (!existsSync(knowledgeDir)) {
-        await import('fs/promises').then(fs => fs.mkdir(knowledgeDir, { recursive: true }));
-      }
+      try {
+        // Ensure directory exists
+        if (!existsSync(knowledgeDir)) {
+          await import('fs/promises').then((fs) =>
+            fs.mkdir(knowledgeDir, { recursive: true })
+          );
+        }
 
-      // Get existing knowledge entries to determine next ID
-      const manager = createKnowledgeManager(claudeDir);
-      const entries = await manager.list();
-      const nextId = entries.length > 0
-        ? Math.max(...entries.map((e: any) => e.id)) + 1
-        : 1;
+        // Get existing knowledge entries to determine next ID
+        const manager = createKnowledgeManager(claudeDir);
+        const entries = await manager.list();
+        const nextId =
+          entries.length > 0 ? Math.max(...entries.map((e) => e.id)) + 1 : 1;
 
-      // Create filename with zero-padded ID
-      const paddedId = nextId.toString().padStart(3, '0');
-      const filename = `${paddedId}-${title
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')}.md`;
-      const filepath = join(knowledgeDir, filename);
+        // Create filename with zero-padded ID
+        const paddedId = nextId.toString().padStart(3, '0');
+        const filename = `${paddedId}-${title
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^a-z0-9-]/g, '')}.md`;
+        const filepath = join(knowledgeDir, filename);
 
-      // Create full content with metadata
-      const fullContent = `# ${title}
+        // Create full content with metadata
+        const fullContent = `# ${title}
 
 **Category**: ${options.category || 'general'}
 
@@ -672,15 +678,20 @@ ${content}
 **Created**: ${new Date().toISOString()}
 `;
 
-      await import('fs/promises').then(fs => fs.writeFile(filepath, fullContent));
+        await import('fs/promises').then((fs) =>
+          fs.writeFile(filepath, fullContent)
+        );
 
-      console.log(pc.green(`✅ Created knowledge entry #${nextId}: ${title}`));
-      console.log(pc.dim(`   File: .claude/knowledge/${filename}`));
-      console.log(pc.dim(`   Category: ${options.category || 'general'}`));
-    } catch (error) {
-      console.error(pc.red('Error creating knowledge entry:'), error);
+        console.log(
+          pc.green(`✅ Created knowledge entry #${nextId}: ${title}`)
+        );
+        console.log(pc.dim(`   File: .claude/knowledge/${filename}`));
+        console.log(pc.dim(`   Category: ${options.category || 'general'}`));
+      } catch (error) {
+        console.error(pc.red('Error creating knowledge entry:'), error);
+      }
     }
-  });
+  );
 
 knowledgeCmd
   .command('view')
@@ -734,11 +745,21 @@ knowledgeCmd
 program
   .command('init')
   .description('Initialize Claude Code project with cc-self-refer commands')
-  .option('--repo <url>', 'Custom repository URL', 'https://raw.githubusercontent.com/mym0404/cc-self-refer/main')
+  .option(
+    '--repo <url>',
+    'Custom repository URL',
+    'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
+  )
   .action(async (options: { repo?: string }) => {
     try {
       // First, output the prompt for Claude Code to execute
-      const promptPath = resolve(__dirname, '..', 'templates', 'prompts', 'init.md');
+      const promptPath = resolve(
+        __dirname,
+        '..',
+        'templates',
+        'prompts',
+        'init.md'
+      );
       if (existsSync(promptPath)) {
         const promptContent = readFileSync(promptPath, 'utf-8');
         console.log(promptContent);

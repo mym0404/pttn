@@ -89,11 +89,13 @@ cc-self-refer/
 ## Types of Contributions
 
 ### 🐛 Bug Reports
+
 - Use GitHub Issues
 - Provide clear reproduction steps
 - Include CLI output and error messages
 
 ### 💡 Feature Requests
+
 - Use GitHub Issues with "enhancement" label
 - Describe the use case and benefit
 - Consider how it fits with Claude Code workflow
@@ -101,26 +103,31 @@ cc-self-refer/
 ### 🔧 Code Contributions
 
 #### CLI Commands
+
 - Add new commands to `src/cli.ts`
 - Follow existing pattern with Commander.js
 - Include `--context` option for AI-optimized output
 
 #### Managers and Functions
+
 - Core logic goes in `src/index.ts`
 - Use interfaces for type safety
 - Follow existing manager pattern
 
 #### Output Formatting
+
 - Claude Code-specific formatting in `src/formatters.ts`
 - Support both console and context modes
 - Include emojis and clear structure
 
 #### Command Templates
+
 - Add new templates to `templates/commands/`
 - Use established format with Usage and Implementation sections
 - Reference `npx -y cc-self-refer` commands
 
 ### 📚 Documentation
+
 - Update README.md for user-facing changes
 - Add JSDoc comments for complex functions
 - Keep examples simple and practical
@@ -171,6 +178,7 @@ Releases are handled by maintainers:
 ## Recognition
 
 All contributors will be:
+
 - Listed in repository contributors
 - Mentioned in release notes for their contributions
 - Welcomed as part of the cc-self-refer community

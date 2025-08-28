@@ -683,7 +683,7 @@ export const initClaudeProject = async (
     'refer-page.md',
     'refer-knowledge.md',
     'use-code-pattern.md',
-    'code-pattern.md'
+    'code-pattern.md',
   ];
 
   console.log('📡 Downloading command templates...');
@@ -714,7 +714,9 @@ export const initClaudeProject = async (
       console.log(`✅ Downloaded ${file}`);
       successCount++;
     } catch (error) {
-      console.log(`❌ Failed to download ${file}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.log(
+        `❌ Failed to download ${file}: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
       failCount++;
     }
   }
@@ -743,11 +745,19 @@ export const initClaudeProject = async (
   console.log('  /code-pattern         - Save new code patterns');
 
   console.log('\n🚀 Next steps:');
-  console.log('  1. Start using commands: /plan-create "My Project" "Description"');
-  console.log('  2. Build your knowledge: /refer-knowledge and /use-code-pattern');
-  console.log('  3. All commands work with your project\'s local .claude directory');
+  console.log(
+    '  1. Start using commands: /plan-create "My Project" "Description"'
+  );
+  console.log(
+    '  2. Build your knowledge: /refer-knowledge and /use-code-pattern'
+  );
+  console.log(
+    "  3. All commands work with your project's local .claude directory"
+  );
 
   if (failCount > 0) {
-    throw new Error(`Failed to download ${failCount} files. Please check your internet connection and try again.`);
+    throw new Error(
+      `Failed to download ${failCount} files. Please check your internet connection and try again.`
+    );
   }
 };

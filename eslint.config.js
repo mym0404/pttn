@@ -63,9 +63,9 @@ export default [
     },
   },
 
-  // Ignore build output and dependencies
+  // Ignore build output, dependencies, and scripts
   {
-    ignores: ['dist/**', 'node_modules/**'],
+    ignores: ['dist/**', 'node_modules/**', 'scripts/**'],
   },
 
   // Prettier config should come last to override conflicting rules

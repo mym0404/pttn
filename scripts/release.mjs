@@ -1,7 +1,7 @@
 #!/usr/bin/env zx
 
 // #region ZX Util
-import fs from 'fs-extra'
+import fs from 'fs-extra';
 
 const join = path.join;
 const resolve = path.resolve;
@@ -59,9 +59,11 @@ const addLineToFile = (path, added, backward = false) =>
 
 const print = (...args) => echo(chalk.blue(`[${_printTag}]`, ...args));
 
-const printSuccess = (...args) => echo(chalk.bold.bgBlue(`[${_printTag}]`, ...args));
+const printSuccess = (...args) =>
+  echo(chalk.bold.bgBlue(`[${_printTag}]`, ...args));
 
-const printError = (...args) => echo(chalk.bold.bgRed(`[${_printTag}]`, ...args));
+const printError = (...args) =>
+  echo(chalk.bold.bgRed(`[${_printTag}]`, ...args));
 
 const asrt = (condition, ...args) => {
   if (!condition) {
@@ -93,7 +95,10 @@ async function main() {
 
   // Check if git working directory is clean
   const gitStatus = await $`git status --porcelain`.quiet();
-  asrt(gitStatus.stdout.trim() === '', 'Git working directory must be clean before release');
+  asrt(
+    gitStatus.stdout.trim() === '',
+    'Git working directory must be clean before release'
+  );
 
   // Build the project
   print('Building project...');
