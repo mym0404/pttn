@@ -112,9 +112,9 @@ const extractCategory = (content: string, filepath: string): string => {
 const calculateSimilarity = (query: string, text: string): number => {
   try {
     const distance = natural.JaroWinklerDistance
-      ? natural.JaroWinklerDistance(query.toLowerCase(), text.toLowerCase(), undefined)
+      ? natural.JaroWinklerDistance(query.toLowerCase(), text.toLowerCase(), {})
       : 0;
-    
+
     // Also check for keyword matches
     const queryWords = query.toLowerCase().split(/\s+/);
     const textLower = text.toLowerCase();
@@ -125,7 +125,7 @@ const calculateSimilarity = (query: string, text: string): number => {
 
     // Combine Jaro-Winkler with keyword matching
     return Math.max(distance, keywordScore * 0.8);
-  } catch (error) {
+  } catch {
     // Fallback to keyword-only matching if JaroWinkler fails
     const queryWords = query.toLowerCase().split(/\s+/);
     const textLower = text.toLowerCase();
