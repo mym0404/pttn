@@ -12,8 +12,7 @@ export const registerInitCommands = (program: Command): void => {
     .action(async () => {
       try {
         const promptPath = resolve(
-          __dirname,
-          '..',
+          import.meta.dirname,
           '..',
           'templates',
           'prompts',

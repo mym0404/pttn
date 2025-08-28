@@ -20,7 +20,7 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "t": "pnpm lint && pnpm format:check && pnpm typecheck",
-    "release": "zx scripts/release.mjs"
+    "release": "npx release-it patch --yes"
   },
   "keywords": [
     "claude",
