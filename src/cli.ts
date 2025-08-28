@@ -695,14 +695,19 @@ program
     }
   });
 
-// Check if .claude directory exists
-const claudeDir = getClaudeDir();
-if (!existsSync(claudeDir)) {
-  console.log(pc.yellow('⚠️  .claude directory not found in home directory'));
-  console.log(
-    pc.dim('Run `claude-code init` first or create the directory manually')
-  );
-  process.exit(1);
+// Check if .claude directory exists (skip for init command)
+const args = process.argv;
+const isInitCommand = args.includes('init');
+
+if (!isInitCommand) {
+  const claudeDir = getClaudeDir();
+  if (!existsSync(claudeDir)) {
+    console.log(pc.yellow('⚠️  .claude directory not found in home directory'));
+    console.log(
+      pc.dim('Run `claude-code init` first or create the directory manually')
+    );
+    process.exit(1);
+  }
 }
 
 program.parse();
