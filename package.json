@@ -4,7 +4,6 @@
   "description": "Claude Code Self Reference Helper - CLI tool for managing .claude directory content",
   "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
     "cc-self-refer": "./dist/cli.js"
@@ -28,8 +27,16 @@
     "ai",
     "helper"
   ],
-  "author": "",
+  "author": "MJ <mym0404@gmail.com>",
   "license": "MIT",
+  "homepage": "https://github.com/mym0404/cc-self-refer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mym0404/cc-self-refer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mym0404/cc-self-refer/issues"
+  },
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
     "@eslint/js": "^9.34.0",
