@@ -11,8 +11,10 @@ import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
 import { extractCategory, extractTitle } from '../utils/textExtraction.js';
 
-export const createKnowledgeManager = (claudeDir: string): KnowledgeManager => {
-  const knowledgeDir = resolve(claudeDir, 'knowledges');
+export const createKnowledgeManager = (
+  contentDir: string
+): KnowledgeManager => {
+  const knowledgeDir = resolve(contentDir, 'knowledges');
 
   return {
     async list(category?: string): Promise<KnowledgeInfo[]> {

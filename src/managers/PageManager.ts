@@ -7,8 +7,8 @@ import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
 import { extractTitle } from '../utils/textExtraction.js';
 
-export const createPageManager = (claudeDir: string): PageManager => {
-  const pagesDir = resolve(claudeDir, 'pages');
+export const createPageManager = (contentDir: string): PageManager => {
+  const pagesDir = resolve(contentDir, 'pages');
 
   return {
     async list(): Promise<PageInfo[]> {

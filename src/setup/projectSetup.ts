@@ -27,7 +27,7 @@ export const setupClaudeSelfReferProject = async (
 
   // Command files to download
   const commandFiles = [
-    'page.md',
+    'page-save.md',
     'plan-create.md',
     'plan-edit.md',
     'plan-resolve.md',
@@ -86,7 +86,7 @@ export const setupClaudeSelfReferProject = async (
   console.log('  .claude/knowledges/    - Domain knowledge base');
 
   console.log('\n🎯 Available commands:');
-  console.log('  /page                 - Manage session pages');
+  console.log('  /page-save            - Manage session pages');
   console.log('  /plan-create          - Create new strategic plans');
   console.log('  /plan-edit            - Edit existing strategic plans');
   console.log('  /plan-resolve         - View and load strategic plans');

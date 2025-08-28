@@ -7,8 +7,8 @@ import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
 import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
 
-export const createPatternManager = (claudeDir: string): PatternManager => {
-  const patternsDir = resolve(claudeDir, 'patterns');
+export const createPatternManager = (contentDir: string): PatternManager => {
+  const patternsDir = resolve(contentDir, 'patterns');
 
   return {
     async list(): Promise<PatternInfo[]> {
@@ -95,9 +95,10 @@ export const createPatternManager = (claudeDir: string): PatternManager => {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
-      const nextId = patterns.length > 0
-        ? Math.max(...patterns.map((p: PatternInfo) => p.id)) + 1
-        : 1;
+      const nextId =
+        patterns.length > 0
+          ? Math.max(...patterns.map((p: PatternInfo) => p.id)) + 1
+          : 1;
 
       const paddedId = nextId.toString().padStart(3, '0');
       const filename = `${paddedId}-${name

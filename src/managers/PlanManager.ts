@@ -7,8 +7,8 @@ import { ensureDir } from '../utils/index.js';
 import { calculateSimilarity } from '../utils/similarity.js';
 import { extractStatus, extractTitle } from '../utils/textExtraction.js';
 
-export const createPlanManager = (claudeDir: string): PlanManager => {
-  const plansDir = resolve(claudeDir, 'plans');
+export const createPlanManager = (contentDir: string): PlanManager => {
+  const plansDir = resolve(contentDir, 'plans');
 
   return {
     async list(): Promise<PlanInfo[]> {
