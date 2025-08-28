@@ -1,130 +1,123 @@
 # cc-self-refer
 
-Claude Code Self Reference Helper - CLI tool for managing `.claude` directory content
+**Claude Code Self-Reference Helper** - The missing backend for intelligent development workflows with AI assistance.
 
-## TODO
-- docusaurus docs
-- vitest tests
+## What is cc-self-refer?
 
-## Features
+`cc-self-refer` is a high-performance Node.js CLI that powers Claude Code's self-referential development capabilities. It enables projects to maintain their own context, knowledge base, and development patterns that Claude can reference and build upon across sessions.
 
-- 📄 **Page Management**: Manage session pages in `.claude/pages/`
-- 📋 **Plan Management**: Create and edit strategic plans in `.claude/plans/`
-- 🧩 **Pattern Management**: Browse code patterns in `.claude/code-patterns/`
-- 🧠 **Knowledge Management**: Search and view knowledge base in `.claude/knowledge/`
-- 🔍 **Smart Search**: Semantic search using natural language processing
-- 🎨 **Beautiful CLI**: Colorful output with icons and formatting
+## Why do you need this?
 
-## Installation
+### The Problem
+- **Context Loss**: AI conversations lose context between sessions
+- **Repeated Explanations**: You constantly re-explain project architecture, decisions, and patterns
+- **Knowledge Scattered**: Domain knowledge, code patterns, and planning documents are spread across different tools
+- **Inefficient Workflows**: No systematic way to build and reference project-specific knowledge
 
-```bash
-# Install globally via npm
-npm install -g cc-self-refer
+### The Solution
+`cc-self-refer` creates a **persistent, searchable knowledge layer** for your projects that Claude Code can intelligently reference:
 
-# Or via pnpm
-pnpm add -g cc-self-refer
+- 📋 **Strategic Plans**: Document and iterate on high-level project planning
+- 📄 **Session History**: Preserve development context across Claude sessions
+- 🧩 **Code Patterns**: Build a library of reusable, project-specific code templates
+- 🧠 **Domain Knowledge**: Maintain business logic, constraints, and architectural decisions
+- 🔍 **Intelligent Search**: Find relevant information instantly with semantic search
 
-# Or run directly with npx
-npx cc-self-refer --help
-```
+## Quick Setup
 
-## Prerequisites
+### 1. Add the Global Command
 
-- Node.js 18 or higher
-- An existing `.claude` directory in your home directory
-- Claude Code setup (run `claude-code init` first if you haven't)
+Create `~/.claude/commands/init-claude.md`:
 
-## Usage
+```markdown
+# Init Claude - Initialize Project with Self-Reference Commands
 
-### Page Management
+**Usage**: `/init-claude`
+
+## Implementation
 
 ```bash
-# List all session pages
-cc-self-refer page list
-
-# Search pages by keyword
-cc-self-refer page search "authentication"
-
-# View a specific page
-cc-self-refer page view 1
-cc-self-refer page view "login"
+npx -y cc-self-refer init
+```
 ```
 
-### Plan Management
+### 2. Initialize Any Project
 
 ```bash
-# List strategic plans
-cc-self-refer plan list
-
-# Create a new plan
-cc-self-refer plan create "Dark Mode Implementation" "Add dark theme support to the application"
-
-# View a plan
-cc-self-refer plan view 1
-cc-self-refer plan view "dark mode"
-
-# Edit an existing plan
-cc-self-refer plan edit 1 "Add accessibility considerations to Phase 2"
+cd your-project
+/init-claude  # Run in Claude Code
 ```
 
-### Code Pattern Management
+That's it! Your project now has intelligent self-reference capabilities.
 
-```bash
-# List all code patterns
-cc-self-refer pattern list
+## What Gets Created
 
-# Search patterns by keyword
-cc-self-refer pattern search "react hook"
-
-# Search patterns by language
-cc-self-refer pattern search "authentication" --language typescript
-```
-
-### Knowledge Base Management
-
-```bash
-# List knowledge entries
-cc-self-refer knowledge list
-
-# Filter by category
-cc-self-refer knowledge list --category "database"
-
-# Search knowledge base
-cc-self-refer knowledge search "caching strategies"
-```
-
-## Directory Structure
-
-The tool expects the following structure in your home directory:
+After running `/init-claude`, your project will have:
 
 ```
-~/.claude/
-├── pages/          # Session page dumps
-├── plans/          # Strategic planning documents
-├── code-patterns/  # Reusable code patterns
-└── knowledge/      # Domain knowledge and learnings
+your-project/
+├── .claude/
+│   ├── commands/           # 🎯 Claude Code Commands
+│   │   ├── plan.md        # Strategic planning workflow
+│   │   ├── page.md        # Session management
+│   │   ├── refer-page.md  # Load session context
+│   │   ├── refer-knowledge.md # Access domain knowledge  
+│   │   ├── use-code-pattern.md # Apply code patterns
+│   │   └── code-pattern.md     # Save new patterns
+│   │
+│   ├── plans/             # 📋 Strategic Plans & Architecture
+│   │   └── [auto-numbered planning documents]
+│   │
+│   ├── pages/             # 📄 Session History & Context
+│   │   └── [development session snapshots]
+│   │
+│   ├── code-patterns/     # 🧩 Reusable Code Templates
+│   │   └── [project-specific patterns & snippets]
+│   │
+│   └── knowledge/         # 🧠 Domain Knowledge Base
+│       └── [business logic, constraints, decisions]
+└── [your project files]
 ```
 
-## Search Features
+## How Each Directory Works
 
-- **Semantic Search**: Uses Jaro-Winkler distance for intelligent matching
-- **Keyword Matching**: Finds exact keyword matches in titles and content
-- **Score-based Ranking**: Results ranked by relevance score
-- **Fuzzy Matching**: Handles typos and partial matches
+### 📋 `.claude/plans/` - Strategic Planning
+- **Purpose**: High-level project planning and architecture decisions
+- **Usage**: `/plan create "Feature Name" "Description"` creates comprehensive planning documents
+- **Content**: Implementation phases, success criteria, technical decisions, risk assessment
+- **AI Benefit**: Claude references these plans to understand project direction and constraints
 
-## Plan Template
+### 📄 `.claude/pages/` - Session Context
+- **Purpose**: Preserve development context between Claude sessions
+- **Usage**: Automatically captures session state; `/refer-page` to load previous context
+- **Content**: Code changes, decisions made, problems solved, next steps
+- **AI Benefit**: Eliminates need to re-explain project status each session
 
-When creating new plans, the tool generates a comprehensive template:
+### 🧩 `.claude/code-patterns/` - Reusable Templates
+- **Purpose**: Project-specific code patterns and templates
+- **Usage**: `/code-pattern` to save patterns; `/use-code-pattern` to apply them
+- **Content**: Component templates, utility functions, configuration patterns
+- **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
-- **Overview**: Project description and context
-- **Goals & Success Criteria**: Objectives and metrics
-- **Implementation Approach**: Architecture and tech stack
-- **Implementation Checklist**: Phase-based tasks
-- **Key Considerations**: Technical, UX, and maintenance aspects
-- **Risks & Mitigation**: Risk assessment table
-- **Timeline Estimation**: Phase breakdown and milestones
+### 🧠 `.claude/knowledge/` - Domain Knowledge
+- **Purpose**: Business logic, domain rules, and architectural constraints
+- **Usage**: `/refer-knowledge` to access; manually curated domain information
+- **Content**: Business rules, API limitations, performance requirements, compliance needs
+- **AI Benefit**: Claude makes technically sound decisions aligned with your domain
 
-## Development
+## Why This Works
+
+Each directory serves a specific purpose in building **persistent AI context**:
+1. **Plans** provide strategic direction
+2. **Pages** maintain session continuity  
+3. **Patterns** ensure consistency
+4. **Knowledge** guides decision-making
+
+The result: Claude becomes increasingly intelligent about your specific project over time.
+
+## For Developers
+
+Contributing to cc-self-refer:
 
 ```bash
 # Clone the repository
