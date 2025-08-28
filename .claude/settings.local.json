@@ -12,7 +12,9 @@
       "mcp__github__create_repository",
       "Bash(git remote add:*)",
       "Bash(git log:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(pnpm t:*)",
+      "Bash(pnpm lint:*)"
     ],
     "deny": [],
     "ask": []
