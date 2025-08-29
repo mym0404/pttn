@@ -117,6 +117,33 @@ cc-self-refer/
 3. Use `pnpm dev` for quick testing
 4. Build with `pnpm build` before release
 
+## Project Overview
+
+**cc-self-refer** is a Node.js CLI tool that provides intelligent self-reference capabilities for Claude Code projects. It manages the `.claude` directory structure to enable context-aware development sessions through organized content management.
+
+### Core Features
+
+- **Code Pattern Templates**: Store and reuse architectural patterns and code snippets
+- **Technical Specifications**: Maintain a searchable repository of technical requirements
+
+### Technology Stack
+
+- **Runtime**: Node.js ≥18.0.0 with ES2022 features
+- **Language**: TypeScript 5.7+ with strict configuration
+- **CLI Framework**: Commander.js for command structure
+- **Package Manager**: pnpm 10.15.0 for dependency management
+- **Build Tool**: tsdown for TypeScript compilation to CommonJS + ESM
+- **Search Engine**: natural.js with Jaro-Winkler distance for semantic content discovery
+- **File System**: fs-extra for enhanced file operations
+- **Process Management**: execa for external command execution
+
+### Key Dependencies
+
+- `@clack/prompts`: Interactive CLI prompts
+- `natural`: Text similarity algorithms for search
+- `glob` + `minimatch`: File pattern matching and filtering
+- `workspace-tools`: Monorepo workspace utilities
+
 ## Project-Specific Context
 
 This tool is designed to work with Claude Code's command system. The init process:
@@ -124,6 +151,33 @@ This tool is designed to work with Claude Code's command system. The init proces
 1. Creates `.claude/` directory structure
 2. Downloads command templates from GitHub
 3. Provides slash commands for content management
+
+## cc-self-refer System
+
+This project uses cc-self-refer for intelligent self-reference capabilities.
+Claude Code agents should use these CLI commands to access and manage project context automatically:
+
+```bash
+# IMPORTANT: Claude Code agents should use these commands proactively
+# Search and access existing content before starting tasks
+npx cc-self-refer spec search "topic"    # Find technical specifications
+npx cc-self-refer pattern search "keyword"    # Find reusable patterns
+
+# List and view specific content
+npx cc-self-refer spec list              # List all specifications
+npx cc-self-refer spec view <id>         # Load specific specification
+npx cc-self-refer pattern list           # List all patterns
+npx cc-self-refer pattern view <id>      # Load specific pattern
+```
+
+### Usage Workflow
+
+**Agent Task Flow:**
+
+1. Search for relevant context: `npx cc-self-refer <type> search "keyword"`
+2. Load existing content: `npx cc-self-refer <type> view <id>`
+3. Work with full project context
+4. Create new entries: `npx cc-self-refer <type> create "title" "description"`
 
 ### ⚠️ CRITICAL: CLI and Command Template Interdependencies
 
