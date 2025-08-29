@@ -153,33 +153,6 @@ This tool is designed to work with Claude Code's command system. The init proces
 2. Downloads command templates from GitHub
 3. Provides slash commands for content management
 
-## cc-self-refer System
-
-This project uses cc-self-refer for intelligent self-reference capabilities.
-Claude Code agents should use these CLI commands to access and manage project context automatically:
-
-```bash
-# IMPORTANT: Claude Code agents should use these commands proactively
-# Search and access existing content before starting tasks
-npx cc-self-refer spec search "topic"    # Find project specifications
-npx cc-self-refer pattern search "keyword"    # Find reusable patterns
-
-# List and view specific content
-npx cc-self-refer spec list              # List all specifications
-npx cc-self-refer spec view <id>         # Load specific specification
-npx cc-self-refer pattern list           # List all patterns
-npx cc-self-refer pattern view <id>      # Load specific pattern
-```
-
-### Usage Workflow
-
-**Agent Task Flow:**
-
-1. Search for relevant context: `npx cc-self-refer <type> search "keyword"`
-2. Load existing content: `npx cc-self-refer <type> view <id>`
-3. Work with full project context
-4. Create new entries: `npx cc-self-refer <type> create "title" "description"`
-
 ### ⚠️ CRITICAL: CLI and Command Template Interdependencies
 
 **ALL command templates in `templates/commands/` MUST use the `cc-self-refer` CLI tool. They are NOT standalone implementations.**
