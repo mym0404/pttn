@@ -1,9 +1,9 @@
 import { Command } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
-import pc from 'picocolors';
 
 import { setupClaudeSelfReferProject } from '../setup';
+import { logger } from '../utils';
 
 export const registerInitCommands = (program: Command): void => {
   program
@@ -22,11 +22,11 @@ export const registerInitCommands = (program: Command): void => {
           const promptContent = readFileSync(promptPath, 'utf-8');
           console.log(promptContent);
         } else {
-          console.error(pc.red('❌ Prompt template not found'));
+          logger.error('Prompt template not found');
           process.exit(1);
         }
       } catch (error) {
-        console.error(pc.red(`❌ Failed to read prompt: ${error}`));
+        logger.error('Failed to read prompt', error);
         process.exit(1);
       }
     });
@@ -45,7 +45,7 @@ export const registerInitCommands = (program: Command): void => {
       try {
         await setupClaudeSelfReferProject(process.cwd(), options.repo);
       } catch (error) {
-        console.error(`❌ Project setup failed: ${error}`);
+        logger.error('Project setup failed', error);
         process.exit(1);
       }
     });

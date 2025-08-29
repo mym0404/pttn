@@ -131,7 +131,7 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- Each component can refer others
+- Extract pattern focused on usage rather definition
 - Test
 - Docs
 - Guide files on init

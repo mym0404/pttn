@@ -1,19 +1,10 @@
-import { intro, log, note, outro, spinner } from '@clack/prompts';
 import pc from 'picocolors';
 
 export type LogLevel = 'info' | 'success' | 'warning' | 'error' | 'debug';
 
-export interface LogMessage {
-  level: LogLevel;
-  message: string;
-  data?: unknown;
-  timestamp?: string;
-}
-
 export class Logger {
   private static instance: Logger;
   private debugMode = false;
-  private activeSpinner?: ReturnType<typeof spinner> = undefined;
 
   private constructor() {}
 
@@ -30,52 +21,33 @@ export class Logger {
 
   // High-level workflow methods
   startWorkflow(title: string): void {
-    intro(pc.bgBlue(pc.white(` ${title} `)));
+    console.log(pc.blue(`🚀 ${title}`));
   }
 
   endWorkflow(message?: string): void {
-    outro(message || pc.green('✅ Process completed successfully'));
-  }
-
-  // Spinner methods for long operations
-  startSpinner(message: string): void {
-    this.activeSpinner = spinner();
-    this.activeSpinner.start(message);
-  }
-
-  updateSpinner(message: string): void {
-    if (this.activeSpinner) {
-      this.activeSpinner.message(message);
-    }
-  }
-
-  stopSpinner(message?: string): void {
-    if (this.activeSpinner) {
-      this.activeSpinner.stop(message);
-      this.activeSpinner = undefined;
-    }
+    console.log(message || pc.green('🎉 Process completed successfully'));
   }
 
   // Core logging methods
   info(message: string, data?: unknown): void {
-    this.logWithClack('info', message, data);
+    this.log('info', message, data);
   }
 
   success(message: string, data?: unknown): void {
-    this.logWithClack('success', message, data);
+    this.log('success', message, data);
   }
 
   warning(message: string, data?: unknown): void {
-    this.logWithClack('warning', message, data);
+    this.log('warning', message, data);
   }
 
   error(message: string, data?: unknown): void {
-    this.logWithClack('error', message, data);
+    this.log('error', message, data);
   }
 
   debug(message: string, data?: unknown): void {
     if (this.debugMode) {
-      this.logWithClack('debug', message, data);
+      this.log('debug', message, data);
     }
   }
 
@@ -86,8 +58,11 @@ export class Logger {
       return;
     }
 
-    const formattedItems = items.map((item, index) => `${index + 1}. ${item}`);
-    note(formattedItems.join('\n'), pc.cyan(title));
+    console.log(pc.cyan(`\n${title}:`));
+    items.forEach((item, index) => {
+      console.log(`  ${index + 1}. ${item}`);
+    });
+    console.log();
   }
 
   // Progress tracking
@@ -96,49 +71,50 @@ export class Logger {
     this.info(`${operation} [${current}/${total}] ${percentage}%`);
   }
 
-  private logWithClack(level: LogLevel, message: string, data?: unknown): void {
+  private log(level: LogLevel, message: string, data?: unknown): void {
     const coloredMessage = this.colorizeMessage(level, message);
-    
+
+    console.log(coloredMessage);
+
     if (data) {
-      const dataStr = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-      note(dataStr, coloredMessage);
-    } else {
-      log.message(coloredMessage);
+      const dataStr =
+        typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+      console.log(pc.gray(dataStr));
     }
   }
 
   private colorizeMessage(level: LogLevel, message: string): string {
     switch (level) {
       case 'success':
-        return pc.green(`✅ ${message}`);
+        return pc.green(`🎉 ${message}`);
       case 'warning':
-        return pc.yellow(`⚠️  ${message}`);
+        return pc.yellow(`⚡ ${message}`);
       case 'error':
-        return pc.red(`❌ ${message}`);
+        return pc.red(`💥 ${message}`);
       case 'debug':
-        return pc.gray(`🔍 ${message}`);
+        return pc.gray(`🔬 ${message}`);
       case 'info':
       default:
-        return pc.blue(`ℹ️  ${message}`);
+        return pc.blue(`🚀 ${message}`);
     }
   }
 }
 
 // Singleton instance export
-export const logger = Logger.getInstance();
+export const logger: Logger = Logger.getInstance();
 
 // Utility functions for common patterns
-export const withSpinner = async <T>(
-  message: string, 
+export const withProgress = async <T>(
+  message: string,
   operation: () => Promise<T>
 ): Promise<T> => {
-  logger.startSpinner(message);
+  logger.info(message);
   try {
     const result = await operation();
-    logger.stopSpinner(pc.green('✅ Completed'));
+    logger.success('Completed');
     return result;
   } catch (error) {
-    logger.stopSpinner(pc.red('❌ Failed'));
+    logger.error('Failed');
     throw error;
   }
 };
@@ -156,7 +132,7 @@ export const withWorkflow = <T>(
     logger.endWorkflow();
     return result;
   } catch (error) {
-    logger.endWorkflow(pc.red('❌ Operation failed'));
+    logger.endWorkflow(pc.red('💥 Operation failed'));
     throw error;
   }
 };

@@ -1,7 +1,7 @@
 import { Command } from 'commander';
-import pc from 'picocolors';
 
 import { createSpecManager } from '../managers';
+import { logger } from '../utils';
 
 export const registerSpecCommands = (
   program: Command,
@@ -25,20 +25,17 @@ export const registerSpecCommands = (
           const msg = cmdOptions.category
             ? `No spec entries found in category "${cmdOptions.category}"`
             : 'No spec entries found in .claude/specs/';
-          console.log(pc.yellow(msg));
+          logger.warning(msg);
           return;
         }
 
-        console.log(pc.cyan('\n📋 Project Specifications:'));
-        entries.forEach((entry) => {
-          console.log(`  ${pc.bold(`${entry.id}.`)} ${entry.title}`);
-          console.log(
-            `     ${pc.dim(`Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`)}`
-          );
-        });
-        console.log();
+        const items = entries.map(
+          (entry) =>
+            `${entry.id}. ${entry.title} (${entry.category} | ${entry.lastUpdated.toLocaleDateString()})`
+        );
+        logger.list('📋 Project Specifications', items);
       } catch (error) {
-        console.error(pc.red('Error listing specs:'), error);
+        logger.error('Error listing specs', error);
       }
     });
 
@@ -91,7 +88,7 @@ export const registerSpecCommands = (
           console.log(formatMultipleMatches(formattedItems, formatOptions));
         }
       } catch (error) {
-        console.error(pc.red('Error searching specs:'), error);
+        logger.error('Error searching specs', error);
       }
     });
 
@@ -101,81 +98,60 @@ export const registerSpecCommands = (
     .argument('[concept]', 'Initial concept or feature name (optional)')
     .action(async (concept?: string) => {
       try {
-        console.log(
-          pc.cyan(
-            '\n🚀 Launching Interactive Specification Planning System...\n'
-          )
+        logger.info(
+          '\n🚀 Launching Interactive Specification Planning System...\n'
         );
 
         if (concept) {
-          console.log(
-            pc.blue(`Starting specification planning for: "${concept}"`)
-          );
+          logger.info(`Starting specification planning for: "${concept}"`);
         } else {
-          console.log(
-            pc.blue('Ready to begin comprehensive specification planning')
-          );
+          logger.info('Ready to begin comprehensive specification planning');
         }
 
-        console.log(
-          pc.dim(
-            '🔄 Interactive specification planning is available through Claude Code...\n'
-          )
+        logger.info(
+          '🔄 Interactive specification planning is available through Claude Code...\n'
         );
 
-        console.log(
-          pc.yellow('📋 To use the Interactive Specification Planning System:')
+        logger.warning(
+          '📋 To use the Interactive Specification Planning System:'
         );
-        console.log(pc.dim('   1. Open Claude Code in your project'));
+        logger.info('   1. Open Claude Code in your project');
 
         if (concept) {
-          console.log(pc.dim(`   2. Type: ${pc.bold(`/spec ${concept}`)}`));
+          logger.info(`   2. Type: /spec ${concept}`);
         } else {
-          console.log(pc.dim(`   2. Type: ${pc.bold('/spec')} [concept name]`));
+          logger.info('   2. Type: /spec [concept name]');
         }
 
-        console.log(
-          pc.dim('   3. Engage in deep collaborative planning with AI agents')
+        logger.info(
+          '   3. Engage in deep collaborative planning with AI agents'
         );
-        console.log(
-          pc.dim('   4. Generate multiple comprehensive specification files\n')
+        logger.info(
+          '   4. Generate multiple comprehensive specification files\n'
         );
 
-        console.log(pc.green('✨ Features available in Claude Code:'));
-        console.log(
-          pc.dim(
-            '   • Multi-agent collaboration (Research, Architecture, UX, Business, Security)'
-          )
+        logger.success('✨ Features available in Claude Code:');
+        logger.info(
+          '   • Multi-agent collaboration (Research, Architecture, UX, Business, Security)'
         );
-        console.log(
-          pc.dim('   • Deep requirement analysis with "why-chain" questioning')
+        logger.info(
+          '   • Deep requirement analysis with "why-chain" questioning'
         );
-        console.log(pc.dim('   • Multiple interconnected specification files'));
-        console.log(
-          pc.dim('   • Professional-grade, implementation-ready output')
-        );
-        console.log(pc.dim('   • Iterative refinement and validation\n'));
+        logger.info('   • Multiple interconnected specification files');
+        logger.info('   • Professional-grade, implementation-ready output');
+        logger.info('   • Iterative refinement and validation\n');
 
         // Suggest creating a simple spec if they provided content via CLI
         if (concept) {
-          console.log(
-            pc.blue(`Ready to plan specifications for: "${concept}"`)
-          );
-          console.log(
-            pc.dim(
-              'Use the Claude Code command above for the full interactive experience.'
-            )
+          logger.info(`Ready to plan specifications for: "${concept}"`);
+          logger.info(
+            'Use the Claude Code command above for the full interactive experience.'
           );
         }
       } catch (error) {
-        console.error(
-          pc.red('\n❌ Error launching specification planning system:'),
-          error
-        );
-        console.log(
-          pc.dim(
-            '\nTip: Ensure you have proper network connectivity and try again.'
-          )
+        logger.error('Error launching specification planning system', error);
+        logger.info(
+          '\nTip: Ensure you have proper network connectivity and try again.'
         );
       }
     });
@@ -218,7 +194,7 @@ export const registerSpecCommands = (
           console.log(formatSingleMatch(formattedItem, formatOptions));
         }
       } catch (error) {
-        console.error(pc.red('Error viewing spec:'), error);
+        logger.error('Error viewing spec', error);
       }
     });
 };

@@ -1,8 +1,7 @@
-import { intro, outro } from '@clack/prompts';
 import { Command } from 'commander';
-import pc from 'picocolors';
 
 import { createPlanManager } from '../managers';
+import { logger } from '../utils';
 
 export const registerPlanCommands = (
   program: Command,
@@ -18,15 +17,17 @@ export const registerPlanCommands = (
     .argument('<title>', 'Plan title')
     .argument('<content>', 'Plan content')
     .action(async (title: string, content: string) => {
-      intro(pc.cyan('Creating Strategic Plan'));
+      logger.startWorkflow('Creating Strategic Plan');
 
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
       try {
         const planId = await manager.create(title, content);
-        outro(pc.green(`✅ Plan created successfully with ID: ${planId}`));
+        logger.success(`Plan created successfully with ID: ${planId}`);
+        logger.endWorkflow();
       } catch (error) {
-        outro(pc.red(`❌ Error creating plan: ${error}`));
+        logger.error('Error creating plan', error);
+        logger.endWorkflow();
       }
     });
 
@@ -40,20 +41,17 @@ export const registerPlanCommands = (
         const plans = await manager.list();
 
         if (plans.length === 0) {
-          console.log(pc.yellow('No plans found in .claude/plans/'));
+          logger.warning('No plans found in .claude/plans/');
           return;
         }
 
-        console.log(pc.cyan('\n📋 Strategic Plans:'));
-        plans.forEach((plan) => {
-          console.log(`  ${pc.bold(`${plan.id}.`)} ${plan.title}`);
-          console.log(
-            `     ${pc.dim(`Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`)}`
-          );
-        });
-        console.log();
+        const items = plans.map(
+          (plan) =>
+            `${plan.title} - Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`
+        );
+        logger.list('📋 Strategic Plans', items);
       } catch (error) {
-        console.error(pc.red('Error listing plans:'), error);
+        logger.error('Error listing plans', error);
       }
     });
 
@@ -104,7 +102,7 @@ ${content}
 *Plan loaded successfully.*`);
         }
       } catch (error) {
-        console.error(pc.red('Error viewing plan:'), error);
+        logger.error('Error viewing plan', error);
       }
     });
 
@@ -157,7 +155,7 @@ ${content}
           console.log(formatMultipleMatches(formattedItems, formatOptions));
         }
       } catch (error) {
-        console.error(pc.red('Error searching plans:'), error);
+        logger.error('Error searching plans', error);
       }
     });
 
@@ -167,15 +165,17 @@ ${content}
     .argument('<idOrKeyword>', 'Plan ID or search keyword')
     .argument('<fullContent>', 'Complete updated plan content')
     .action(async (idOrKeyword: string, fullContent: string) => {
-      intro(pc.cyan('Editing Strategic Plan'));
+      logger.startWorkflow('Editing Strategic Plan');
 
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
       try {
         await manager.edit(idOrKeyword, fullContent);
-        outro(pc.green('✅ Plan updated successfully'));
+        logger.success('Plan updated successfully');
+        logger.endWorkflow();
       } catch (error) {
-        outro(pc.red(`❌ Error editing plan: ${error}`));
+        logger.error('Error editing plan', error);
+        logger.endWorkflow();
       }
     });
 
@@ -184,15 +184,17 @@ ${content}
     .description('Mark a plan as completed')
     .argument('<idOrKeyword>', 'Plan ID or search keyword')
     .action(async (idOrKeyword: string) => {
-      intro(pc.cyan('Resolving Strategic Plan'));
+      logger.startWorkflow('Resolving Strategic Plan');
 
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
       try {
         await manager.resolve(idOrKeyword);
-        outro(pc.green('✅ Plan marked as completed'));
+        logger.success('Plan marked as completed');
+        logger.endWorkflow();
       } catch (error) {
-        outro(pc.red(`❌ Error resolving plan: ${error}`));
+        logger.error('Error resolving plan', error);
+        logger.endWorkflow();
       }
     });
 

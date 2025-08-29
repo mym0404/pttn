@@ -1,8 +1,7 @@
-import { intro, outro } from '@clack/prompts';
 import { Command } from 'commander';
-import pc from 'picocolors';
 
 import { createPatternManager } from '../managers';
+import { logger } from '../utils';
 
 export const registerPatternCommands = (
   program: Command,
@@ -22,20 +21,17 @@ export const registerPatternCommands = (
         const patterns = await manager.list();
 
         if (patterns.length === 0) {
-          console.log(pc.yellow('No patterns found in .claude/patterns/'));
+          logger.warning('No patterns found in .claude/patterns/');
           return;
         }
 
-        console.log(pc.cyan('\n🧩 Code Patterns:'));
-        patterns.forEach((pattern) => {
-          console.log(`  ${pc.bold(`${pattern.id}.`)} ${pattern.title}`);
-          console.log(
-            `     ${pc.dim(`Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`)}`
-          );
-        });
-        console.log();
+        const items = patterns.map(
+          (pattern) =>
+            `${pattern.title} - Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`
+        );
+        logger.list('🧩 Code Patterns', items);
       } catch (error) {
-        console.error(pc.red('Error listing patterns:'), error);
+        logger.error('Error listing patterns', error);
       }
     });
 
@@ -88,7 +84,7 @@ export const registerPatternCommands = (
           console.log(formatMultipleMatches(formattedItems, formatOptions));
         }
       } catch (error) {
-        console.error(pc.red('Error searching patterns:'), error);
+        logger.error('Error searching patterns', error);
       }
     });
 
@@ -131,7 +127,7 @@ export const registerPatternCommands = (
           return;
         }
       } catch (error) {
-        console.error(pc.red('Error viewing pattern:'), error);
+        logger.error('Error viewing pattern', error);
       }
     });
 
@@ -147,7 +143,7 @@ export const registerPatternCommands = (
         content?: string,
         cmdOptions?: { language?: string }
       ) => {
-        intro(pc.cyan('Creating Code Pattern'));
+        logger.startWorkflow('Creating Code Pattern');
 
         const globalOptions = program.opts();
         const manager = createPatternManager(getContentDir(globalOptions));
@@ -159,9 +155,11 @@ export const registerPatternCommands = (
             patternContent,
             cmdOptions?.language
           );
-          outro(pc.green(`✅ Pattern created successfully: ${filename}`));
+          logger.success(`Pattern created successfully: ${filename}`);
+          logger.endWorkflow();
         } catch (error) {
-          outro(pc.red(`❌ Error creating pattern: ${error}`));
+          logger.error('Error creating pattern', error);
+          logger.endWorkflow();
         }
       }
     );

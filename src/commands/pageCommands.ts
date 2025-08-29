@@ -1,7 +1,7 @@
 import { Command } from 'commander';
-import pc from 'picocolors';
 
 import { createPageManager } from '../managers';
+import { logger } from '../utils';
 import { SessionExtractor } from '../utils/SessionExtractor.js';
 
 export const registerPageCommands = (
@@ -22,22 +22,17 @@ export const registerPageCommands = (
         const pages = await manager.list();
 
         if (pages.length === 0) {
-          console.log(pc.yellow('No pages found in .claude/pages/'));
+          logger.warning('No pages found in .claude/pages/');
           return;
         }
 
-        console.log(pc.cyan('\n📄 Session Pages:'));
-        pages.forEach((page, index) => {
-          console.log(
-            `  ${index + 1}. ${pc.bold(page.title)} ${pc.dim(`(${page.file})`)}`
-          );
-          console.log(
-            `     ${pc.dim(`Created: ${page.createdAt.toLocaleDateString()}`)}`
-          );
-        });
-        console.log();
+        const items = pages.map(
+          (page) =>
+            `${page.title} (${page.file}) - Created: ${page.createdAt.toLocaleDateString()}`
+        );
+        logger.list('📄 Session Pages', items);
       } catch (error) {
-        console.error(pc.red('Error listing pages:'), error);
+        logger.error('Error listing pages', error);
       }
     });
 
@@ -90,7 +85,7 @@ export const registerPageCommands = (
         }
         // Always return AI-optimized output, no need for console output
       } catch (error) {
-        console.error(pc.red('Error searching pages:'), error);
+        logger.error('Error searching pages', error);
       }
     });
 
@@ -140,7 +135,7 @@ ${content}
 *Page loaded successfully.*`);
         }
       } catch (error) {
-        console.error(pc.red('Error viewing page:'), error);
+        logger.error('Error viewing page', error);
       }
     });
 

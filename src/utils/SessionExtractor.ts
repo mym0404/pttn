@@ -70,7 +70,7 @@ export class SessionExtractor {
       );
     }
 
-    console.log(`Found session directory: ${foundCandidate}`);
+    // Found session directory: ${foundCandidate}
 
     // Find the most recent .jsonl session file
     const sessionFile = await this.findLatestSessionFile(sessionDir);
@@ -254,7 +254,7 @@ export class SessionExtractor {
         }
       } catch (error) {
         // Skip malformed lines
-        console.warn('Failed to parse line:', error);
+        // Skip malformed lines silently
       }
     }
 
