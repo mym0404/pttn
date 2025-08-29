@@ -150,7 +150,7 @@ This command creates new strategic planning documents by utilizing the `cc-self-
 
 ## References
 
-- 📚 [Relevant documentation or specification]
+- 📚 [Relevant documentation or project specification]
 - 🔗 [External resource or similar implementation]
 - 💡 [Best practices or patterns to follow]
 - 📖 [Technical articles or guides]

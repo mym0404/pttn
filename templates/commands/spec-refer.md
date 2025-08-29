@@ -1,12 +1,12 @@
-# Refer Spec - Access Technical Specifications
+# Refer Spec - Access Project Specifications
 
-Retrieve and access technical specifications from `.claude/specs/` directory by number or keyword search.
+Retrieve and access project specifications from `.claude/specs/` directory by number or keyword search.
 
 **Usage**: `/spec-refer <number|keyword>`
 
 ## Purpose
 
-This command retrieves stored technical specifications, system requirements, project documentation, and implementation details that are essential for understanding the project structure and making informed development decisions.
+This command retrieves stored project specifications including business requirements, feature designs, user experience flows, technical architecture, and operational procedures that are essential for understanding the project scope and making informed development decisions.
 
 ## What does this command do
 
@@ -51,7 +51,7 @@ The CLI tool handles:
 **Single Match Found**:
 
 ```markdown
-# Technical Specification: [Specification Topic]
+# Project Specification: [Specification Topic]
 
 ## Source: `.claude/specs/[filename]`
 
@@ -100,7 +100,7 @@ The CLI tool handles:
 ```markdown
 # No Specification Found
 
-No technical specifications found for "[search term]".
+No project specifications found for "[search term]".
 
 ## Available Specification Repository:
 
@@ -135,7 +135,7 @@ Shows all available specification entries with categories
 npx -y cc-self-refer spec search "authentication"
 ```
 
-Finds authentication-related technical specifications
+Finds authentication-related project specifications
 
 ### Search by Category
 
@@ -157,7 +157,7 @@ Finds user role specifications within authorization category
 
 ### Before Implementation
 
-- Review relevant technical specifications
+- Review relevant project specifications
 - Understand system constraints and requirements
 - Apply technical requirements to implementation decisions
 
@@ -176,19 +176,19 @@ Finds user role specifications within authorization category
 ### Specification Building
 
 - Document new requirements during development
-- Capture technical specification clarifications
+- Capture project specification clarifications
 - Record important project context for future reference
 
 ## Specification Categories
 
 Typical specifications stored include:
 
-- **System Requirements**: Technical constraints and system logic
-- **API Specifications**: Interface requirements and behaviors
-- **Performance Requirements**: System performance expectations and constraints
-- **Security Policies**: Security guidelines and compliance requirements
-- **Integration Notes**: Third-party service integration details
-- **Architecture Decisions**: Structural and design requirements
+- **Business Requirements**: Core business logic and rules
+- **User Experience Design**: User flows and interaction patterns
+- **Feature Specifications**: Detailed feature requirements and behaviors
+- **Technical Architecture**: System design and implementation approach
+- **Operational Procedures**: Deployment, monitoring, and maintenance workflows
+- **Project Constraints**: Budget, timeline, resource, and compliance requirements
 
 ## Error Handling
 
@@ -204,4 +204,4 @@ Typical specifications stored include:
 - **Relevance Ranking**: Prioritize exact matches over partial matches
 - **Recent Priority**: Favor recently accessed or modified specification items
 
-This command makes technical specifications easily accessible during development, ensuring technical implementation aligns with project requirements and system constraints.
+This command makes project specifications easily accessible during development, ensuring implementation aligns with comprehensive project requirements including business logic, user experience, and operational constraints.

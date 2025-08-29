@@ -1,6 +1,6 @@
-# Spec - Adaptive Interactive Specification Planning System
+# Spec - Adaptive Interactive Project Planning System
 
-Create comprehensive technical specifications through intelligent AI-powered collaborative planning that **automatically adapts** to your project's current state. This advanced system analyzes existing specifications and determines the optimal approach for your specific situation.
+Create comprehensive project specifications through intelligent AI-powered collaborative planning that **automatically adapts** to your project's current state. This advanced system analyzes existing specifications and determines the optimal approach for your specific situation.
 
 **Usage**: `/spec [initial concept or feature name]`
 
@@ -105,7 +105,7 @@ Generated Structure:
 ├── 008-user-account-and-authentication.md   # User management and security
 ├── 009-admin-dashboard-specifications.md    # Admin interface and capabilities
 ├── 010-inventory-management-system.md       # Stock management and tracking
-├── 011-api-architecture-and-endpoints.md    # Technical API specifications
+├── 011-api-integration-strategy.md          # External service integration approach
 ├── 012-database-design-and-models.md        # Data structure and relationships
 ├── 013-security-and-compliance-framework.md # Security and legal requirements
 └── 014-deployment-and-scaling-strategy.md   # Infrastructure and performance
@@ -189,13 +189,13 @@ Adaptive Actions:
 - Product Stage: MVP launched, scaling phase
 - User Feedback: Performance issues, mobile experience gaps
 - Business Goals: 3x user growth, mobile-first approach
-- Technical Debt: Legacy authentication system, manual deployments
+- Business Debt: Legacy user onboarding flow, manual operations
 - Compliance Needs: GDPR compliance required for EU users
 
 🚀 Strategic Focus:
 - Prioritize mobile experience specifications
 - Include performance optimization requirements  
-- Address technical debt in specification planning
+- Address business process gaps in specification planning
 - Integrate compliance requirements across all specifications
 ```
 
@@ -253,7 +253,7 @@ The system asks different types of questions based on your situation:
 
 📈 Strategic Questions:
 - How has user feedback influenced your specification priorities?
-- What technical debt should be addressed in the new specifications?
+- What business process improvements should be addressed in the new specifications?
 - Are there any compliance or security gaps in current specifications?
 - What new integrations or platforms need specification coverage?
 ```
@@ -332,7 +332,7 @@ Actions:
 ```bash
 🔗 Cross-Reference Analysis:
 - 001-product-vision.md references → 003-functional-requirements.md  
-- 004-technical-architecture.md depends on → 005-api-specifications.md
+- 004-business-architecture.md depends on → 005-feature-specifications.md
 - 006-ui-ux-specifications.md relates to → 008-user-journey-flows.md
 
 🎯 Automatic Link Updates:
@@ -379,14 +379,14 @@ When updating any specification, system automatically:
 #### **3. Implementation Readiness:**
 ```bash
 🚀 Development-Ready Assessment:
-- Technical Detail Level: Sufficient for immediate development ✓
+- Business Detail Level: Sufficient for implementation planning ✓
 - Architecture Clarity: Clear technical approach defined ✓  
 - Integration Points: All external dependencies specified ✓
 - Success Criteria: Measurable acceptance criteria defined ✓
 
 📋 Development Handoff Package:
 - All specifications cross-linked and consistent
-- Technical requirements mapped to business objectives
+- Project requirements mapped to business objectives
 - Implementation priorities and dependencies clear
 - Quality gates and testing strategies defined
 ```

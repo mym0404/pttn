@@ -48,7 +48,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 ```bash
 # IMPORTANT: Claude Code agents should use these commands proactively
 # Search and access existing content before starting tasks
-npx cc-self-refer spec search "topic"    # Find technical specifications
+npx cc-self-refer spec search "topic"    # Find project specifications
 npx cc-self-refer pattern search "keyword"    # Find reusable patterns
 
 # List and view specific content
@@ -73,11 +73,11 @@ npx cc-self-refer pattern view <id>           # Load specific pattern
 
 **Important**: Instead of manually adding technical specifications and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the spec and pattern directories:
 
-#### Technical Specification Analysis
+#### Project Specification Analysis & Extraction
 
-After analyzing the project's technical requirements and specifications, read `.claude/commands/spec.md` and apply it's usage
+After analyzing the project's business requirements, user experience needs, and technical architecture, read `.claude/commands/spec.md` and apply it's usage
 
-#### Code Pattern Analysis
+#### Code Pattern Analysis & Extraction
 
 After identifying reusable code patterns and architectural decisions: , read `.claude/commands/pattern-create.md` and apply it's usage
 
@@ -88,7 +88,7 @@ Verify the following directories exist (create if missing):
 - `.claude/pages/` - For session history
 - `.claude/plans/` - For strategic planning documents
 - `.claude/patterns/` - For reusable code patterns
-- `.claude/specs/` - For technical specification repository
+- `.claude/specs/` - For project specification repository
 - `.claude/commands/` - For Claude Code commands
 
 ## Quick Reference

@@ -26,7 +26,7 @@
 - 📋 **Strategic Plans**: Document and iterate on high-level project planning
 - 📄 **Session History**: Preserve development context across Claude sessions
 - 🧩 **Code Patterns**: Build a library of reusable, project-specific code templates
-- 📋 **Technical Specifications**: Maintain system requirements, constraints, and architectural decisions
+- 📋 **Project Specifications**: Maintain comprehensive project planning including business requirements, user experience, technical architecture, and operational procedures
 - 🔍 **Intelligent Search**: Find relevant information instantly with semantic search
 
 ## Quick Setup
@@ -78,7 +78,7 @@ your-project/
 │   ├── patterns/     # 🧩 Reusable Code Templates
 │   │   └── [numbered patterns like: 001-react-hook.md]
 │   │
-│   └── specs/         # 📋 Technical Specification Repository
+│   └── specs/         # 📋 Project Specification Repository
 │       └── [numbered entries like: 001-api-limits.md]
 └── [your project files]
 ```
@@ -109,12 +109,12 @@ your-project/
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 
-### 📋 `.claude/specs/` - Technical Specifications
+### 📋 `.claude/specs/` - Project Specifications
 
-- **Purpose**: System requirements, technical specifications, and architectural constraints
-- **Usage**: `/spec-refer` to access; `/spec` for interactive specification planning; manually curated technical specifications
-- **Content**: Technical requirements, API specifications, performance requirements, compliance needs
-- **AI Benefit**: Claude makes technically sound decisions aligned with your specifications
+- **Purpose**: Comprehensive project planning including business requirements, user experience design, technical architecture, and operational procedures
+- **Usage**: `/spec-refer` to access; `/spec` for interactive project planning; manually curated project specifications
+- **Content**: Business logic, user flows, feature requirements, technical design, operational workflows, project constraints
+- **AI Benefit**: Claude makes informed decisions aligned with your complete project vision and requirements
 
 ## Why This Works
 
@@ -123,7 +123,7 @@ Each directory serves a specific purpose in building **persistent AI context**:
 1. **Plans** provide strategic direction
 2. **Pages** maintain session continuity
 3. **Patterns** ensure consistency
-4. **Specifications** guide decision-making
+4. **Specifications** provide comprehensive project guidance
 
 The result: Claude becomes increasingly intelligent about your specific project over time.
 

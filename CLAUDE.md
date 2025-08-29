@@ -57,13 +57,14 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
    - `PageManager`: Session history management in `.claude/pages/`
    - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
-   - `SpecManager`: Technical specification repository in `.claude/specs/`
+   - `SpecManager`: Project specification repository in `.claude/specs/`
    - Factory functions exported from `src/managers/index.ts`
 
 3. **Content Organization**:
    - All content uses numbered markdown files (001-title.md format)
    - Metadata extraction from frontmatter and content patterns
    - Semantic search using natural.js for content discovery
+   - Spec files contain comprehensive project planning (business + technical + operational)
 
 ### Key Design Patterns
 
@@ -100,7 +101,7 @@ cc-self-refer/
 ├── pages/             # Session history (auto-generated)
 ├── plans/             # Strategic planning documents
 ├── patterns/          # Reusable code templates
-└── specs/        # Technical specification repository
+└── specs/        # Project specification repository
 ```
 
 ### Build System
@@ -124,7 +125,7 @@ cc-self-refer/
 ### Core Features
 
 - **Code Pattern Templates**: Store and reuse architectural patterns and code snippets
-- **Technical Specifications**: Maintain a searchable repository of technical requirements
+- **Project Specifications**: Maintain a searchable repository of comprehensive project planning documents
 
 ### Technology Stack
 
@@ -160,7 +161,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 ```bash
 # IMPORTANT: Claude Code agents should use these commands proactively
 # Search and access existing content before starting tasks
-npx cc-self-refer spec search "topic"    # Find technical specifications
+npx cc-self-refer spec search "topic"    # Find project specifications
 npx cc-self-refer pattern search "keyword"    # Find reusable patterns
 
 # List and view specific content
