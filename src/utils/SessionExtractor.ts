@@ -10,6 +10,25 @@ interface SessionMessage {
   type?: string;
 }
 
+interface MessageBlock {
+  type: 'text' | 'tool_use' | 'tool_result';
+  text?: string;
+  name?: string;
+  parameters?: Record<string, unknown>;
+  content?: string;
+}
+
+interface ParsedMessage {
+  role: string;
+  content: string | MessageBlock[];
+  type?: string;
+}
+
+interface SessionData {
+  timestamp?: string;
+  message?: ParsedMessage;
+}
+
 export class SessionExtractor {
   private readonly claudeProjectsDir: string;
 
@@ -221,7 +240,7 @@ export class SessionExtractor {
 
     for (const line of lines) {
       try {
-        const data = JSON.parse(line);
+        const data = JSON.parse(line) as SessionData;
 
         // Extract message information based on Claude's session format
         if (data.message) {
@@ -246,25 +265,25 @@ export class SessionExtractor {
   /**
    * Extract content from a message object
    */
-  private extractMessageContent(message: any): string {
+  private extractMessageContent(message: ParsedMessage): string {
     if (typeof message.content === 'string') {
       return message.content;
     }
 
     if (Array.isArray(message.content)) {
       return message.content
-        .map((block: any) => {
+        .map((block: MessageBlock | string) => {
           if (typeof block === 'string') {
             return block;
           }
           if (block.type === 'text') {
-            return block.text;
+            return block.text || '';
           }
           if (block.type === 'tool_use') {
-            return `[Tool: ${block.name}]\n${JSON.stringify(block.parameters, null, 2)}`;
+            return `[Tool: ${block.name || 'unknown'}]\n${JSON.stringify(block.parameters || {}, null, 2)}`;
           }
           if (block.type === 'tool_result') {
-            return `[Tool Result]\n${block.content}`;
+            return `[Tool Result]\n${block.content || ''}`;
           }
           return JSON.stringify(block);
         })
