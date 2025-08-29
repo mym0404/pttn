@@ -131,8 +131,6 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- Enhance search algorithm
-- Spec Feature (drop knowledge)
 - Each component can refer others
 - Test
 - Docs
