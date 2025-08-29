@@ -118,7 +118,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
 
-    async create(
+    create: async function (
       name: string,
       content: string,
       language: string = 'text'
@@ -138,15 +138,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         .replace(/[^a-z0-9-]/g, '')}.md`;
       const filepath = join(patternsDir, filename);
 
-      // Simple, clean format without unnecessary metadata
-      let fullContent: string;
-      if (content.includes('```')) {
-        // Code pattern - just title + language + code
-        fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
-      } else {
-        // Text pattern - just title + language + content
-        fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
-      }
+      const fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
 
       await writeFile(filepath, fullContent);
       return filename;
