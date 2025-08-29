@@ -18,54 +18,46 @@ Create or update `CLAUDE.md` file in the project root with the following content
 
 ====================== BEGIN CLAUDE.md CONTENT ======================
 
-# Project Context for Claude Code
+...previous content or blank
 
-## Project Overview
+# Self Reference Context Management System (cc-self-refer cli and context storage project sturcture)
 
-[Analyze the current project and describe: project type, main purpose, key features]
-
-## Architecture & Tech Stack
-
-- **Language**: [Identify primary language from package.json/files]
-- **Framework**: [Detect framework from dependencies] with major version if necessary
-- **Key Dependencies**: [List important libraries from package.json] with major version if necessary
-
-## Development Guidelines
-
-- **Code Style**: [Infer from existing code patterns and configs]
-- **Testing Strategy**: [Check for test files and testing frameworks]
-- **Documentation**: [Observe documentation patterns]
-
-## Project Structure
-
-[Analyze and document the key directories and their purposes]
-
-## cc-self-refer System
-
-This project uses cc-self-refer for intelligent self-reference capabilities.
+This project uses `cc-self-refer` for intelligent self-reference capabilities.
 Claude Code agents should use these CLI commands to access and manage project context automatically:
 
-```bash
-# IMPORTANT: Claude Code agents should use these commands proactively
-# Search and access existing content before starting tasks
-npx cc-self-refer spec search "topic"    # Find project specifications
-npx cc-self-refer pattern search "keyword"    # Find reusable patterns
+## Natural Language Command Mapping
 
-# List and view specific content
-npx cc-self-refer spec list              # List all specifications
-npx cc-self-refer spec view <id>         # Load specific specification
-npx cc-self-refer pattern list                # List all patterns
-npx cc-self-refer pattern view <id>           # Load specific pattern
-```
+**When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
 
-### Usage Workflow
+### Specification (spec) Commands
+- "use spec" / "refer to spec" / "check specifications" → **Read and execute** `.claude/commands/spec-refer.md`
+- "create spec" / "write specification" → **Read and execute** `.claude/commands/spec.md`
+- "use spec #3" / "refer to spec 003" → **Read and execute** `.claude/commands/spec-refer.md` with specific ID
+- "find API spec" / "search authentication spec" → **Read and execute** `.claude/commands/spec-refer.md` for search
 
-**Agent Task Flow:**
+### Pattern Commands
+- "use pattern" / "apply pattern" / "use existing patterns" → **Read and execute** `.claude/commands/pattern-use.md`
+- "create pattern" / "save as pattern" → **Read and execute** `.claude/commands/pattern-create.md`
+- "find Redux pattern" / "search API patterns" → **Read and execute** `.claude/commands/pattern-use.md` for search
+- "use pattern #5" / "apply pattern 005" → **Read and execute** `.claude/commands/pattern-use.md` with specific ID
 
-1. Search for relevant context: `npx cc-self-refer <type> search "keyword"`
-2. Load existing content: `npx cc-self-refer <type> view <id>`
-3. Work with full project context
-4. Create new entries: `npx cc-self-refer <type> create "title" "description"`
+### Page/Session Commands
+- "refer to previous conversation" / "check pages" → **Read and execute** `.claude/commands/page-refer.md`
+- "save this session" / "record conversation" → **Read and execute** `.claude/commands/page-save.md`
+- "yesterday's work" / "recent sessions" → **Read and execute** `.claude/commands/page-refer.md` for list
+
+### Plan Commands
+- "check plan" / "show plans" / "review planning" → **Read and execute** `.claude/commands/plan-resolve.md`
+- "create plan" / "make a plan" → **Read and execute** `.claude/commands/plan-create.md`
+- "edit plan" / "modify plan" → **Read and execute** `.claude/commands/plan-edit.md`
+- "refactoring plan" / "migration plan" → **Read and execute** `.claude/commands/plan-resolve.md` for specific plans
+
+**IMPORTANT Agent Behavior:**
+1. **Identify** the user's intent from natural language
+2. **Read** the appropriate `.claude/commands/*.md` file
+3. **Execute** all instructions and commands specified in that file
+4. **Use** the retrieved context to complete the user's request
+5. **Follow** the exact workflow described in the command documentation
 
 ====================== END CLAUDE.md CONTENT ======================
 
