@@ -5,13 +5,19 @@ import { resolve } from 'path';
 import { promisify } from 'util';
 
 import { ensureDir } from '../utils';
+import { getVersionTag } from '../utils/version';
 
 const execAsync = promisify(exec);
 
 export const setupClaudeSelfReferProject = async (
   projectDir: string,
-  repoUrl: string = 'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
+  repoUrl?: string
 ): Promise<void> => {
+  // Use version-specific URL if not provided
+  if (!repoUrl) {
+    const versionTag = getVersionTag();
+    repoUrl = `https://raw.githubusercontent.com/mym0404/cc-self-refer/${versionTag}`;
+  }
   const claudeDir = resolve(projectDir, '.claude');
   const commandsDir = resolve(claudeDir, 'commands');
 
