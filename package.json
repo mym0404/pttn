@@ -9,7 +9,7 @@
     "cc-self-refer": "./dist/cli.js"
   },
   "scripts": {
-    "dev": "tsdown && node dist/cli.js",
+    "dev": "tsdown && node dist/cli.js \"$@\"",
     "build": "tsdown src/cli.ts src/index.ts",
     "prepack": "pnpm run t && pnpm build",
     "prepublishOnly": "pnpm build",
@@ -40,6 +40,7 @@
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
     "@eslint/js": "^9.34.0",
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.10.5",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
