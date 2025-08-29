@@ -145,9 +145,6 @@ export class SessionExtractor {
     // Count markdown headers
     const headerCount = (content.match(/^#{1,3}\s/gm) || []).length;
 
-    // Count code blocks
-    const codeBlockCount = (content.match(/```/g) || []).length / 2;
-
     // Check for documentation-like patterns
     const hasDocPatterns =
       content.includes('## Usage') ||
