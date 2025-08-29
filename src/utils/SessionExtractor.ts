@@ -25,22 +25,33 @@ export class SessionExtractor {
   async extractCurrentSession(projectPath?: string): Promise<string> {
     const currentProject = projectPath || process.cwd();
 
-    // Convert project path to Claude's directory format
-    // Replace path separators with - for directory naming (cross-platform)
-    const projectDirName = currentProject
-      .replace(/^[A-Z]:/i, '') // Remove Windows drive letters (C:, D:, etc.)
-      .replace(/^\//, '') // Remove Unix root slash
-      .replace(/[/\\]/g, '-') // Replace both / and \ with -
-      .toLowerCase();
+    // Try multiple directory naming patterns that Claude might use
+    const candidates = this.generateDirectoryCandidates(currentProject);
 
-    const sessionDir = join(this.claudeProjectsDir, projectDirName);
+    let sessionDir: string | null = null;
+    let foundCandidate: string | null = null;
 
-    if (!existsSync(sessionDir)) {
+    // Try each candidate until we find an existing directory
+    for (const candidate of candidates) {
+      const candidateDir = join(this.claudeProjectsDir, candidate);
+      if (existsSync(candidateDir)) {
+        sessionDir = candidateDir;
+        foundCandidate = candidate;
+        break;
+      }
+    }
+
+    if (!sessionDir) {
       throw new Error(
         `No Claude session found for project: ${currentProject}\n` +
-          `Expected directory: ${sessionDir}`
+          `Tried the following directory patterns:\n` +
+          candidates
+            .map((c) => `  - ${join(this.claudeProjectsDir, c)}`)
+            .join('\n')
       );
     }
+
+    console.log(`Found session directory: ${foundCandidate}`);
 
     // Find the most recent .jsonl session file
     const sessionFile = await this.findLatestSessionFile(sessionDir);
@@ -52,6 +63,54 @@ export class SessionExtractor {
     // Parse and format the session
     const messages = await this.parseSessionFile(join(sessionDir, sessionFile));
     return this.formatSessionAsMarkdown(messages, currentProject);
+  }
+
+  /**
+   * Generate multiple possible directory name patterns
+   * Claude might use different naming conventions across versions
+   */
+  private generateDirectoryCandidates(projectPath: string): string[] {
+    const candidates: string[] = [];
+
+    // Remove drive letters for Windows compatibility
+    const pathWithoutDrive = projectPath.replace(/^[A-Z]:/i, '');
+
+    // Pattern 1: Leading dash + preserve case (current Claude behavior)
+    candidates.push(
+      '-' + pathWithoutDrive.replace(/^\//, '').replace(/[/\\]/g, '-')
+    );
+
+    // Pattern 2: No leading dash + preserve case
+    candidates.push(pathWithoutDrive.replace(/^\//, '').replace(/[/\\]/g, '-'));
+
+    // Pattern 3: Leading dash + lowercase
+    candidates.push(
+      '-' +
+        pathWithoutDrive.replace(/^\//, '').replace(/[/\\]/g, '-').toLowerCase()
+    );
+
+    // Pattern 4: No leading dash + lowercase (old behavior)
+    candidates.push(
+      pathWithoutDrive.replace(/^\//, '').replace(/[/\\]/g, '-').toLowerCase()
+    );
+
+    // Pattern 5: URL encoded style (replace special chars)
+    candidates.push(
+      pathWithoutDrive
+        .replace(/^\//, '')
+        .replace(/[/\\:]/g, '-')
+        .replace(/\s/g, '_')
+    );
+
+    // Pattern 6: Double dash for root (some versions might do this)
+    if (projectPath.startsWith('/')) {
+      candidates.push(
+        '--' + pathWithoutDrive.replace(/^\//, '').replace(/[/\\]/g, '-')
+      );
+    }
+
+    // Remove duplicates
+    return [...new Set(candidates)];
   }
 
   /**
