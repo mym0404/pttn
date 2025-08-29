@@ -138,6 +138,89 @@ export class SessionExtractor {
   }
 
   /**
+   * Check if content looks like auto-generated command documentation
+   * Uses rough heuristics to detect documentation patterns
+   */
+  private looksLikeCommandDocumentation(content: string): boolean {
+    // Count markdown headers
+    const headerCount = (content.match(/^#{1,3}\s/gm) || []).length;
+
+    // Count code blocks
+    const codeBlockCount = (content.match(/```/g) || []).length / 2;
+
+    // Check for documentation-like patterns
+    const hasDocPatterns =
+      content.includes('## Usage') ||
+      content.includes('## Description') ||
+      content.includes('## Example') ||
+      content.includes('### CLI Command') ||
+      content.includes('This command');
+
+    // If it has many headers and code blocks, it's likely documentation
+    const isLongDoc = content.length > 2000 && headerCount > 5;
+
+    return (hasDocPatterns && headerCount > 3) || isLongDoc;
+  }
+
+  /**
+   * Filter out overly long command documentation
+   * Keeps the conversation focused on actual interactions
+   */
+  private filterMessages(messages: SessionMessage[]): SessionMessage[] {
+    const filtered: SessionMessage[] = [];
+
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i];
+      const content = message.content;
+
+      // Check for command execution patterns (flexible)
+      if (content.includes('<command-') && content.includes('</command-')) {
+        // Simplify command execution messages
+        const simplified = content
+          .replace(
+            /<command-[^>]+>.*?<\/command-[^>]+>/gs,
+            '[Command executed]'
+          )
+          .trim();
+
+        filtered.push({
+          ...message,
+          content: simplified || '[Command executed]',
+        });
+
+        // Check if next message looks like auto-generated documentation
+        if (
+          i + 1 < messages.length &&
+          messages[i + 1].role === 'user' &&
+          this.looksLikeCommandDocumentation(messages[i + 1].content)
+        ) {
+          // Replace with a short note
+          filtered.push({
+            ...messages[i + 1],
+            content: '[Command documentation omitted for brevity]',
+          });
+          i++; // Skip to next
+        }
+      } else if (
+        message.role === 'user' &&
+        this.looksLikeCommandDocumentation(content) &&
+        i > 0
+      ) {
+        // If standalone documentation appears, summarize it
+        filtered.push({
+          ...message,
+          content: '[Command documentation omitted for brevity]',
+        });
+      } else {
+        // Keep regular messages as-is
+        filtered.push(message);
+      }
+    }
+
+    return filtered;
+  }
+
+  /**
    * Parse a .jsonl session file
    */
   private async parseSessionFile(filePath: string): Promise<SessionMessage[]> {
@@ -166,7 +249,8 @@ export class SessionExtractor {
       }
     }
 
-    return messages;
+    // Apply flexible filtering
+    return this.filterMessages(messages);
   }
 
   /**
@@ -269,37 +353,5 @@ ${msg.content}
       return `${hours}h ${minutes}m`;
     }
     return `${minutes}m`;
-  }
-
-  /**
-   * Create a compact summary of the session
-   */
-  async createCompactSummary(fullContent: string): Promise<string> {
-    // Extract key information for compact summary
-    const lines = fullContent.split('\n');
-    const messageCount = lines.filter((l) =>
-      l.startsWith('### Message')
-    ).length;
-    const timestamp = new Date().toISOString();
-
-    return `# Session Compact Summary
-
-**Generated**: ${timestamp}
-**Total Messages**: ${messageCount}
-
-## Key Points
-
-This is a compact summary of the session. The full history is available in the full session file.
-
-## Quick Reference
-
-- Session extracted from Claude Code local storage
-- Contains complete conversation history
-- Includes all tool usage and file operations
-
----
-
-*Use the full session file for detailed conversation history.*
-`;
   }
 }
