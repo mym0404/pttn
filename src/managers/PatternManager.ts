@@ -138,18 +138,14 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         .replace(/[^a-z0-9-]/g, '')}.md`;
       const filepath = join(patternsDir, filename);
 
-      // Add language metadata if not already present
-      let fullContent = content;
-      if (!content.includes('**Language**:')) {
-        fullContent = `# ${name}
-
-**Language**: ${language}
-
-${content}
-
----
-**Created**: ${new Date().toISOString()}
-`;
+      // Simple, clean format without unnecessary metadata
+      let fullContent: string;
+      if (content.includes('```')) {
+        // Code pattern - just title + language + code
+        fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
+      } else {
+        // Text pattern - just title + language + content
+        fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
       }
 
       await writeFile(filepath, fullContent);

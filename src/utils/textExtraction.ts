@@ -53,3 +53,37 @@ export const extractCategory = (content: string, filepath: string): string => {
 
   return 'general';
 };
+
+export const extractPatternType = (content: string): string => {
+  const typeMatch = content.match(/\*\*Type\*\*:\s*([^\n|]+)/);
+  if (typeMatch && typeMatch[1]) {
+    return typeMatch[1].trim();
+  }
+
+  // Infer from content patterns
+  if (content.includes('useState') || content.includes('useEffect')) {
+    return 'react-hook';
+  }
+  if (content.includes('className=') || content.includes('styled-components')) {
+    return 'react-component';
+  }
+  if (content.includes('interface ') || content.includes('type ')) {
+    return 'typescript-type';
+  }
+  if (content.includes('const ') && content.includes('=>')) {
+    return 'function';
+  }
+
+  return 'code-snippet';
+};
+
+export const extractTags = (content: string): string[] => {
+  const tagsMatch = content.match(/\*\*Tags\*\*:\s*([^\n]+)/);
+  if (tagsMatch && tagsMatch[1]) {
+    return tagsMatch[1]
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+  }
+  return [];
+};
