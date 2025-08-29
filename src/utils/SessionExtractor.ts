@@ -26,10 +26,11 @@ export class SessionExtractor {
     const currentProject = projectPath || process.cwd();
 
     // Convert project path to Claude's directory format
-    // Replace / with - for directory naming
+    // Replace path separators with - for directory naming (cross-platform)
     const projectDirName = currentProject
-      .replace(/^\//, '')
-      .replace(/\//g, '-')
+      .replace(/^[A-Z]:/i, '') // Remove Windows drive letters (C:, D:, etc.)
+      .replace(/^\//, '') // Remove Unix root slash
+      .replace(/[/\\]/g, '-') // Replace both / and \ with -
       .toLowerCase();
 
     const sessionDir = join(this.claudeProjectsDir, projectDirName);
