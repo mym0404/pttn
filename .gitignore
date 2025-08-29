@@ -130,3 +130,6 @@ pids
 # Build output
 dist/
 build/
+
+.claude
+!.claude/settings.local.json
