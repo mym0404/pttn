@@ -24,7 +24,8 @@
       "Bash(npm run build:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(pnpm run:*)"
+      "Bash(pnpm run:*)",
+      "Bash(npx cc-self-refer:*)"
     ],
     "deny": [],
     "ask": []

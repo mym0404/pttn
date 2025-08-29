@@ -9,11 +9,11 @@ export const registerSpecCommands = (
 ): void => {
   const specCmd = program
     .command('spec')
-    .description('Specification management commands');
+    .description('Project specification management commands');
 
   specCmd
     .command('list')
-    .description('List all spec entries')
+    .description('List all project specification entries')
     .option('-c, --category <category>', 'Filter by category')
     .action(async (cmdOptions: { category?: string }) => {
       const globalOptions = program.opts();
@@ -29,7 +29,7 @@ export const registerSpecCommands = (
           return;
         }
 
-        console.log(pc.cyan('\n📋 Technical Specifications:'));
+        console.log(pc.cyan('\n📋 Project Specifications:'));
         entries.forEach((entry) => {
           console.log(`  ${pc.bold(`${entry.id}.`)} ${entry.title}`);
           console.log(
@@ -44,7 +44,7 @@ export const registerSpecCommands = (
 
   specCmd
     .command('search')
-    .description('Search specification repository')
+    .description('Search project specification repository')
     .argument('<keyword>', 'Search keyword')
     .option('-c, --category <category>', 'Filter by category')
     .action(async (keyword: string, cmdOptions: { category?: string }) => {
@@ -73,7 +73,7 @@ export const registerSpecCommands = (
           type: 'spec' as const,
           searchTerm: keyword,
           emoji: '📋',
-          title: 'Technical Specifications',
+          title: 'Project Specifications',
         };
 
         if (results.length === 0) {
@@ -97,7 +97,7 @@ export const registerSpecCommands = (
 
   specCmd
     .command('create')
-    .description('Launch interactive specification planning system')
+    .description('Launch interactive project planning system')
     .argument('[concept]', 'Initial concept or feature name (optional)')
     .action(async (concept?: string) => {
       try {
@@ -212,7 +212,7 @@ export const registerSpecCommands = (
           const formatOptions = {
             type: 'spec' as const,
             emoji: '📋',
-            title: 'Technical Specifications',
+            title: 'Project Specifications',
           };
 
           console.log(formatSingleMatch(formattedItem, formatOptions));

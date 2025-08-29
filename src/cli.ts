@@ -43,7 +43,7 @@ program
   .version(getVersion())
   .option(
     '-d, --dir <directory>',
-    'Directory for pages, plans, patterns, and specs (default: .claude)',
+    'Directory for pages, plans, patterns, and project specs (default: .claude)',
     '.claude'
   );
 

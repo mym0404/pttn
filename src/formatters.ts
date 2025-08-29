@@ -60,7 +60,7 @@ const extractKeyInsights = (content: string, type: string): string => {
 const generateApplicableContext = (type: string, title: string): string => {
   const contexts = {
     plan: `This plan provides strategic guidance for implementing ${title}. Use it to understand implementation phases, success criteria, and key considerations.`,
-    spec: `This technical specification about ${title} should inform implementation decisions and ensure alignment with project requirements.`,
+    spec: `This project specification about ${title} should inform implementation decisions and ensure alignment with business and project requirements.`,
     pattern: `This code pattern for ${title} can be directly applied or adapted for similar functionality in the current implementation.`,
     page: `This session context about ${title} provides historical development decisions and approaches that may be relevant to current work.`,
   };

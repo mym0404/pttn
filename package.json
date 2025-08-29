@@ -17,7 +17,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "t": "pnpm lint && pnpm typecheck",
+    "t": "pnpm lint && pnpm typecheck && pnpm build",
     "release": "yes | npx release-it patch"
   },
   "keywords": [
