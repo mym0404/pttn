@@ -233,7 +233,7 @@ export class SessionExtractor {
 
     for (const line of lines) {
       try {
-        const data = JSON.parse(line) as SessionData;
+        const data = JSON.parse(line);
 
         // Extract message information based on Claude's session format
         if (data.message) {

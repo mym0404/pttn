@@ -6,8 +6,6 @@ export class Logger {
   private static instance: Logger;
   private debugMode = false;
 
-  private constructor() {}
-
   static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
