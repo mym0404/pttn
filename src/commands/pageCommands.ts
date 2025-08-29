@@ -144,22 +144,6 @@ ${content}
       }
     });
 
-  pageCmd
-    .command('save')
-    .description('Save session history to pages')
-    .argument('<title>', 'Page title')
-    .argument('<content>', 'Page content')
-    .action(async (title: string, content: string) => {
-      const globalOptions = program.opts();
-      const manager = createPageManager(getContentDir(globalOptions));
-      try {
-        const pageId = await manager.save(title, content);
-        console.log(pc.green(`✅ Page saved successfully: ${pageId}`));
-      } catch (error) {
-        console.error(pc.red('Error saving page:'), error);
-      }
-    });
-
   // Alias for save command - automatically extracts session if no content provided
   pageCmd
     .command('create')

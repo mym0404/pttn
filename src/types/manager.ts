@@ -6,7 +6,6 @@ export interface PageManager {
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(title: string, content: string): Promise<number>;
-  save(title: string, content: string): Promise<number>;
 }
 
 export interface PlanManager {

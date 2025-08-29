@@ -132,10 +132,5 @@ ${content}
       await writeFile(filepath, fullContent);
       return nextId;
     },
-
-    async save(title: string, content: string): Promise<number> {
-      // Alias for create method to match CLI command
-      return this.create(title, content);
-    },
   };
 };
