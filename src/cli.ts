@@ -15,7 +15,7 @@ const program = new Command();
 
 // Get content directory based on --dir option
 const getContentDir = (cmdOptions: { dir?: string }): string => {
-  const projectRoot = findPackageRoot(process.cwd());
+  const projectRoot = findPackageRoot(process.cwd()) || process.cwd();
   return cmdOptions.dir
     ? resolve(projectRoot, cmdOptions.dir)
     : resolve(projectRoot, '.claude');

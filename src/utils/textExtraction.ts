@@ -23,6 +23,12 @@ export const extractStatus = (content: string): PlanInfo['status'] => {
 };
 
 export const extractLanguage = (content: string, filename: string): string => {
+  // Try to extract from Language metadata
+  const langMetaMatch = content.match(/\*\*Language\*\*:\s*([^\n]+)/);
+  if (langMetaMatch && langMetaMatch[1]) {
+    return langMetaMatch[1].trim().toLowerCase();
+  }
+
   // Try to extract from code blocks
   const codeBlockMatch = content.match(/```([a-zA-Z]+)/);
   if (codeBlockMatch && codeBlockMatch[1]) {
@@ -35,7 +41,7 @@ export const extractLanguage = (content: string, filename: string): string => {
     return langMatch[1].toLowerCase();
   }
 
-  return 'general';
+  return 'text';
 };
 
 export const extractCategory = (content: string, filepath: string): string => {
