@@ -24,11 +24,6 @@ interface ParsedMessage {
   type?: string;
 }
 
-interface SessionData {
-  timestamp?: string;
-  message?: ParsedMessage;
-}
-
 export class SessionExtractor {
   private readonly claudeProjectsDir: string;
 
@@ -48,14 +43,12 @@ export class SessionExtractor {
     const candidates = this.generateDirectoryCandidates(currentProject);
 
     let sessionDir: string | null = null;
-    let foundCandidate: string | null = null;
 
     // Try each candidate until we find an existing directory
     for (const candidate of candidates) {
       const candidateDir = join(this.claudeProjectsDir, candidate);
       if (existsSync(candidateDir)) {
         sessionDir = candidateDir;
-        foundCandidate = candidate;
         break;
       }
     }
