@@ -15,16 +15,16 @@ export const registerPlanCommands = (
   planCmd
     .command('create')
     .description('Create a new strategic plan')
-    .argument('<name>', 'Plan name')
-    .argument('<description>', 'Initial description')
-    .action(async (name: string, description: string) => {
+    .argument('<title>', 'Plan title')
+    .argument('<content>', 'Plan content')
+    .action(async (title: string, content: string) => {
       intro(pc.cyan('Creating Strategic Plan'));
 
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
       try {
-        const planId = await manager.create(name, description);
-        outro(pc.green(`✅ Plan created successfully: ${planId}`));
+        const planId = await manager.create(title, content);
+        outro(pc.green(`✅ Plan created successfully with ID: ${planId}`));
       } catch (error) {
         outro(pc.red(`❌ Error creating plan: ${error}`));
       }

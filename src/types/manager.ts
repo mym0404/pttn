@@ -12,7 +12,7 @@ export interface PlanManager {
   list(): Promise<PlanInfo[]>;
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
-  create(name: string, description: string): Promise<string>;
+  create(title: string, content: string): Promise<number>;
   edit(idOrKeyword: string, fullContent: string): Promise<void>;
   resolve(idOrKeyword: string): Promise<void>;
   delete(idOrKeyword: string): Promise<void>;
