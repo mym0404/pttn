@@ -141,9 +141,6 @@ export const createSpecManager = (contentDir: string): SpecManager => {
 **Category**: ${category}
 
 ${content}
-
----
-**Created**: ${new Date().toISOString()}
 `;
 
       await writeFile(filepath, fullContent);

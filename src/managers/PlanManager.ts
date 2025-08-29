@@ -2,13 +2,13 @@ import { readFile, stat, unlink, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { PlanInfo, PlanManager, SearchResult } from '../types/index.js';
+import { PlanInfo, PlanManager, SearchResult } from '../types';
+import { ensureDir } from '../utils';
+import { extractStatus, extractTitle } from '../utils';
 import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
-import { ensureDir } from '../utils/index.js';
-import { extractStatus, extractTitle } from '../utils/textExtraction.js';
 
 export const createPlanManager = (contentDir: string): PlanManager => {
   const plansDir = resolve(contentDir, 'plans');
@@ -188,10 +188,6 @@ To be defined based on requirements
 - **Phase 2**: TBD
 - **Phase 3**: TBD
 - **Phase 4**: TBD
-
----
-**Status**: [Planning]
-**Last Updated**: ${new Date().toISOString()}
 `;
 
       await writeFile(filepath, template);

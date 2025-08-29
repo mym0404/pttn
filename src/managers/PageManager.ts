@@ -2,13 +2,13 @@ import { readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
-import { PageInfo, PageManager, SearchResult } from '../types/index.js';
+import { PageInfo, PageManager, SearchResult } from '../types';
+import { ensureDir } from '../utils';
+import { extractTitle } from '../utils';
 import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
-import { ensureDir } from '../utils/index.js';
-import { extractTitle } from '../utils/textExtraction.js';
 
 export const createPageManager = (contentDir: string): PageManager => {
   const pagesDir = resolve(contentDir, 'pages');
@@ -123,10 +123,6 @@ export const createPageManager = (contentDir: string): PageManager => {
       const fullContent = `# ${title}
 
 ${content}
-
----
-**Status**: Active
-**Created**: ${new Date().toISOString()}
 `;
 
       await writeFile(filepath, fullContent);
