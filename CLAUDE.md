@@ -2,47 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Common Commands
-
-### Development Commands
-
-```bash
-# Build the project
-pnpm build
-
-# Development build and run
-pnpm dev
-
-# Type checking
-pnpm typecheck
-
-# Linting and formatting
-pnpm lint
-pnpm lint:fix
-pnpm format
-pnpm format:check
-
-# Run all checks (lint + format + typecheck)
-pnpm t
-
-# Release
-pnpm release
-```
-
-### CLI Testing
-
-```bash
-# Test CLI commands locally after building
-pnpm build
-node dist/cli.js --help
-
-# Test specific commands
-node dist/cli.js page list
-node dist/cli.js plan create "Test Plan" "Description"
-node dist/cli.js pattern search "keyword"
-node dist/cli.js spec list
-```
-
 ## High-Level Architecture
 
 This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory structure for project context management.
@@ -58,7 +17,6 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
    - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
    - `SpecManager`: Project specification repository in `.claude/specs/`
-   - Factory functions exported from `src/managers/index.ts`
 
 3. **Content Organization**:
    - All content uses numbered markdown files (001-title.md format)
@@ -103,20 +61,6 @@ cc-self-refer/
 ├── patterns/          # Reusable code templates
 └── specs/        # Project specification repository
 ```
-
-### Build System
-
-- **TypeScript**: ES2022 target with ESNext modules
-- **Build Tool**: tsdown (simplified TypeScript bundler)
-- **Package Manager**: pnpm with lockfile
-- **Output**: Both CommonJS and ESM builds in `dist/`
-
-### Development Workflow
-
-1. Make changes to `src/` files
-2. Run `pnpm t` for comprehensive validation
-3. Use `pnpm dev` for quick testing
-4. Build with `pnpm build` before release
 
 ## Project Overview
 
@@ -220,3 +164,42 @@ Always verify that changes maintain compatibility across:
 - `src/managers/*.ts` (Business logic)
 - `templates/commands/*.md` (Claude Code command definitions)
 - `README.md` (User documentation)
+
+# Self Reference Context Management System (cc-self-refer cli and context storage project structure)
+
+This project uses `cc-self-refer` for intelligent self-reference capabilities.
+Claude Code agents should use these CLI commands to access and manage project context automatically:
+
+## Natural Language Command Mapping
+
+**When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
+
+### Specification (spec) Commands
+- "use spec" / "refer to spec" / "check specifications" → **Read and execute** `.claude/commands/spec-refer.md`
+- "create spec" / "write specification" → **Read and execute** `.claude/commands/spec.md`
+- "use spec #3" / "refer to spec 003" → **Read and execute** `.claude/commands/spec-refer.md` with specific ID
+- "find API spec" / "search authentication spec" → **Read and execute** `.claude/commands/spec-refer.md` for search
+
+### Pattern Commands
+- "use pattern" / "apply pattern" / "use existing patterns" → **Read and execute** `.claude/commands/pattern-use.md`
+- "create pattern" / "save as pattern" → **Read and execute** `.claude/commands/pattern-create.md`
+- "find Redux pattern" / "search API patterns" → **Read and execute** `.claude/commands/pattern-use.md` for search
+- "use pattern #5" / "apply pattern 005" → **Read and execute** `.claude/commands/pattern-use.md` with specific ID
+
+### Page/Session Commands
+- "refer to previous conversation" / "check pages" → **Read and execute** `.claude/commands/page-refer.md`
+- "save this session" / "record conversation" → **Read and execute** `.claude/commands/page-save.md`
+- "yesterday's work" / "recent sessions" → **Read and execute** `.claude/commands/page-refer.md` for list
+
+### Plan Commands
+- "check plan" / "show plans" / "review planning" → **Read and execute** `.claude/commands/plan-resolve.md`
+- "create plan" / "make a plan" → **Read and execute** `.claude/commands/plan-create.md`
+- "edit plan" / "modify plan" → **Read and execute** `.claude/commands/plan-edit.md`
+- "refactoring plan" / "migration plan" → **Read and execute** `.claude/commands/plan-resolve.md` for specific plans
+
+**IMPORTANT Agent Behavior:**
+1. **Identify** the user's intent from natural language
+2. **Read** the appropriate `.claude/commands/*.md` file
+3. **Execute** all instructions and commands specified in that file
+4. **Use** the retrieved context to complete the user's request
+5. **Follow** the exact workflow described in the command documentati

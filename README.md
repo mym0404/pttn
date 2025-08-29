@@ -131,7 +131,6 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- Extract pattern focused on usage rather definition
 - Test
 - Docs
 - Guide files on init
