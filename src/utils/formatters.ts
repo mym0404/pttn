@@ -1,3 +1,4 @@
+import pc from 'picocolors';
 export interface FormatOptions {
   type: 'page' | 'plan' | 'pattern' | 'spec';
   searchTerm?: string;
@@ -5,185 +6,74 @@ export interface FormatOptions {
   title: string;
 }
 
-export interface FormattedItem {
-  id: number;
-  title: string;
-  file: string;
-  metadata: string;
-  brief?: string;
-  content?: string;
-}
-
-// Enhanced content analysis functions
-const extractKeyInsights = (content: string, type: string): string => {
-  const lines = content.split('\n');
-  const insights: string[] = [];
-
-  // Extract important points based on content type
-  if (type === 'plan') {
-    lines.forEach((line) => {
-      if (
-        line.includes('✅') ||
-        line.includes('- [x]') ||
-        line.includes('**Key')
-      ) {
-        insights.push(line.trim());
-      }
+// Common search result formatting function
+export const formatSearchResults = <
+  TResult extends { file: string; title: string; score?: number },
+  TItem extends { file: string; title: string; content?: string },
+>(
+  results: TResult[],
+  allItems: TItem[],
+  options: FormatOptions,
+  getMetadata: (item: TItem) => string
+): void => {
+  if (results.length === 0) {
+    console.log(`No ${options.type}s found for "${options.searchTerm}".`);
+    console.log(`\nAvailable ${options.type}s:`);
+    allItems.slice(0, 5).forEach((item, index) => {
+      console.log(`${index + 1}. ${item.title}`);
     });
-  } else if (type === 'spec') {
-    lines.forEach((line) => {
-      if (
-        line.startsWith('## ') ||
-        line.includes('**Important') ||
-        line.includes('**Note')
-      ) {
-        insights.push(line.trim());
-      }
-    });
-  } else if (type === 'pattern') {
-    lines.forEach((line) => {
-      if (
-        line.includes('Usage:') ||
-        line.includes('Example:') ||
-        line.includes('**Best Practice')
-      ) {
-        insights.push(line.trim());
+  } else if (results.length === 1) {
+    const item = allItems.find((p) => p.file === results[0].file);
+    if (item?.content) {
+      console.log(item.content);
+    }
+  } else {
+    console.log(
+      `${options.emoji} ${options.title}s found for "${options.searchTerm}":\n`
+    );
+    results.forEach((result, index) => {
+      const item = allItems.find((p) => p.file === result.file);
+      const score = result.score ? ` (score: ${result.score.toFixed(2)})` : '';
+      console.log(`${index + 1}. ${result.title}${score}`);
+      if (item) {
+        console.log(`   ${getMetadata(item)}`);
       }
     });
   }
-
-  return insights.length > 0
-    ? insights.slice(0, 3).join('\n')
-    : 'No specific insights extracted';
 };
 
-const generateApplicableContext = (type: string, title: string): string => {
-  const contexts = {
-    plan: `This plan provides strategic guidance for implementing ${title}. Use it to understand implementation phases, success criteria, and key considerations.`,
-    spec: `This project specification about ${title} should inform implementation decisions and ensure alignment with business and project requirements.`,
-    pattern: `This code pattern for ${title} can be directly applied or adapted for similar functionality in the current implementation.`,
-    page: `This session context about ${title} provides historical development decisions and approaches that may be relevant to current work.`,
+// Common format options creator
+export const createFormatOptions = (
+  type: FormatOptions['type'],
+  searchTerm?: string
+): FormatOptions => {
+  const configs = {
+    page: { emoji: '📄', title: 'Page' },
+    plan: { emoji: '📋', title: 'Plan' },
+    pattern: { emoji: '🧩', title: 'Pattern' },
+    spec: { emoji: '📋', title: 'Spec' },
   };
 
-  return (
-    contexts[type as keyof typeof contexts] ||
-    'Apply this information to inform current development decisions.'
-  );
+  const config = configs[type];
+  return {
+    type,
+    searchTerm,
+    emoji: config.emoji,
+    title: config.title,
+  };
 };
 
-const generateBriefSummary = (content: string, type: string): string => {
-  const lines = content.split('\n').filter((line) => line.trim());
-
-  // Extract first meaningful paragraph or bullet point
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (
-      trimmed.length > 30 &&
-      !trimmed.startsWith('#') &&
-      !trimmed.startsWith('---')
-    ) {
-      return trimmed.substring(0, 120) + (trimmed.length > 120 ? '...' : '');
-    }
+// Common view formatting function
+export const formatViewResult = (content?: string): void => {
+  if (content) {
+    console.log(content);
   }
-
-  return `${type.charAt(0).toUpperCase() + type.slice(1)} content available for reference`;
 };
 
-// Format single match for AI context consumption
-export const formatSingleMatch = (
-  item: FormattedItem,
-  options: FormatOptions
-): string => {
-  const sections = [
-    `# ${options.emoji} ${options.title}: ${item.title}`,
-    '',
-    `## Source: \`.claude/${options.type}s/${item.file}\``,
-    '',
-  ];
-
-  if (item.content) {
-    sections.push(item.content);
-    sections.push('');
-
-    // Add AI-optimized insights
-    const keyInsights = extractKeyInsights(item.content, options.type);
-    sections.push('## Key Insights');
-    sections.push(keyInsights);
-    sections.push('');
-
-    const applicableContext = generateApplicableContext(
-      options.type,
-      item.title
-    );
-    sections.push('## Applicable Context');
-    sections.push(applicableContext);
-    sections.push('');
-  }
-
-  sections.push('---');
-  sections.push('');
-  sections.push(`**${options.title} loaded and available for reference**`);
-
-  return sections.join('\n');
-};
-
-// Format multiple matches output for AI context
-export const formatMultipleMatches = (
-  items: FormattedItem[],
-  options: FormatOptions
-): string => {
-  const sections = [
-    `# ${options.title} Items Found for "${options.searchTerm}"`,
-    '',
-    `## Matching ${options.title}:`,
-    '',
-  ];
-
-  items.forEach((item, index) => {
-    const brief = item.content
-      ? generateBriefSummary(item.content, options.type)
-      : 'Content available for use';
-    sections.push(
-      `### ${index + 1}. **${item.title}** (\`.claude/${options.type}s/${item.file}\`)`
-    );
-    sections.push(`💡 *${brief}*`);
-    sections.push(`🎯 *${item.metadata}*`);
-    sections.push('');
-  });
-
-  sections.push(
-    `**Access Specific**: \`npx -y cc-self-refer ${options.type} view <number>\` to view detailed ${options.type}`
-  );
-
-  return sections.join('\n');
-};
-
-// Format no matches output
-export const formatNoMatches = (
-  availableItems: FormattedItem[],
-  options: FormatOptions
-): string => {
-  const sections = [
-    `# No ${options.title} Found`,
-    '',
-    `No ${options.type} found for "${options.searchTerm}".`,
-    '',
-    `## Available ${options.title} Base:`,
-  ];
-
-  availableItems.slice(0, 5).forEach((item, index) => {
-    sections.push(
-      `${index + 1}. **${item.title}** - ${item.brief || 'Available for use'}`
-    );
-  });
-
-  sections.push('');
-  sections.push(
-    `**Usage**: \`npx -y cc-self-refer ${options.type} view <number>\` or try different keywords`
-  );
-  sections.push(
-    `**Add ${options.title}**: Document new insights as they arise during development`
-  );
-
-  return sections.join('\n');
+// No match result formatting function
+export const formatNoMatchResult = (
+  type: FormatOptions['type'],
+  searchTerm: string
+): void => {
+  console.log(pc.redBright(`No ${type}s found matching "${searchTerm}".`));
 };
