@@ -16,20 +16,10 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  // i18n: {
-  //   defaultLocale: 'en',
-  //   locales: ['en', 'ko'],
-  //   localeConfigs: {
-  //     en: {
-  //       label: 'English',
-  //       direction: 'ltr',
-  //     },
-  //     ko: {
-  //       label: '한국어',
-  //       direction: 'ltr',
-  //     },
-  //   },
-  // },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
 
   presets: [
     [
@@ -103,10 +93,10 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
+        // {
+        //   type: 'localeDropdown',
+        //   position: 'right',
+        // },
         {
           href: 'https://github.com/your-github-username/cc-self-refer',
           label: 'GitHub',
