@@ -4,6 +4,7 @@ import { createSpecManager } from '../managers';
 import { logger, readStdin } from '../utils';
 import {
   createFormatOptions,
+  formatList,
   formatNoMatchResult,
   formatSearchResults,
   formatViewResult,
@@ -39,7 +40,7 @@ export const registerSpecCommands = (
           (entry) =>
             `${entry.id}. ${entry.title} (${entry.category} | ${entry.lastUpdated.toLocaleDateString()})`
         );
-        logger.list('📋 Project Specifications', items);
+        formatList('Project Specifications', items);
       } catch (error) {
         logger.error('Error listing specs', error);
       }
@@ -95,10 +96,8 @@ export const registerSpecCommands = (
         logger.success(
           `Specification created successfully with ID: ${result.id} (${result.filename})`
         );
-        logger.endWorkflow();
       } catch (error) {
         logger.error('Error creating specification', error);
-        logger.endWorkflow();
       }
     });
 

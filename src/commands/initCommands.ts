@@ -3,19 +3,15 @@ import { existsSync, readFileSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
-import {
-  downloadFile,
-  ensureDir,
-  getVersionTag,
-  logger,
-  withWorkflow,
-} from '../utils';
+import { downloadFile, ensureDir, getVersionTag, logger } from '../utils';
 
 const setupClaudeSelfReferProject = async (
   claudeDir: string,
   repoUrl?: string
 ): Promise<void> => {
-  await withWorkflow('CC Self-Refer Project Setup', async () => {
+  logger.startWorkflow('CC Self-Refer Project Setup');
+
+  try {
     // Use version-specific URL if not provided
     if (!repoUrl) {
       const versionTag = getVersionTag();
@@ -79,7 +75,12 @@ const setupClaudeSelfReferProject = async (
 
     // Setup Claude Code permissions
     await setupClaudePermissions(claudeDir);
-  });
+
+    logger.success('CC Self-Refer Project Setup completed');
+  } catch (error) {
+    logger.error('CC Self-Refer Project Setup failed');
+    throw error;
+  }
 };
 const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
   const settingsPath = resolve(claudeDir, 'settings.local.json');

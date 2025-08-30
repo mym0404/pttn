@@ -4,6 +4,7 @@ import { createPlanManager } from '../managers';
 import { logger, readStdin } from '../utils';
 import {
   createFormatOptions,
+  formatList,
   formatNoMatchResult,
   formatSearchResults,
   formatViewResult,
@@ -34,10 +35,8 @@ export const registerPlanCommands = (
 
         const planId = await manager.create(title, content);
         logger.success(`Plan created successfully with ID: ${planId}`);
-        logger.endWorkflow();
       } catch (error) {
         logger.error('Error creating plan', error);
-        logger.endWorkflow();
       }
     });
 
@@ -59,7 +58,7 @@ export const registerPlanCommands = (
           (plan) =>
             `${plan.title} - Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`
         );
-        logger.list('📋 Strategic Plans', items);
+        formatList('Strategic Plans', items);
       } catch (error) {
         logger.error('Error listing plans', error);
       }
@@ -124,10 +123,8 @@ export const registerPlanCommands = (
       try {
         await manager.resolve(idOrKeyword);
         logger.success('Plan marked as completed');
-        logger.endWorkflow();
       } catch (error) {
         logger.error('Error resolving plan', error);
-        logger.endWorkflow();
       }
     });
 };

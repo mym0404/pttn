@@ -3,6 +3,7 @@ import { Command } from 'commander';
 import { createPatternManager } from '../managers';
 import {
   createFormatOptions,
+  formatList,
   formatNoMatchResult,
   formatSearchResults,
   formatViewResult,
@@ -35,7 +36,7 @@ export const registerPatternCommands = (
           (pattern) =>
             `${pattern.title} - Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`
         );
-        logger.list('🧩 Code Patterns', items);
+        formatList('Code Patterns', items);
       } catch (error) {
         logger.error('Error listing patterns', error);
       }
@@ -105,10 +106,8 @@ export const registerPatternCommands = (
 
         const filename = await manager.create(name, content);
         logger.success(`Pattern created successfully: ${filename}`);
-        logger.endWorkflow();
       } catch (error) {
         logger.error('Error creating pattern', error);
-        logger.endWorkflow();
       }
     });
 };

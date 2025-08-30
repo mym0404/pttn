@@ -4,6 +4,7 @@ import { createPageManager } from '../managers';
 import { logger } from '../utils';
 import {
   createFormatOptions,
+  formatList,
   formatNoMatchResult,
   formatSearchResults,
   formatViewResult,
@@ -36,7 +37,7 @@ export const registerPageCommands = (
           (page) =>
             `${page.title} (${page.file}) - Created: ${page.createdAt.toLocaleDateString()}`
         );
-        logger.list('📄 Session Pages', items);
+        formatList('Session Pages', items);
       } catch (error) {
         logger.error('Error listing pages', error);
       }

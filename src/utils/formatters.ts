@@ -1,8 +1,10 @@
 import pc from 'picocolors';
+
+import { logger } from './logger.js';
+
 export interface FormatOptions {
   type: 'page' | 'plan' | 'pattern' | 'spec';
   searchTerm?: string;
-  emoji: string;
   title: string;
 }
 
@@ -17,7 +19,7 @@ export const formatSearchResults = <
   getMetadata: (item: TItem) => string
 ): void => {
   if (results.length === 0) {
-    console.log(`No ${options.type}s found for "${options.searchTerm}".`);
+    logger.warning(`No ${options.type}s found for "${options.searchTerm}"`);
     console.log(`\nAvailable ${options.type}s:`);
     allItems.slice(0, 5).forEach((item, index) => {
       console.log(`${index + 1}. ${item.title}`);
@@ -28,9 +30,7 @@ export const formatSearchResults = <
       console.log(item.content);
     }
   } else {
-    console.log(
-      `${options.emoji} ${options.title}s found for "${options.searchTerm}":\n`
-    );
+    console.log(`${options.title}s found for "${options.searchTerm}":\n`);
     results.forEach((result, index) => {
       const item = allItems.find((p) => p.file === result.file);
       const score = result.score ? ` (score: ${result.score.toFixed(2)})` : '';
@@ -48,17 +48,16 @@ export const createFormatOptions = (
   searchTerm?: string
 ): FormatOptions => {
   const configs = {
-    page: { emoji: '📄', title: 'Page' },
-    plan: { emoji: '📋', title: 'Plan' },
-    pattern: { emoji: '🧩', title: 'Pattern' },
-    spec: { emoji: '📋', title: 'Spec' },
+    page: { title: 'Page' },
+    plan: { title: 'Plan' },
+    pattern: { title: 'Pattern' },
+    spec: { title: 'Spec' },
   };
 
   const config = configs[type];
   return {
     type,
     searchTerm,
-    emoji: config.emoji,
     title: config.title,
   };
 };
@@ -70,10 +69,24 @@ export const formatViewResult = (content?: string): void => {
   }
 };
 
+// List formatting function
+export const formatList = (title: string, items: string[]): void => {
+  if (items.length === 0) {
+    logger.warning(`No ${title.toLowerCase()} found`);
+    return;
+  }
+
+  console.log(pc.cyan(`\n${title}:`));
+  items.forEach((item, index) => {
+    console.log(`  ${index + 1}. ${item}`);
+  });
+  console.log();
+};
+
 // No match result formatting function
 export const formatNoMatchResult = (
   type: FormatOptions['type'],
   searchTerm: string
 ): void => {
-  console.log(pc.redBright(`No ${type}s found matching "${searchTerm}".`));
+  logger.error(`No ${type}s found matching "${searchTerm}"`);
 };
