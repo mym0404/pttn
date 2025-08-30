@@ -24,16 +24,16 @@ npx -y cc-self-refer pattern list
 ```
 
 ### Command Arguments
-- `id_or_keyword`: Pattern ID number or search keyword  
+- `id_or_keyword`: Pattern ID number or search keyword
 
 ### Expected Workflow
 1. Search for relevant patterns using `npx -y cc-self-refer pattern search`
 2. Check search results:
-   - If search result contains full pattern content, use that content directly
-   - If search result only shows summary/metadata, use `npx -y cc-self-refer pattern view <number>` for complete content
-3. **IMPLEMENT the actual code** using the pattern:
-   - Apply the pattern's architectural principles and design decisions
-   - **Focus on implementing working code, not just creating examples or documentation**
-   - **DO NOT create separate example files or usage demonstration files**
-   - Implement the pattern directly in the appropriate location within the project structure
+  - If search result contains full pattern content, use that content directly
+  - If search result only shows summary/metadata, use `npx -y cc-self-refer pattern view <number>` for complete content
+3. **IMPLEMENT the actual code** using the printed content:
+  - Apply the pattern's architectural principles and design decisions
+  - **Focus on implementing working code, not just creating examples or documentation**
+  - **DO NOT create separate example files or usage demonstration files**
+  - Implement the pattern directly in the appropriate location within the project structure
 
