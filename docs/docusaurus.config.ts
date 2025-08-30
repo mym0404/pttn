@@ -16,20 +16,20 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'ko'],
-    localeConfigs: {
-      en: {
-        label: 'English',
-        direction: 'ltr',
-      },
-      ko: {
-        label: '한국어',
-        direction: 'ltr',
-      },
-    },
-  },
+  // i18n: {
+  //   defaultLocale: 'en',
+  //   locales: ['en', 'ko'],
+  //   localeConfigs: {
+  //     en: {
+  //       label: 'English',
+  //       direction: 'ltr',
+  //     },
+  //     ko: {
+  //       label: '한국어',
+  //       direction: 'ltr',
+  //     },
+  //   },
+  // },
 
   presets: [
     [
