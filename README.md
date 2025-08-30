@@ -131,8 +131,7 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
-- CLI should print what ai should know not about file system like
-- Remove create commands (direct modification from cc)
+- Page search with date
 - Spec shouldn't include any code.(make it manage more higher blueprint)
 - Test
 - Docs

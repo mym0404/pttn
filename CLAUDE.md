@@ -158,7 +158,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 
 **When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
 
-**Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `♦️  Self Refering... ♦️` to indicate self-reference action execution.
+**Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `Self Refering... ♦️` to indicate self-reference action execution.
 
 **CRITICAL: Always monitor for these keywords in user prompts regardless of language:**
 - **spec** / **specification**
