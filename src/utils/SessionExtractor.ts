@@ -63,6 +63,18 @@ const STRIP_RULES: StripRule[] = [
     transform: () => '[Local Command Output]',
   },
   {
+    level: 1,
+    name: 'tool_noise',
+    description: 'Remove tool execution noise',
+    condition: (content) =>
+      (content.includes('node:') && content.includes('command not found')) ||
+      (content.includes('pnpm:') && content.includes('command not found')),
+    transform: (content) =>
+      content
+        .replace(/\n?(node|pnpm):\d+:.*?command not found.*?\n?/g, '')
+        .trim(),
+  },
+  {
     level: 2,
     name: 'command_documentation',
     description: 'Simplify command documentation',
@@ -267,13 +279,58 @@ export class SessionExtractor {
   }
 
   /**
+   * Detect semantic duplicates in messages
+   */
+  private detectSemanticDuplicates(messages: SessionMessage[]): Set<number> {
+    const duplicateIndices = new Set<number>();
+    const seenContent = new Map<string, number>();
+
+    for (let i = 0; i < messages.length; i++) {
+      const content = messages[i].content;
+
+      // Check for exact duplicates
+      if (seenContent.has(content)) {
+        duplicateIndices.add(i);
+        continue;
+      }
+
+      // Check for command documentation duplicates (similar structure)
+      if (content.includes('## What does this command do')) {
+        const commandPattern = content.match(/# (.+?) - .+?\n/)?.[1];
+        if (commandPattern) {
+          const existing = Array.from(seenContent.entries()).find(
+            ([key]) =>
+              key.includes('## What does this command do') &&
+              key.includes(commandPattern)
+          );
+          if (existing) {
+            duplicateIndices.add(i);
+            continue;
+          }
+        }
+      }
+
+      seenContent.set(content, i);
+    }
+
+    return duplicateIndices;
+  }
+
+  /**
    * Analyze and assign strip levels to messages
    * Preserves conversation flow while enabling adaptive content reduction
    */
   private analyzeStripLevels(messages: SessionMessage[]): SessionMessage[] {
-    return messages.map((message) => {
+    const duplicates = this.detectSemanticDuplicates(messages);
+
+    return messages.map((message, index) => {
       const content = message.content;
       let stripLevel = 0;
+
+      // Mark duplicates for higher strip level
+      if (duplicates.has(index)) {
+        stripLevel = 2; // Aggressively strip duplicates
+      }
 
       // Find the highest applicable strip level
       for (const rule of STRIP_RULES) {
@@ -297,20 +354,33 @@ export class SessionExtractor {
     messages: SessionMessage[],
     maxStripLevel: number
   ): SessionMessage[] {
-    return messages.map((message) => {
+    const duplicates = this.detectSemanticDuplicates(messages);
+
+    return messages.map((message, index) => {
       if (message.stripLevel === 0 || message.stripLevel > maxStripLevel) {
         return message; // Keep original content
       }
 
       let content = message.originalContent || message.content;
 
-      // Apply all applicable transformations up to maxStripLevel
-      for (const rule of STRIP_RULES) {
-        if (
-          rule.level <= maxStripLevel &&
-          rule.condition(content, message.role)
-        ) {
-          content = rule.transform(content);
+      // Handle semantic duplicates specially
+      if (duplicates.has(index) && maxStripLevel >= 2) {
+        if (content.includes('## What does this command do')) {
+          const titleMatch = content.match(/^#\s+(.+?)$/m);
+          const title = titleMatch ? titleMatch[1] : 'Command Documentation';
+          content = `[Duplicate Doc: ${title}]`;
+        } else {
+          content = '[Duplicate Message]';
+        }
+      } else {
+        // Apply regular strip rules
+        for (const rule of STRIP_RULES) {
+          if (
+            rule.level <= maxStripLevel &&
+            rule.condition(content, message.role)
+          ) {
+            content = rule.transform(content);
+          }
         }
       }
 
@@ -457,13 +527,13 @@ export class SessionExtractor {
       0
     );
 
-    // Determine strip level based on total length
+    // Determine strip level based on total length (conservative thresholds)
     let stripLevel = 0;
-    if (totalLength > 100000)
+    if (totalLength > 80000)
       stripLevel = 3; // Strip code blocks
-    else if (totalLength > 50000)
+    else if (totalLength > 40000)
       stripLevel = 2; // Strip docs and long modifications
-    else if (totalLength > 20000) stripLevel = 1; // Strip commands and system messages
+    else if (totalLength > 15000) stripLevel = 1; // Strip commands and system messages only
 
     // Apply strip transformations
     const processedMessages = this.applyStripLevel(
