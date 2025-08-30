@@ -122,22 +122,6 @@ Each command template is a **thin wrapper** that:
 3. **New features** → Implement in CLI first, then create command template
 4. **High context sharing** means changes in one area often require updates in multiple other areas
 
-#### Command Template Structure
-
-Every command template MUST include:
-```markdown
-## What does this command do
-
-### ⚠️ IMPORTANT: CLI Command Execution Required
-
-**This command MUST execute the following `cc-self-refer` CLI command.**
-
-### CLI Command Used
-```bash
-npx -y cc-self-refer [command] [args]
-```
-```
-
 #### Command Templates and Their CLI Bindings
 
 - `page-save.md` - Session extraction → `page extract-session` + `page create`

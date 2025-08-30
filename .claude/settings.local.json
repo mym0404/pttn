@@ -27,7 +27,8 @@
       "Bash(pnpm run:*)",
       "Bash(npx cc-self-refer:*)",
       "Bash(pnpm dev:*)",
-      "Bash(npx:*)"
+      "Bash(npx:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

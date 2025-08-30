@@ -31,5 +31,9 @@ npx -y cc-self-refer pattern list
 2. Check search results:
    - If search result contains full pattern content, use that content directly
    - If search result only shows summary/metadata, use `npx -y cc-self-refer pattern view <number>` for complete content
-3. Use printed code pattern as a references in the development process with flexible adaption by the circumstances.
+3. **IMPLEMENT the actual code** using the pattern:
+   - Apply the pattern's architectural principles and design decisions
+   - **Focus on implementing working code, not just creating examples or documentation**
+   - **DO NOT create separate example files or usage demonstration files**
+   - Implement the pattern directly in the appropriate location within the project structure
 
