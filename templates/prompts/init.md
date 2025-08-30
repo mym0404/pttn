@@ -30,18 +30,17 @@ Claude Code agents should use these CLI commands to access and manage project co
 **When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
 
 **CRITICAL: Always monitor for these keywords in user prompts regardless of language:**
-- **spec** / **specification**
+- **spec**
 - **pattern**
-- **page** / **session**
-- **plan** / **planning**
+- **page**
+- **plan**
 
 When these keywords appear in user prompts, determine if the user intends to use the corresponding cc-self-refer commands below.
 
-**Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `♦️  Self Refering... ♦️` to indicate self-reference action execution.
+**Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `Self Refering... ♦️` to indicate self-reference action execution.
 
 ### Specification (spec) Commands
 - "use spec" / "refer to spec" / "check specifications" → **Read and execute** `.claude/commands/spec-refer.md`
-- "create spec" / "write specification" → **Read and execute** `.claude/commands/spec.md`
 - "use spec #3" / "refer to spec 003" → **Read and execute** `.claude/commands/spec-refer.md` with specific ID
 - "find API spec" / "search authentication spec" → **Read and execute** `.claude/commands/spec-refer.md` for search
 
@@ -51,9 +50,8 @@ When these keywords appear in user prompts, determine if the user intends to use
 - "find Redux pattern" / "search API patterns" → **Read and execute** `.claude/commands/pattern-use.md` for search
 - "use pattern #5" / "apply pattern 005" → **Read and execute** `.claude/commands/pattern-use.md` with specific ID
 
-### Page/Session Commands
+### Page Commands
 - "refer to previous conversation" / "check pages" → **Read and execute** `.claude/commands/page-refer.md`
-- "save this session" / "record conversation" → **Read and execute** `.claude/commands/page-save.md`
 - "yesterday's work" / "recent sessions" → **Read and execute** `.claude/commands/page-refer.md` for list
 
 ### Plan Commands
