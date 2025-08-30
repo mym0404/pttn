@@ -154,9 +154,17 @@ Always verify that changes maintain compatibility across:
 This project uses `cc-self-refer` for intelligent self-reference capabilities.
 Claude Code agents should use these CLI commands to access and manage project context automatically:
 
-## Natural Language Command Mapping
+## Keyword Detection and Command Intent Recognition
 
 **When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
+
+**CRITICAL: Always monitor for these keywords in user prompts regardless of language:**
+- **spec** / **specification**
+- **pattern**
+- **page** / **session**
+- **plan** / **planning**
+
+When these keywords appear in user prompts, determine if the user intends to use the corresponding cc-self-refer commands below.
 
 ### Specification (spec) Commands
 - "use spec" / "refer to spec" / "check specifications" → **Read and execute** `.claude/commands/spec-refer.md`
