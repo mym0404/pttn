@@ -1,6 +1,6 @@
 # Page Save - Session History Dump with Citations and Memory Management
 
-This commadns run `cc-self-refer page-save` commands with title
+This commadns run `cc-self-refer page create` commands with title
 
 **Usage**: `/page-save <title>`
 

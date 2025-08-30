@@ -279,58 +279,13 @@ export class SessionExtractor {
   }
 
   /**
-   * Detect semantic duplicates in messages
-   */
-  private detectSemanticDuplicates(messages: SessionMessage[]): Set<number> {
-    const duplicateIndices = new Set<number>();
-    const seenContent = new Map<string, number>();
-
-    for (let i = 0; i < messages.length; i++) {
-      const content = messages[i].content;
-
-      // Check for exact duplicates
-      if (seenContent.has(content)) {
-        duplicateIndices.add(i);
-        continue;
-      }
-
-      // Check for command documentation duplicates (similar structure)
-      if (content.includes('## What does this command do')) {
-        const commandPattern = content.match(/# (.+?) - .+?\n/)?.[1];
-        if (commandPattern) {
-          const existing = Array.from(seenContent.entries()).find(
-            ([key]) =>
-              key.includes('## What does this command do') &&
-              key.includes(commandPattern)
-          );
-          if (existing) {
-            duplicateIndices.add(i);
-            continue;
-          }
-        }
-      }
-
-      seenContent.set(content, i);
-    }
-
-    return duplicateIndices;
-  }
-
-  /**
    * Analyze and assign strip levels to messages
    * Preserves conversation flow while enabling adaptive content reduction
    */
   private analyzeStripLevels(messages: SessionMessage[]): SessionMessage[] {
-    const duplicates = this.detectSemanticDuplicates(messages);
-
-    return messages.map((message, index) => {
+    return messages.map((message) => {
       const content = message.content;
       let stripLevel = 0;
-
-      // Mark duplicates for higher strip level
-      if (duplicates.has(index)) {
-        stripLevel = 2; // Aggressively strip duplicates
-      }
 
       // Find the highest applicable strip level
       for (const rule of STRIP_RULES) {
@@ -354,33 +309,20 @@ export class SessionExtractor {
     messages: SessionMessage[],
     maxStripLevel: number
   ): SessionMessage[] {
-    const duplicates = this.detectSemanticDuplicates(messages);
-
-    return messages.map((message, index) => {
+    return messages.map((message) => {
       if (message.stripLevel === 0 || message.stripLevel > maxStripLevel) {
         return message; // Keep original content
       }
 
       let content = message.originalContent || message.content;
 
-      // Handle semantic duplicates specially
-      if (duplicates.has(index) && maxStripLevel >= 2) {
-        if (content.includes('## What does this command do')) {
-          const titleMatch = content.match(/^#\s+(.+?)$/m);
-          const title = titleMatch ? titleMatch[1] : 'Command Documentation';
-          content = `[Duplicate Doc: ${title}]`;
-        } else {
-          content = '[Duplicate Message]';
-        }
-      } else {
-        // Apply regular strip rules
-        for (const rule of STRIP_RULES) {
-          if (
-            rule.level <= maxStripLevel &&
-            rule.condition(content, message.role)
-          ) {
-            content = rule.transform(content);
-          }
+      // Apply strip rules
+      for (const rule of STRIP_RULES) {
+        if (
+          rule.level <= maxStripLevel &&
+          rule.condition(content, message.role)
+        ) {
+          content = rule.transform(content);
         }
       }
 
@@ -546,8 +488,6 @@ export class SessionExtractor {
 
 **Extracted**: ${now.toISOString()}
 **Total Messages**: ${processedMessages.length}
-**Session Start**: ${processedMessages[0]?.timestamp || 'Unknown'}
-**Session End**: ${processedMessages[processedMessages.length - 1]?.timestamp || 'Unknown'}
 
 ---
 
@@ -577,30 +517,10 @@ ${msg.content}
 - **Total Messages**: ${processedMessages.length}
 - **User Messages**: ${processedMessages.filter((m) => m.role === 'user').length}
 - **Assistant Messages**: ${processedMessages.filter((m) => m.role === 'assistant').length}
-- **Duration**: ${this.calculateDuration(processedMessages)}
 - **Content Strip Level**: ${stripLevel} (0=none, 1=commands, 2=docs, 3=code)
 - **Original Length**: ${totalLength.toLocaleString()} chars
 `;
 
     return header + conversationBody + footer;
-  }
-
-  /**
-   * Calculate session duration
-   */
-  private calculateDuration(messages: SessionMessage[]): string {
-    if (messages.length < 2) return 'N/A';
-
-    const start = new Date(messages[0].timestamp);
-    const end = new Date(messages[messages.length - 1].timestamp);
-    const durationMs = end.getTime() - start.getTime();
-
-    const hours = Math.floor(durationMs / (1000 * 60 * 60));
-    const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
-
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`;
-    }
-    return `${minutes}m`;
   }
 }
