@@ -70,15 +70,15 @@ export const formatViewResult = (content?: string): void => {
 };
 
 // List formatting function
-export const formatList = (title: string, items: string[]): void => {
+export const formatList = (title: string, items: Array<{id: number, text: string}>): void => {
   if (items.length === 0) {
     logger.warning(`No ${title.toLowerCase()} found`);
     return;
   }
 
   console.log(pc.cyan(`\n${title}:`));
-  items.forEach((item, index) => {
-    console.log(`  ${index + 1}. ${item}`);
+  items.forEach((item) => {
+    console.log(`  ${item.id}. ${item.text}`);
   });
   console.log();
 };

@@ -81,7 +81,7 @@ Ready to enhance your Claude Code workflow? Check out our [Getting Started Guide
 
 ## Community and Support
 
-- 🐛 [Report Issues](https://github.com/your-username/cc-self-refer/issues)
-- 💬 [Join Discussions](https://github.com/your-username/cc-self-refer/discussions)
-- ⭐ [Star on GitHub](https://github.com/your-username/cc-self-refer)
+- 🐛 [Report Issues](https://github.com/mym0404/cc-self-refer/issues)
+- 💬 [Join Discussions](https://github.com/mym0404/cc-self-refer/discussions)
+- ⭐ [Star on GitHub](https://github.com/mym0404/cc-self-refer)
 - 📦 [View on npm](https://www.npmjs.com/package/cc-self-refer)

@@ -277,5 +277,5 @@ Now that you have cc-self-refer installed, proceed to:
 If you encounter issues not covered here:
 
 - Check our [Troubleshooting Guide](./troubleshooting)
-- [Open an issue](https://github.com/your-username/cc-self-refer/issues)
-- [Join the discussion](https://github.com/your-username/cc-self-refer/discussions)
+- [Open an issue](https://github.com/mym0404/cc-self-refer/issues)
+- [Join the discussion](https://github.com/mym0404/cc-self-refer/discussions)

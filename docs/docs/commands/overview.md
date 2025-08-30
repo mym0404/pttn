@@ -99,4 +99,4 @@ graph LR
 
 - Use `--help` flag with any CLI command
 - Check individual command documentation
-- Visit our [GitHub repository](https://github.com/your-username/cc-self-refer) for issues
+- Visit our [GitHub repository](https://github.com/mym0404/cc-self-refer) for issues

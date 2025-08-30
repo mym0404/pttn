@@ -7,10 +7,10 @@ const config: Config = {
   tagline: 'Intelligent Self-Reference for Claude Code Projects',
   favicon: 'img/favicon.ico',
 
-  url: 'https://your-github-username.github.io',
+  url: 'https://mym0404.github.io',
   baseUrl: '/cc-self-refer/',
 
-  organizationName: 'your-github-username',
+  organizationName: 'mym0404',
   projectName: 'cc-self-refer',
 
   onBrokenLinks: 'throw',
@@ -27,7 +27,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/your-github-username/cc-self-refer/tree/main/docs/',
+          editUrl: 'https://github.com/mym0404/cc-self-refer/tree/main/docs/',
           remarkPlugins: [],
           rehypePlugins: [],
         },
@@ -98,7 +98,7 @@ const config: Config = {
         //   position: 'right',
         // },
         {
-          href: 'https://github.com/your-github-username/cc-self-refer',
+          href: 'https://github.com/mym0404/cc-self-refer',
           label: 'GitHub',
           position: 'right',
         },
@@ -125,11 +125,11 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Issues',
-              href: 'https://github.com/your-github-username/cc-self-refer/issues',
+              href: 'https://github.com/mym0404/cc-self-refer/issues',
             },
             {
               label: 'Discussions',
-              href: 'https://github.com/your-github-username/cc-self-refer/discussions',
+              href: 'https://github.com/mym0404/cc-self-refer/discussions',
             },
           ],
         },
@@ -138,7 +138,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/your-github-username/cc-self-refer',
+              href: 'https://github.com/mym0404/cc-self-refer',
             },
             {
               label: 'npm',

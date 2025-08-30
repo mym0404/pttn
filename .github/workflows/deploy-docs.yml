@@ -46,12 +46,13 @@ jobs:
         with:
           node-version: '18'
           cache: 'pnpm'
-          cache-dependency-path: 'docs/pnpm-lock.yaml'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
-      - name: Install dependencies
-        run: |
-          cd docs
-          pnpm install --frozen-lockfile
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate command docs
+        run: node scripts/generate-command-docs.mjs
 
       - name: Build Docusaurus
         run: |

@@ -194,7 +194,7 @@ npm cache clean --force
 npm install -g cc-self-refer --registry https://registry.npmjs.org
 
 # Install from git
-npm install -g git+https://github.com/your-username/cc-self-refer.git
+npm install -g git+https://github.com/mym0404/cc-self-refer.git
 ```
 
 ## Environment Issues
