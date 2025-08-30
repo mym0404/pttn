@@ -2,6 +2,12 @@ import { Command } from 'commander';
 
 import { createPlanManager } from '../managers';
 import { logger, readStdin } from '../utils';
+import {
+  createFormatOptions,
+  formatNoMatchResult,
+  formatSearchResults,
+  formatViewResult,
+} from '../utils/formatters.js';
 
 export const registerPlanCommands = (
   program: Command,
@@ -61,52 +67,23 @@ export const registerPlanCommands = (
 
   planCmd
     .command('view')
-    .description('View a strategic plan')
-    .argument('<idOrKeyword>', 'Plan ID or search keyword')
-    .action(async (idOrKeyword: string) => {
+    .description('View a strategic plan by ID number')
+    .argument('<id>', 'Plan ID number')
+    .action(async (id: string) => {
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
+
+      // Validate that id is a number
+      if (!/^\d+$/.test(id)) {
+        logger.error('Invalid ID format. Please provide a numeric ID.');
+        return;
+      }
+
       try {
-        const content = await manager.view(idOrKeyword);
-
-        // Always use AI-optimized output
-        const plans = await manager.list();
-        const plan = plans.find(
-          (p) =>
-            p.id.toString() === idOrKeyword ||
-            p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-        );
-
-        if (plan) {
-          const { formatSingleMatch } = await import('../utils/formatters.js');
-
-          const formattedItem = {
-            id: plan.id,
-            title: plan.title,
-            file: plan.file,
-            metadata: `Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`,
-            content: content,
-          };
-
-          const formatOptions = {
-            type: 'plan' as const,
-            emoji: '📋',
-            title: 'Strategic Plan',
-          };
-
-          console.log(formatSingleMatch(formattedItem, formatOptions));
-        } else {
-          // If plan metadata not found, still output content in AI format
-          console.log(`# Strategic Plan
-
-${content}
-
----
-
-*Plan loaded successfully.*`);
-        }
+        const content = await manager.view(id);
+        formatViewResult(content);
       } catch (error) {
-        logger.error('Error viewing plan', error);
+        formatNoMatchResult('plan', id);
       }
     });
 
@@ -121,43 +98,15 @@ ${content}
         const results = await manager.search(keyword);
         const plans = await manager.list();
 
-        // Always use AI-optimized output
-        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../utils/formatters.js');
+        const formatOptions = createFormatOptions('plan', keyword);
 
-        const formattedItems = results.map((result) => {
-          const plan = plans.find((p) => p.file === result.file);
-          return {
-            id: plan?.id || 0,
-            title: result.title,
-            file: result.file,
-            metadata: `Status: ${plan?.status || 'Unknown'} | Updated: ${plan?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
-            content: plan?.content || '',
-          };
-        });
-
-        const formatOptions = {
-          type: 'plan' as const,
-          searchTerm: keyword,
-          emoji: '📋',
-          title: 'Strategic Plan',
-          outputMode: 'context' as const,
-        };
-
-        if (results.length === 0) {
-          const availablePlans = plans.slice(0, 5).map((plan) => ({
-            id: plan.id,
-            title: plan.title,
-            file: plan.file,
-            metadata: `Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`,
-            content: plan.content || '',
-          }));
-          console.log(formatNoMatches(availablePlans, formatOptions));
-        } else if (results.length === 1) {
-          console.log(formatSingleMatch(formattedItems[0], formatOptions));
-        } else {
-          console.log(formatMultipleMatches(formattedItems, formatOptions));
-        }
+        formatSearchResults(
+          results,
+          plans,
+          formatOptions,
+          (item) =>
+            `Status: ${item.status} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+        );
       } catch (error) {
         logger.error('Error searching plans', error);
       }

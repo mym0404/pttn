@@ -12,7 +12,7 @@ import {
 } from '../utils';
 
 const setupClaudeSelfReferProject = async (
-  projectDir: string,
+  claudeDir: string,
   repoUrl?: string
 ): Promise<void> => {
   await withWorkflow('CC Self-Refer Project Setup', async () => {
@@ -21,7 +21,6 @@ const setupClaudeSelfReferProject = async (
       const versionTag = getVersionTag();
       repoUrl = `https://raw.githubusercontent.com/mym0404/cc-self-refer/${versionTag}`;
     }
-    const claudeDir = resolve(projectDir, '.claude');
     const commandsDir = resolve(claudeDir, 'commands');
 
     // Create directory structure
@@ -132,7 +131,10 @@ const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
   }
 };
 
-export const registerInitCommands = (program: Command): void => {
+export const registerInitCommands = (
+  program: Command,
+  getContentDir: (cmdOptions: { dir?: string }) => string
+): void => {
   program
     .command('init-get-prompt')
     .description('Get initialization prompt for Claude Code to execute')
@@ -168,9 +170,10 @@ export const registerInitCommands = (program: Command): void => {
       'Custom repository URL',
       'https://raw.githubusercontent.com/mym0404/cc-self-refer/main'
     )
-    .action(async (options: { repo?: string }) => {
+    .action(async (options: { repo?: string; dir?: string }) => {
       try {
-        await setupClaudeSelfReferProject(process.cwd(), options.repo);
+        const claudeDir = getContentDir(options);
+        await setupClaudeSelfReferProject(claudeDir, options.repo);
       } catch (error) {
         logger.error('Project setup failed', error);
         process.exit(1);

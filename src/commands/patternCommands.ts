@@ -1,6 +1,12 @@
 import { Command } from 'commander';
 
-import { createPatternManager } from '../managers/index.js';
+import { createPatternManager } from '../managers';
+import {
+  createFormatOptions,
+  formatNoMatchResult,
+  formatSearchResults,
+  formatViewResult,
+} from '../utils/formatters.js';
 import { logger, readStdin } from '../utils/index.js';
 
 export const registerPatternCommands = (
@@ -21,7 +27,7 @@ export const registerPatternCommands = (
         const patterns = await manager.list();
 
         if (patterns.length === 0) {
-          logger.warning('No patterns found in .claude/patterns/');
+          logger.warning('No patterns found');
           return;
         }
 
@@ -46,43 +52,15 @@ export const registerPatternCommands = (
       try {
         const results = await manager.search(keyword, cmdOptions.language);
         const patterns = await manager.list();
+        const formatOptions = createFormatOptions('pattern', keyword);
 
-        // Always use AI-optimized output
-        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../utils/formatters.js');
-
-        const formattedItems = results.map((result) => {
-          const pattern = patterns.find((p) => p.file === result.file);
-          return {
-            id: pattern?.id || 0,
-            title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove language suffix
-            file: result.file,
-            metadata: `Language: ${pattern?.language || 'Unknown'} | Updated: ${pattern?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
-            content: pattern?.content || '',
-          };
-        });
-
-        const formatOptions = {
-          type: 'pattern' as const,
-          searchTerm: keyword,
-          emoji: '🧩',
-          title: 'Code Pattern',
-        };
-
-        if (results.length === 0) {
-          const availablePatterns = patterns.slice(0, 5).map((pattern) => ({
-            id: pattern.id,
-            title: pattern.title,
-            file: pattern.file,
-            metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
-            content: pattern.content || '',
-          }));
-          console.log(formatNoMatches(availablePatterns, formatOptions));
-        } else if (results.length === 1) {
-          console.log(formatSingleMatch(formattedItems[0], formatOptions));
-        } else {
-          console.log(formatMultipleMatches(formattedItems, formatOptions));
-        }
+        formatSearchResults(
+          results,
+          patterns,
+          formatOptions,
+          (item) =>
+            `Language: ${item.language} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+        );
       } catch (error) {
         logger.error('Error searching patterns', error);
       }
@@ -90,44 +68,23 @@ export const registerPatternCommands = (
 
   patternCmd
     .command('view')
-    .description('View a specific code pattern by ID or search term')
-    .argument('<idOrKeyword>', 'Pattern ID or search keyword')
-    .action(async (idOrKeyword: string) => {
+    .description('View a specific code pattern by ID number')
+    .argument('<id>', 'Pattern ID number')
+    .action(async (id: string) => {
       const globalOptions = program.opts();
       const manager = createPatternManager(getContentDir(globalOptions));
+
+      // Validate that id is a number
+      if (!/^\d+$/.test(id)) {
+        logger.error('Invalid ID format. Please provide a numeric ID.');
+        return;
+      }
+
       try {
-        const content = await manager.view(idOrKeyword);
-
-        // Always use AI-optimized output
-        const patterns = await manager.list();
-        const pattern = patterns.find(
-          (p) =>
-            p.id.toString() === idOrKeyword ||
-            p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-        );
-
-        if (pattern) {
-          const { formatSingleMatch } = await import('../utils/formatters.js');
-
-          const formattedItem = {
-            id: pattern.id,
-            title: pattern.title,
-            file: pattern.file,
-            metadata: `Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
-            content: content,
-          };
-
-          const formatOptions = {
-            type: 'pattern' as const,
-            emoji: '🧩',
-            title: 'Code Pattern',
-          };
-
-          console.log(formatSingleMatch(formattedItem, formatOptions));
-          return;
-        }
+        const content = await manager.view(id);
+        formatViewResult(content);
       } catch (error) {
-        logger.error('Error viewing pattern', error);
+        formatNoMatchResult('pattern', id);
       }
     });
 

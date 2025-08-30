@@ -2,6 +2,12 @@ import { Command } from 'commander';
 
 import { createSpecManager } from '../managers';
 import { logger, readStdin } from '../utils';
+import {
+  createFormatOptions,
+  formatNoMatchResult,
+  formatSearchResults,
+  formatViewResult,
+} from '../utils/formatters.js';
 
 export const registerSpecCommands = (
   program: Command,
@@ -51,42 +57,15 @@ export const registerSpecCommands = (
         const results = await manager.search(keyword, cmdOptions.category);
         const specs = await manager.list(cmdOptions.category);
 
-        // Always use AI-optimized output
-        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../utils/formatters.js');
+        const formatOptions = createFormatOptions('spec', keyword);
 
-        const formattedItems = results.map((result) => {
-          const entry = specs.find((s) => s.file === result.file);
-          return {
-            id: entry?.id || 0,
-            title: result.title.replace(/\s*\([^)]*\)$/, ''), // Remove category suffix
-            file: result.file,
-            metadata: `Category: ${entry?.category || 'Unknown'} | Updated: ${entry?.lastUpdated.toLocaleDateString() || 'Unknown'}`,
-            content: entry?.content || '',
-          };
-        });
-
-        const formatOptions = {
-          type: 'spec' as const,
-          searchTerm: keyword,
-          emoji: '📋',
-          title: 'Project Specifications',
-        };
-
-        if (results.length === 0) {
-          const availableSpecs = specs.slice(0, 5).map((entry) => ({
-            id: entry.id,
-            title: entry.title,
-            file: entry.file,
-            metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
-            content: entry.content || '',
-          }));
-          console.log(formatNoMatches(availableSpecs, formatOptions));
-        } else if (results.length === 1) {
-          console.log(formatSingleMatch(formattedItems[0], formatOptions));
-        } else {
-          console.log(formatMultipleMatches(formattedItems, formatOptions));
-        }
+        formatSearchResults(
+          results,
+          specs,
+          formatOptions,
+          (item) =>
+            `Category: ${item.category} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+        );
       } catch (error) {
         logger.error('Error searching specs', error);
       }
@@ -125,43 +104,23 @@ export const registerSpecCommands = (
 
   specCmd
     .command('view')
-    .description('View a specific specification entry by ID or search term')
-    .argument('<idOrKeyword>', 'Specification ID or search keyword')
-    .action(async (idOrKeyword: string) => {
+    .description('View a specific specification entry by ID number')
+    .argument('<id>', 'Specification ID number')
+    .action(async (id: string) => {
       const globalOptions = program.opts();
       const manager = createSpecManager(getContentDir(globalOptions));
+
+      // Validate that id is a number
+      if (!/^\d+$/.test(id)) {
+        logger.error('Invalid ID format. Please provide a numeric ID.');
+        return;
+      }
+
       try {
-        const content = await manager.view(idOrKeyword);
-
-        // Always use AI-optimized output
-        const specs = await manager.list();
-        const entry = specs.find(
-          (s) =>
-            s.id.toString() === idOrKeyword ||
-            s.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-        );
-
-        if (entry) {
-          const { formatSingleMatch } = await import('../utils/formatters.js');
-
-          const formattedItem = {
-            id: entry.id,
-            title: entry.title,
-            file: entry.file,
-            metadata: `Category: ${entry.category} | Updated: ${entry.lastUpdated.toLocaleDateString()}`,
-            content: content,
-          };
-
-          const formatOptions = {
-            type: 'spec' as const,
-            emoji: '📋',
-            title: 'Project Specifications',
-          };
-
-          console.log(formatSingleMatch(formattedItem, formatOptions));
-        }
+        const content = await manager.view(id);
+        formatViewResult(content);
       } catch (error) {
-        logger.error('Error viewing spec', error);
+        formatNoMatchResult('spec', id);
       }
     });
 };

@@ -2,6 +2,12 @@ import { Command } from 'commander';
 
 import { createPageManager } from '../managers';
 import { logger } from '../utils';
+import {
+  createFormatOptions,
+  formatNoMatchResult,
+  formatSearchResults,
+  formatViewResult,
+} from '../utils/formatters.js';
 import { SessionExtractor } from '../utils/SessionExtractor.js';
 
 export const registerPageCommands = (
@@ -46,43 +52,14 @@ export const registerPageCommands = (
       try {
         const results = await manager.search(keyword);
         const pages = await manager.list();
+        const formatOptions = createFormatOptions('page', keyword);
 
-        // Always use AI-optimized output
-        const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../utils/formatters.js');
-
-        const formattedItems = results.map((result) => {
-          const page = pages.find((p) => p.file === result.file);
-          return {
-            id: page?.id || 0,
-            title: result.title,
-            file: result.file,
-            metadata: `Created: ${page?.createdAt.toLocaleDateString() || 'Unknown'}`,
-            content: page?.content || '',
-          };
-        });
-
-        const formatOptions = {
-          type: 'page' as const,
-          searchTerm: keyword,
-          emoji: '📄',
-          title: 'Session Page',
-        };
-
-        if (results.length === 0) {
-          const availablePages = pages.slice(0, 5).map((page) => ({
-            id: page.id,
-            title: page.title,
-            file: page.file,
-            metadata: `Created: ${page.createdAt.toLocaleDateString()}`,
-            content: page.content || '',
-          }));
-          console.log(formatNoMatches(availablePages, formatOptions));
-        } else if (results.length === 1) {
-          console.log(formatSingleMatch(formattedItems[0], formatOptions));
-        } else {
-          console.log(formatMultipleMatches(formattedItems, formatOptions));
-        }
+        formatSearchResults(
+          results,
+          pages,
+          formatOptions,
+          (item) => `Created: ${item.createdAt.toLocaleDateString()}`
+        );
         // Always return AI-optimized output, no need for console output
       } catch (error) {
         logger.error('Error searching pages', error);
@@ -91,51 +68,23 @@ export const registerPageCommands = (
 
   pageCmd
     .command('view')
-    .description('View a specific page by ID or search term')
-    .argument('<idOrKeyword>', 'Page ID or search keyword')
-    .action(async (idOrKeyword: string) => {
+    .description('View a specific page by ID number')
+    .argument('<id>', 'Page ID number')
+    .action(async (id: string) => {
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
+
+      // Validate that id is a number
+      if (!/^\d+$/.test(id)) {
+        logger.error('Invalid ID format. Please provide a numeric ID.');
+        return;
+      }
+
       try {
-        const content = await manager.view(idOrKeyword);
-        const pages = await manager.list();
-        const page = pages.find(
-          (p) =>
-            p.id.toString() === idOrKeyword ||
-            p.title.toLowerCase().includes(idOrKeyword.toLowerCase())
-        );
-
-        if (page) {
-          // Always use AI-optimized output
-          const { formatSingleMatch } = await import('../utils/formatters.js');
-
-          const formattedItem = {
-            id: page.id,
-            title: page.title,
-            file: page.file,
-            metadata: `Created: ${page.createdAt.toLocaleDateString()}`,
-            content: content,
-          };
-
-          const formatOptions = {
-            type: 'page' as const,
-            emoji: '📄',
-            title: 'Session Page',
-          };
-
-          console.log(formatSingleMatch(formattedItem, formatOptions));
-        } else {
-          // If page metadata not found, still output content in AI format
-          console.log(`# Page Content
-
-${content}
-
----
-
-*Page loaded successfully.*`);
-        }
+        const content = await manager.view(id);
+        formatViewResult(content);
       } catch (error) {
-        logger.error('Error viewing page', error);
+        formatNoMatchResult('page', id);
       }
     });
 

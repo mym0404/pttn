@@ -29,7 +29,7 @@ program
   .version(getPackageVersion())
   .option(
     '-d, --dir <directory>',
-    'Directory for pages, plans, patterns, and project specs (default: .claude)',
+    'Directory for pages, plans, patterns, and project specs',
     '.claude'
   );
 
@@ -38,6 +38,6 @@ registerPageCommands(program, getContentDir);
 registerPlanCommands(program, getContentDir);
 registerPatternCommands(program, getContentDir);
 registerSpecCommands(program, getContentDir);
-registerInitCommands(program);
+registerInitCommands(program, getContentDir);
 
 program.parse();
