@@ -27,7 +27,9 @@ npx -y cc-self-refer pattern list
 - `id_or_keyword`: Pattern ID number or search keyword  
 
 ### Expected Workflow
-1. Search for relevant patterns using `pattern search`
-2. Read output and View specific pattern using `pattern view <number>`
-3. Pattern content is displayed ready for use in development
+1. Search for relevant patterns using `npx -y cc-self-refer pattern search`
+2. Check search results:
+   - If search result contains full pattern content, use that content directly
+   - If search result only shows summary/metadata, use `npx -y cc-self-refer pattern view <number>` for complete content
+3. Use printed code pattern as a references in the development process with flexible adaption by the circumstances.
 
