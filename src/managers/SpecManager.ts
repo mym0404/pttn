@@ -4,7 +4,7 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { SearchResult, SpecInfo, SpecManager } from '../types';
-import { ensureDir } from '../utils';
+import { ensureDir, sanitizeFilename } from '../utils';
 import { extractCategory, extractTitle } from '../utils';
 import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
@@ -119,10 +119,7 @@ export const createSpecManager = (contentDir: string): SpecManager => {
 
       // Create filename with zero-padded ID
       const paddedId = nextId.toString().padStart(3, '0');
-      const filename = `${paddedId}-${title
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const filename = `${paddedId}-${sanitizeFilename(title)}.md`;
       const filepath = join(specDir, filename);
 
       // Create full content with metadata

@@ -94,15 +94,8 @@ export const registerPageCommands = (
     .description(
       'Create a new page - automatically extracts current session if no content provided'
     )
-    .argument(
-      '[title]',
-      'Page title (optional, defaults to "Session-{timestamp}")'
-    )
-    .argument(
-      '[content]',
-      'Page content (optional, extracts current session if not provided)'
-    )
-    .action(async (title?: string, content?: string) => {
+    .argument('[title]', 'Page title (optional)')
+    .action(async (title?: string) => {
       const globalOptions = program.opts();
       const manager = createPageManager(getContentDir(globalOptions));
 
@@ -110,65 +103,29 @@ export const registerPageCommands = (
         let finalTitle =
           title ||
           `Session-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
-        let finalContent = content;
-        let isSessionExtracted = false;
 
-        // If no content provided, automatically extract the current session
-        if (!content) {
-          try {
-            const extractor = new SessionExtractor();
-            finalContent = await extractor.extractCurrentSession();
-            isSessionExtracted = true;
+        let finalContent = '';
 
-            if (!title) {
-              // Auto-generate title from session
-              finalTitle = `Session-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
-            }
+        try {
+          const extractor = new SessionExtractor();
+          finalContent = await extractor.extractCurrentSession();
 
-            // Silent extraction for AI usage
-          } catch (extractError) {
-            // Session extraction failed, but we need content
-            throw new Error(`Session extraction failed: ${extractError}`);
+          if (!title) {
+            finalTitle = `Session-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}`;
           }
+        } catch (extractError) {
+          throw new Error(`Session extraction failed: ${extractError}`);
         }
 
         if (!finalContent) {
           throw new Error('No content provided and session extraction failed');
         }
 
-        const pageId = await manager.create(finalTitle, finalContent);
+        await manager.create(finalTitle, finalContent);
 
-        // Always use AI-optimized output
-        console.log(`# Page Created Successfully
-
-**ID**: ${pageId}
-**Title**: ${finalTitle}
-**Location**: .claude/pages/${pageId}-${finalTitle
-          .toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[^a-z0-9-]/g, '')}.md
-${isSessionExtracted ? '**Type**: Extracted Session' : '**Type**: User Content'}
-
-## Content Preview
-
-${finalContent.substring(0, 500)}${finalContent.length > 500 ? '...' : ''}
-
----
-
-*Page has been saved ${isSessionExtracted ? '(session extracted automatically)' : ''} and is ready for future reference.*`);
+        console.log(`Page Created Successfully`);
       } catch (error) {
-        // Always use AI-optimized error output
-        console.error(`# Page Creation Failed
-
-**Error**: ${error}
-
-## Troubleshooting
-
-1. If session extraction: Ensure Claude Code has an active session
-2. Check ~/.claude/projects/ directory exists
-3. Verify write permissions for .claude/pages/
-
-*Unable to create page. Please check the error message above.*`);
+        console.error(`# Page Creation Failed`);
       }
     });
 };

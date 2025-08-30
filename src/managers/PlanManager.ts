@@ -3,7 +3,7 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PlanInfo, PlanManager, SearchResult } from '../types';
-import { ensureDir } from '../utils';
+import { ensureDir, sanitizeFilename } from '../utils';
 import { extractStatus, extractTitle } from '../utils';
 import {
   AdvancedSearchEngine,
@@ -108,10 +108,8 @@ export const createPlanManager = (contentDir: string): PlanManager => {
           ? Math.max(...plans.map((p: PlanInfo) => p.id)) + 1
           : 1;
 
-      const filename = `${nextId}-${title
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const paddedId = nextId.toString().padStart(3, '0');
+      const filename = `${paddedId}-${sanitizeFilename(title)}.md`;
       const filepath = join(plansDir, filename);
 
       const fullContent = `# ${title}

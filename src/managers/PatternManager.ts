@@ -7,7 +7,7 @@ import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
-import { ensureDir } from '../utils/index.js';
+import { ensureDir, sanitizeFilename } from '../utils/index.js';
 import { extractLanguage, extractTitle } from '../utils/index.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
@@ -106,7 +106,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${id}`);
     },
 
-    create: async function (name: string, content: string): Promise<string> {
+    async create(name: string, content: string): Promise<string> {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
@@ -116,10 +116,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
           : 1;
 
       const paddedId = nextId.toString().padStart(3, '0');
-      const filename = `${paddedId}-${name
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')}.md`;
+      const filename = `${paddedId}-${sanitizeFilename(name)}.md`;
       const filepath = join(patternsDir, filename);
 
       const fullContent = `# ${name}\n\n${content}`;

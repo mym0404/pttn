@@ -6,3 +6,7 @@ export const ensureDir = async (path: string): Promise<void> => {
     await mkdir(path, { recursive: true });
   }
 };
+
+export const sanitizeFilename = (name: string): string => {
+  return name.replace(/\s+/g, '-').replace(/[/\\:*?"<>|]/g, '');
+};
