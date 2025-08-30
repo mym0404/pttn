@@ -35,7 +35,6 @@ const setupClaudeSelfReferProject = async (
     const commandFiles = [
       'page-save.md',
       'plan-create.md',
-      'plan-edit.md',
       'plan-resolve.md',
       'page-refer.md',
       'spec-refer.md',

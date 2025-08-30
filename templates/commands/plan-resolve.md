@@ -22,9 +22,6 @@ This command facilitates the execution of strategic plans by:
 ```bash
 # Step 1: Load the plan for implementation
 npx -y cc-self-refer plan view <id_or_keyword> 
-
-# Step 2: After successful implementation, optionally delete
-npx -y cc-self-refer plan delete <id_or_keyword>
 ```
 
 ### Command Arguments

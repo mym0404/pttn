@@ -1,4 +1,4 @@
-import { readFile, stat, unlink, writeFile } from 'fs/promises';
+import { readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
@@ -123,35 +123,6 @@ ${content}
       return nextId;
     },
 
-    async edit(idOrKeyword: string, fullContent: string): Promise<void> {
-      const plans = await this.list();
-
-      // Find the plan file
-      let targetFile: string;
-      const idNum = parseInt(idOrKeyword);
-      if (!isNaN(idNum)) {
-        const plan = plans.find((p: PlanInfo) => p.id === idNum);
-        if (!plan) throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = plan.file;
-      } else {
-        const results = await this.search(idOrKeyword);
-        if (results.length === 0)
-          throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = results[0].file;
-      }
-
-      const filepath = join(plansDir, targetFile);
-
-      // Replace entire content with the new content
-      // Update the Last Updated timestamp
-      const updatedContent = fullContent.replace(
-        /\*\*Last Updated\*\*: .+/,
-        `**Last Updated**: ${new Date().toISOString()}`
-      );
-
-      await writeFile(filepath, updatedContent);
-    },
-
     async resolve(idOrKeyword: string): Promise<void> {
       const content = await this.view(idOrKeyword);
       const plans = await this.list();
@@ -183,31 +154,6 @@ ${content}
       );
 
       await writeFile(filepath, finalContent);
-    },
-
-    async delete(idOrKeyword: string): Promise<void> {
-      const plans = await this.list();
-
-      // Find the plan file
-      let targetFile: string;
-      const idNum = parseInt(idOrKeyword);
-      if (!isNaN(idNum)) {
-        const plan = plans.find((p: PlanInfo) => p.id === idNum);
-        if (!plan) throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = plan.file;
-      } else {
-        const results = await this.search(idOrKeyword);
-        if (results.length === 0)
-          throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = results[0].file;
-      }
-
-      const filepath = join(plansDir, targetFile);
-
-      // Delete the file
-      await unlink(filepath);
-
-      return; // Successfully deleted
     },
   };
 };

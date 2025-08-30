@@ -13,9 +13,7 @@ export interface PlanManager {
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(title: string, content: string): Promise<number>;
-  edit(idOrKeyword: string, fullContent: string): Promise<void>;
   resolve(idOrKeyword: string): Promise<void>;
-  delete(idOrKeyword: string): Promise<void>;
 }
 
 export interface PatternManager {

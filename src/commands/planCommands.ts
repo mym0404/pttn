@@ -113,26 +113,6 @@ export const registerPlanCommands = (
     });
 
   planCmd
-    .command('edit')
-    .description('Edit an existing plan with full content replacement')
-    .argument('<idOrKeyword>', 'Plan ID or search keyword')
-    .argument('<fullContent>', 'Complete updated plan content')
-    .action(async (idOrKeyword: string, fullContent: string) => {
-      logger.startWorkflow('Editing Strategic Plan');
-
-      const globalOptions = program.opts();
-      const manager = createPlanManager(getContentDir(globalOptions));
-      try {
-        await manager.edit(idOrKeyword, fullContent);
-        logger.success('Plan updated successfully');
-        logger.endWorkflow();
-      } catch (error) {
-        logger.error('Error editing plan', error);
-        logger.endWorkflow();
-      }
-    });
-
-  planCmd
     .command('resolve')
     .description('Mark a plan as completed')
     .argument('<idOrKeyword>', 'Plan ID or search keyword')
@@ -148,54 +128,6 @@ export const registerPlanCommands = (
       } catch (error) {
         logger.error('Error resolving plan', error);
         logger.endWorkflow();
-      }
-    });
-
-  planCmd
-    .command('delete')
-    .description('Delete a completed or obsolete plan')
-    .argument('<idOrKeyword>', 'Plan ID or search keyword')
-    .action(async (idOrKeyword: string) => {
-      const globalOptions = program.opts();
-      const manager = createPlanManager(getContentDir(globalOptions));
-
-      try {
-        // Get plan info before deletion for confirmation
-        const content = await manager.view(idOrKeyword);
-        const title = content
-          .split('\n')[0]
-          .replace(/^#\s*\d+\.\s*/, '')
-          .trim();
-
-        // Delete the plan
-        await manager.delete(idOrKeyword);
-
-        // Always use AI-optimized output
-        console.log(`# Plan Deleted Successfully
-
-**Title**: ${title}
-**ID/Keyword**: ${idOrKeyword}
-
-## Action Completed
-
-The plan has been removed from .claude/plans/ directory.
-
----
-
-*Plan deletion successful. The plan file has been permanently removed.*`);
-      } catch (error) {
-        // Always use AI-optimized error output
-        console.error(`# Plan Deletion Failed
-
-**Error**: ${error}
-
-## Troubleshooting
-
-1. Verify the plan exists with \`plan list\`
-2. Check the plan ID or keyword is correct
-3. Ensure you have write permissions for .claude/plans/
-
-*Unable to delete plan. Please check the error message above.*`);
       }
     });
 };

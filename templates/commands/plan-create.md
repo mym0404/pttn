@@ -168,10 +168,6 @@ This command creates new strategic planning documents by utilizing the `cc-self-
 2. [Follow-up action]
 3. [Preparation for implementation]
 
----
-
-**Status**: [Planning/In Progress/Completed]
-**Last Updated**: [Date]
 ```
 
 ## Usage Examples

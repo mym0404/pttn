@@ -17,7 +17,7 @@ Retrieve and apply code patterns with `cc-self-refer pattern search` command
 npx -y cc-self-refer pattern search <keyword>
 
 # View specific pattern
-npx -y cc-self-refer pattern view <id_or_keyword>
+npx -y cc-self-refer pattern view <id>
 
 # List all patterns
 npx -y cc-self-refer pattern list
