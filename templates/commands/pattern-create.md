@@ -13,7 +13,7 @@ Extract code snippet or common pattern in project and run cc-self-refer pattern 
 ### CLI Command Used
 
 ```bash
-npx -y cc-self-refer pattern create "<pattern-name>" --language <language> <<'EOF'
+npx -y cc-self-refer pattern create "<pattern-name>" <<'EOF'
 <pattern-content>
 EOF
 ```
@@ -21,7 +21,6 @@ EOF
 ### Command Arguments
 - `pattern-name`: Name of the code pattern
 - `pattern-content`: Complete code snippet or pattern content
-- `language`: Reasoned Programming language (optional, defaults to "text")
 
 
 ### Pattern Content Structure
@@ -107,7 +106,7 @@ Claude will:
 1. Generate <formatted content> with the above rules.
 2. Execute: 
    ```bash
-   npx -y cc-self-refer pattern create "api-error-handler" --language <language> <<'EOF'
+   npx -y cc-self-refer pattern create "api-error-handler" <<'EOF'
    <formatted content>
    EOF
    ```
