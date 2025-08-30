@@ -21,8 +21,9 @@ export const formatSearchResults = <
   if (results.length === 0) {
     logger.warning(`No ${options.type}s found for "${options.searchTerm}"`);
     console.log(`\nAvailable ${options.type}s:`);
-    allItems.slice(0, 5).forEach((item, index) => {
-      console.log(`${index + 1}. ${item.title}`);
+    allItems.slice(0, 5).forEach((item) => {
+      const id = (item as any).id || 1;
+      console.log(`${id}. ${item.title}`);
     });
   } else if (results.length === 1) {
     const item = allItems.find((p) => p.file === results[0].file);
@@ -31,10 +32,11 @@ export const formatSearchResults = <
     }
   } else {
     console.log(`${options.title}s found for "${options.searchTerm}":\n`);
-    results.forEach((result, index) => {
+    results.forEach((result) => {
       const item = allItems.find((p) => p.file === result.file);
       const score = result.score ? ` (score: ${result.score.toFixed(2)})` : '';
-      console.log(`${index + 1}. ${result.title}${score}`);
+      const id = (item as any)?.id || 1;
+      console.log(`${id}. ${result.title}${score}`);
       if (item) {
         console.log(`   ${getMetadata(item)}`);
       }
@@ -70,7 +72,10 @@ export const formatViewResult = (content?: string): void => {
 };
 
 // List formatting function
-export const formatList = (title: string, items: Array<{id: number, text: string}>): void => {
+export const formatList = (
+  title: string,
+  items: Array<{ id: number; text: string }>
+): void => {
   if (items.length === 0) {
     logger.warning(`No ${title.toLowerCase()} found`);
     return;

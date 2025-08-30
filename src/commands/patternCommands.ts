@@ -32,10 +32,10 @@ export const registerPatternCommands = (
           return;
         }
 
-        const items = patterns.map(
-          (pattern) =>
-            `${pattern.title} - Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`
-        );
+        const items = patterns.map((pattern) => ({
+          id: pattern.id,
+          text: `${pattern.title} - Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
+        }));
         formatList('Code Patterns', items);
       } catch (error) {
         logger.error('Error listing patterns', error);

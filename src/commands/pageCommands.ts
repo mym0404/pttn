@@ -33,11 +33,11 @@ export const registerPageCommands = (
           return;
         }
 
-        console.log('\nSession Pages:');
-        pages.forEach((page) => {
-          console.log(`  ${page.id}. ${page.title} (${page.file}) - Created: ${page.createdAt.toLocaleDateString()}`);
-        });
-        console.log();
+        const items = pages.map((page) => ({
+          id: page.id,
+          text: `${page.title} (${page.file}) - Created: ${page.createdAt.toLocaleDateString()}`,
+        }));
+        formatList('Session Pages', items);
       } catch (error) {
         logger.error('Error listing pages', error);
       }

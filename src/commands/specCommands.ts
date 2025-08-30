@@ -36,10 +36,10 @@ export const registerSpecCommands = (
           return;
         }
 
-        const items = entries.map(
-          (entry) =>
-            `${entry.id}. ${entry.title} (${entry.category} | ${entry.lastUpdated.toLocaleDateString()})`
-        );
+        const items = entries.map((entry) => ({
+          id: entry.id,
+          text: `${entry.title} (${entry.category} | ${entry.lastUpdated.toLocaleDateString()})`,
+        }));
         formatList('Project Specifications', items);
       } catch (error) {
         logger.error('Error listing specs', error);

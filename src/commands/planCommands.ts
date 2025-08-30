@@ -54,10 +54,10 @@ export const registerPlanCommands = (
           return;
         }
 
-        const items = plans.map(
-          (plan) =>
-            `${plan.title} - Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`
-        );
+        const items = plans.map((plan) => ({
+          id: plan.id,
+          text: `${plan.title} - Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`,
+        }));
         formatList('Strategic Plans', items);
       } catch (error) {
         logger.error('Error listing plans', error);
