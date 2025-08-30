@@ -136,6 +136,9 @@ The result: Claude becomes increasingly intelligent about your specific project 
 - Spec shouldn't include any code.(make it manage more higher blueprint)
 - Test
 - Docs
+  - how to use for good
+  - what are each component
+  - guide & tip
 - Guide files on init
 
 ## Contributing

@@ -37,6 +37,8 @@ Claude Code agents should use these CLI commands to access and manage project co
 
 When these keywords appear in user prompts, determine if the user intends to use the corresponding cc-self-refer commands below.
 
+**Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `♦️  Self Refering... ♦️` to indicate self-reference action execution.
+
 ### Specification (spec) Commands
 - "use spec" / "refer to spec" / "check specifications" → **Read and execute** `.claude/commands/spec-refer.md`
 - "create spec" / "write specification" → **Read and execute** `.claude/commands/spec.md`
