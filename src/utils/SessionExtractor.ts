@@ -8,6 +8,8 @@ interface SessionMessage {
   role: 'user' | 'assistant';
   content: string;
   type?: string;
+  stripLevel: number; // 0=keep all, 1=minor cleanup, 2=major cleanup, 3=strip code
+  originalContent?: string; // Keep original for reference
 }
 
 interface MessageBlock {
@@ -23,6 +25,101 @@ interface ParsedMessage {
   content: string | MessageBlock[];
   type?: string;
 }
+
+// Strip level definitions and rules
+interface StripRule {
+  level: number;
+  name: string;
+  description: string;
+  condition: (content: string, role: string) => boolean;
+  transform: (content: string) => string;
+}
+
+const STRIP_RULES: StripRule[] = [
+  {
+    level: 1,
+    name: 'command_execution',
+    description: 'Simplify command execution messages',
+    condition: (content) =>
+      content.includes('<command-') && content.includes('</command-'),
+    transform: (content) => {
+      const commandMatch = content.match(/<command-name>(.+?)<\/command-name>/);
+      const commandName = commandMatch ? commandMatch[1] : 'command';
+      return `[Command: ${commandName}]`;
+    },
+  },
+  {
+    level: 1,
+    name: 'system_reminders',
+    description: 'Simplify system reminder messages',
+    condition: (content) => content.includes('<system-reminder>'),
+    transform: () => '[System Reminder]',
+  },
+  {
+    level: 1,
+    name: 'local_command_output',
+    description: 'Simplify local command output',
+    condition: (content) => content.includes('<local-command-stdout>'),
+    transform: () => '[Local Command Output]',
+  },
+  {
+    level: 2,
+    name: 'command_documentation',
+    description: 'Simplify command documentation',
+    condition: (content, role) =>
+      role === 'user' &&
+      SessionExtractor.looksLikeCommandDocumentation(content),
+    transform: (content) => {
+      const titleMatch = content.match(/^#\s+(.+?)$/m);
+      const title = titleMatch ? titleMatch[1] : 'Command Documentation';
+      return `[Doc: ${title}]`;
+    },
+  },
+  {
+    level: 2,
+    name: 'file_modifications_long',
+    description: 'Simplify long file modification results',
+    condition: (content) =>
+      content.includes('Applied') &&
+      content.includes('edit') &&
+      content.length > 800,
+    transform: (content) => {
+      const fileMatch = content.match(/Applied \d+ edits? to (.+?):/);
+      const fileName = fileMatch ? fileMatch[1].split('/').pop() : 'file';
+      return `[File Modified: ${fileName}]`;
+    },
+  },
+  {
+    level: 2, // Changed from 3 to 2 for shorter code blocks
+    name: 'code_blocks_short',
+    description: 'Remove code blocks from short messages (< 1000 chars)',
+    condition: (content) => content.includes('```') && content.length < 1000,
+    transform: (content) =>
+      content.replace(/```[\s\S]*?```/g, '[Code Block Removed]'),
+  },
+  {
+    level: 1, // Very aggressive for long code blocks
+    name: 'code_blocks_long',
+    description: 'Remove code blocks from long messages (>= 1000 chars)',
+    condition: (content) => content.includes('```') && content.length >= 1000,
+    transform: (content) =>
+      content.replace(/```[\s\S]*?```/g, '[Code Block Removed]'),
+  },
+  {
+    level: 3,
+    name: 'long_messages',
+    description: 'Truncate very long messages',
+    condition: (content) => content.length > 2000,
+    transform: (content) => {
+      const preview = content.substring(0, 300);
+      const hasCodeBlocks = content.includes('```');
+      const suffix = hasCodeBlocks
+        ? ' [Contains code blocks...]'
+        : ' [Message truncated...]';
+      return preview + suffix;
+    },
+  },
+];
 
 export class SessionExtractor {
   private readonly claudeProjectsDir: string;
@@ -62,8 +159,6 @@ export class SessionExtractor {
             .join('\n')
       );
     }
-
-    // Found session directory: ${foundCandidate}
 
     // Find the most recent .jsonl session file
     const sessionFile = await this.findLatestSessionFile(sessionDir);
@@ -153,7 +248,7 @@ export class SessionExtractor {
    * Check if content looks like auto-generated command documentation
    * Uses rough heuristics to detect documentation patterns
    */
-  private looksLikeCommandDocumentation(content: string): boolean {
+  static looksLikeCommandDocumentation(content: string): boolean {
     // Count markdown headers
     const headerCount = (content.match(/^#{1,3}\s/gm) || []).length;
 
@@ -172,57 +267,58 @@ export class SessionExtractor {
   }
 
   /**
-   * Filter out overly long command documentation
-   * Keeps the conversation focused on actual interactions
+   * Analyze and assign strip levels to messages
+   * Preserves conversation flow while enabling adaptive content reduction
    */
-  private filterMessages(messages: SessionMessage[]): SessionMessage[] {
-    const filtered: SessionMessage[] = [];
-
-    for (let i = 0; i < messages.length; i++) {
-      const message = messages[i];
+  private analyzeStripLevels(messages: SessionMessage[]): SessionMessage[] {
+    return messages.map((message) => {
       const content = message.content;
+      let stripLevel = 0;
 
-      // Skip command execution messages entirely
-      if (content.includes('<command-') && content.includes('</command-')) {
-        // Check if next message is command documentation and skip it too
-        if (
-          i + 1 < messages.length &&
-          messages[i + 1].role === 'user' &&
-          this.looksLikeCommandDocumentation(messages[i + 1].content)
-        ) {
-          i++; // Skip documentation message
+      // Find the highest applicable strip level
+      for (const rule of STRIP_RULES) {
+        if (rule.condition(content, message.role)) {
+          stripLevel = Math.max(stripLevel, rule.level);
         }
-        continue; // Skip command execution message
       }
 
-      // Skip local command output messages and system reminders
-      if (
-        content.includes('<local-command-stdout>') ||
-        content.includes('</local-command-stdout>') ||
-        content.includes('<system-reminder>') ||
-        content.includes('</system-reminder>') ||
-        (content.includes('[Tool Result]') && message.role === 'user') ||
-        content.includes(
-          'Caveat: The messages below were generated by the user'
-        )
-      ) {
-        continue;
+      return {
+        ...message,
+        stripLevel,
+        originalContent: content,
+      };
+    });
+  }
+
+  /**
+   * Apply strip level transformations to messages
+   */
+  private applyStripLevel(
+    messages: SessionMessage[],
+    maxStripLevel: number
+  ): SessionMessage[] {
+    return messages.map((message) => {
+      if (message.stripLevel === 0 || message.stripLevel > maxStripLevel) {
+        return message; // Keep original content
       }
 
-      // Skip standalone command documentation
-      if (
-        message.role === 'user' &&
-        this.looksLikeCommandDocumentation(content) &&
-        i > 0
-      ) {
-        continue;
+      let content = message.originalContent || message.content;
+
+      // Apply all applicable transformations up to maxStripLevel
+      for (const rule of STRIP_RULES) {
+        if (
+          rule.level <= maxStripLevel &&
+          rule.condition(content, message.role)
+        ) {
+          content = rule.transform(content);
+        }
       }
 
-      // Keep regular messages
-      filtered.push(message);
-    }
-
-    return filtered;
+      return {
+        ...message,
+        content,
+      };
+    });
   }
 
   /**
@@ -245,17 +341,16 @@ export class SessionExtractor {
             role: data.message.role || 'user',
             content: this.extractMessageContent(data.message),
             type: data.message.type,
+            stripLevel: 0, // Will be analyzed later
           };
           messages.push(message);
         }
       } catch (error) {
-        // Skip malformed lines
         // Skip malformed lines silently
       }
     }
 
-    // Apply flexible filtering
-    return this.filterMessages(messages);
+    return messages;
   }
 
   /**
@@ -304,13 +399,9 @@ export class SessionExtractor {
               return '[Todo Updated]';
             }
 
-            // Summarize file modification results
+            // Keep file modification results but note if they're short
             if (content.includes('Applied') && content.includes('edit')) {
-              const fileMatch = content.match(/Applied \d+ edits? to (.+?):/);
-              const fileName = fileMatch
-                ? fileMatch[1].split('/').pop()
-                : 'file';
-              return `[File Modified: ${fileName}]`;
+              return `[Tool Result]\n${content}`;
             }
 
             // Summarize build output
@@ -351,19 +442,42 @@ export class SessionExtractor {
   }
 
   /**
-   * Format session messages as markdown
+   * Format session messages as markdown with adaptive content stripping
    */
   private formatSessionAsMarkdown(
     messages: SessionMessage[],
     projectPath: string
   ): string {
+    // Analyze strip levels for all messages
+    const analyzedMessages = this.analyzeStripLevels(messages);
+
+    // Calculate total content length
+    const totalLength = analyzedMessages.reduce(
+      (sum, msg) => sum + msg.content.length,
+      0
+    );
+
+    // Determine strip level based on total length
+    let stripLevel = 0;
+    if (totalLength > 100000)
+      stripLevel = 3; // Strip code blocks
+    else if (totalLength > 50000)
+      stripLevel = 2; // Strip docs and long modifications
+    else if (totalLength > 20000) stripLevel = 1; // Strip commands and system messages
+
+    // Apply strip transformations
+    const processedMessages = this.applyStripLevel(
+      analyzedMessages,
+      stripLevel
+    );
+
     const now = new Date();
     const header = `# Claude Code Session - ${projectPath}
 
 **Extracted**: ${now.toISOString()}
-**Total Messages**: ${messages.length}
-**Session Start**: ${messages[0]?.timestamp || 'Unknown'}
-**Session End**: ${messages[messages.length - 1]?.timestamp || 'Unknown'}
+**Total Messages**: ${processedMessages.length}
+**Session Start**: ${processedMessages[0]?.timestamp || 'Unknown'}
+**Session End**: ${processedMessages[processedMessages.length - 1]?.timestamp || 'Unknown'}
 
 ---
 
@@ -371,11 +485,15 @@ export class SessionExtractor {
 
 `;
 
-    const conversationBody = messages
+    const conversationBody = processedMessages
       .map((msg, index) => {
         const roleLabel = msg.role === 'user' ? '👤 User' : '🤖 Assistant';
+        const stripIndicator =
+          msg.stripLevel > 0 && stripLevel >= msg.stripLevel
+            ? ' (simplified)'
+            : '';
 
-        return `### Message ${index + 1} - ${roleLabel}
+        return `### Message ${index + 1} - ${roleLabel}${stripIndicator}
 
 ${msg.content}
 
@@ -386,10 +504,12 @@ ${msg.content}
     const footer = `
 ## Session Summary
 
-- **Total Messages**: ${messages.length}
-- **User Messages**: ${messages.filter((m) => m.role === 'user').length}
-- **Assistant Messages**: ${messages.filter((m) => m.role === 'assistant').length}
-- **Duration**: ${this.calculateDuration(messages)}
+- **Total Messages**: ${processedMessages.length}
+- **User Messages**: ${processedMessages.filter((m) => m.role === 'user').length}
+- **Assistant Messages**: ${processedMessages.filter((m) => m.role === 'assistant').length}
+- **Duration**: ${this.calculateDuration(processedMessages)}
+- **Content Strip Level**: ${stripLevel} (0=none, 1=commands, 2=docs, 3=code)
+- **Original Length**: ${totalLength.toLocaleString()} chars
 `;
 
     return header + conversationBody + footer;
