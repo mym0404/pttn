@@ -3,12 +3,9 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
-import {
-  AdvancedSearchEngine,
-  SearchableItem,
-} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
-import { extractLanguage, extractTitle } from '../utils/textExtraction.js';
+import { extractLanguage, extractTitle } from '../utils/index.js';
+import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
@@ -118,11 +115,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${idOrKeyword}`);
     },
 
-    create: async function (
-      name: string,
-      content: string,
-      language: string = 'text'
-    ): Promise<string> {
+    create: async function (name: string, content: string): Promise<string> {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
@@ -138,7 +131,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         .replace(/[^a-z0-9-]/g, '')}.md`;
       const filepath = join(patternsDir, filename);
 
-      const fullContent = `# ${name}\n\n**Language**: ${language}\n\n${content}`;
+      const fullContent = `# ${name}\n\n${content}`;
 
       await writeFile(filepath, fullContent);
       return filename;

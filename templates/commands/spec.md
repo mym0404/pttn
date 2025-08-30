@@ -14,8 +14,13 @@ Create comprehensive project specifications through intelligent AI-powered colla
 
 ```bash
 # After planning phase, create each specification:
-npx -y cc-self-refer spec create "<spec-title-1>" "<spec-content-1>"
-npx -y cc-self-refer spec create "<spec-title-2>" "<spec-content-2>"
+npx -y cc-self-refer spec create "<spec-title-1>" --category <category> <<'EOF'
+<spec-content-1>
+EOF
+
+npx -y cc-self-refer spec create "<spec-title-2>" --category <category> <<'EOF'
+<spec-content-2>
+EOF
 # ... continue for each planned specification
 ```
 

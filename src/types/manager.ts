@@ -1,5 +1,10 @@
-import { PageInfo, PatternInfo, PlanInfo, SpecInfo } from './content.js';
-import { SearchResult } from './search.js';
+import type {
+  PageInfo,
+  PatternInfo,
+  PlanInfo,
+  SpecInfo,
+} from './content.js';
+import type { SearchResult } from './search.js';
 
 export interface PageManager {
   list(): Promise<PageInfo[]>;
@@ -22,7 +27,7 @@ export interface PatternManager {
   list(): Promise<PatternInfo[]>;
   search(keyword: string, language?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
-  create(name: string, content: string, language?: string): Promise<string>;
+  create(name: string, content: string): Promise<string>;
 }
 
 export interface SpecManager {

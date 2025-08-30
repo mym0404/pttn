@@ -1,1 +1,0 @@
-export { setupClaudeSelfReferProject } from './projectSetup.js';

@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 
-import { createPatternManager } from '../managers';
-import { logger } from '../utils';
+import { createPatternManager } from '../managers/index.js';
+import { logger, readStdin } from '../utils/index.js';
 
 export const registerPatternCommands = (
   program: Command,
@@ -49,7 +49,7 @@ export const registerPatternCommands = (
 
         // Always use AI-optimized output
         const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../formatters.js');
+          await import('../utils/formatters.js');
 
         const formattedItems = results.map((result) => {
           const pattern = patterns.find((p) => p.file === result.file);
@@ -107,7 +107,7 @@ export const registerPatternCommands = (
         );
 
         if (pattern) {
-          const { formatSingleMatch } = await import('../formatters.js');
+          const { formatSingleMatch } = await import('../utils/formatters.js');
 
           const formattedItem = {
             id: pattern.id,
@@ -133,34 +133,25 @@ export const registerPatternCommands = (
 
   patternCmd
     .command('create')
-    .description('Create a new code pattern')
+    .description('Create a new code pattern from stdin input')
     .argument('<name>', 'Pattern name')
-    .argument('[content]', 'Pattern description or content (optional)')
-    .option('-l, --language <lang>', 'Programming language', 'text')
-    .action(
-      async (
-        name: string,
-        content?: string,
-        cmdOptions?: { language?: string }
-      ) => {
-        logger.startWorkflow('Creating Code Pattern');
+    .action(async (name: string) => {
+      logger.startWorkflow('Creating Code Pattern');
 
-        const globalOptions = program.opts();
-        const manager = createPatternManager(getContentDir(globalOptions));
-        try {
-          // If no content provided, use just the name as content
-          const patternContent = content || name;
-          const filename = await manager.create(
-            name,
-            patternContent,
-            cmdOptions?.language
-          );
-          logger.success(`Pattern created successfully: ${filename}`);
-          logger.endWorkflow();
-        } catch (error) {
-          logger.error('Error creating pattern', error);
-          logger.endWorkflow();
+      const globalOptions = program.opts();
+      const manager = createPatternManager(getContentDir(globalOptions));
+      try {
+        const content = await readStdin();
+        if (!content) {
+          throw new Error('No content provided via stdin');
         }
+
+        const filename = await manager.create(name, content);
+        logger.success(`Pattern created successfully: ${filename}`);
+        logger.endWorkflow();
+      } catch (error) {
+        logger.error('Error creating pattern', error);
+        logger.endWorkflow();
       }
-    );
+    });
 };

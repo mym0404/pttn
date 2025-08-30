@@ -49,7 +49,7 @@ export const registerPageCommands = (
 
         // Always use AI-optimized output
         const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../formatters.js');
+          await import('../utils/formatters.js');
 
         const formattedItems = results.map((result) => {
           const page = pages.find((p) => p.file === result.file);
@@ -107,7 +107,7 @@ export const registerPageCommands = (
 
         if (page) {
           // Always use AI-optimized output
-          const { formatSingleMatch } = await import('../formatters.js');
+          const { formatSingleMatch } = await import('../utils/formatters.js');
 
           const formattedItem = {
             id: page.id,

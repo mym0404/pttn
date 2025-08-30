@@ -131,6 +131,8 @@ The result: Claude becomes increasingly intelligent about your specific project 
 
 ## Todo
 
+- Remove create commands (direct modification from cc)
+- Spec shouldn't include any code.(make it manage more higher blueprint)
 - Test
 - Docs
 - Guide files on init

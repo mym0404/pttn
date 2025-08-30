@@ -18,7 +18,9 @@ Create comprehensive strategic planning documents with structured templates.
 ### CLI Command Used
 
 ```bash
-npx -y cc-self-refer plan create "<title>" "<full-plan-content>"
+npx -y cc-self-refer plan create "<title>" <<'EOF'
+<full-plan-content>
+EOF
 ```
 
 ### Command Arguments

@@ -9,7 +9,7 @@ import { registerPageCommands } from './commands/pageCommands.js';
 import { registerPatternCommands } from './commands/patternCommands.js';
 import { registerPlanCommands } from './commands/planCommands.js';
 import { registerSpecCommands } from './commands/specCommands.js';
-import { getPackageVersion } from './utils/version.js';
+import { getPackageVersion } from './utils';
 
 const program = new Command();
 

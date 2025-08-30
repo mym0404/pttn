@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 
 import { createSpecManager } from '../managers';
-import { logger } from '../utils';
+import { logger, readStdin } from '../utils';
 
 export const registerSpecCommands = (
   program: Command,
@@ -53,7 +53,7 @@ export const registerSpecCommands = (
 
         // Always use AI-optimized output
         const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../formatters.js');
+          await import('../utils/formatters.js');
 
         const formattedItems = results.map((result) => {
           const entry = specs.find((s) => s.file === result.file);
@@ -94,65 +94,32 @@ export const registerSpecCommands = (
 
   specCmd
     .command('create')
-    .description('Launch interactive project planning system')
-    .argument('[concept]', 'Initial concept or feature name (optional)')
-    .action(async (concept?: string) => {
+    .description('Create a new project specification from stdin input')
+    .argument('<title>', 'Specification title')
+    .option('-c, --category <category>', 'Category', 'general')
+    .action(async (title: string, cmdOptions?: { category?: string }) => {
+      logger.startWorkflow('Creating Project Specification');
+
+      const globalOptions = program.opts();
+      const manager = createSpecManager(getContentDir(globalOptions));
       try {
-        logger.info(
-          '\n🚀 Launching Interactive Specification Planning System...\n'
-        );
-
-        if (concept) {
-          logger.info(`Starting specification planning for: "${concept}"`);
-        } else {
-          logger.info('Ready to begin comprehensive specification planning');
+        const content = await readStdin();
+        if (!content) {
+          throw new Error('No content provided via stdin');
         }
 
-        logger.info(
-          '🔄 Interactive specification planning is available through Claude Code...\n'
+        const result = await manager.create(
+          title,
+          content,
+          cmdOptions?.category
         );
-
-        logger.warning(
-          '📋 To use the Interactive Specification Planning System:'
+        logger.success(
+          `Specification created successfully with ID: ${result.id} (${result.filename})`
         );
-        logger.info('   1. Open Claude Code in your project');
-
-        if (concept) {
-          logger.info(`   2. Type: /spec ${concept}`);
-        } else {
-          logger.info('   2. Type: /spec [concept name]');
-        }
-
-        logger.info(
-          '   3. Engage in deep collaborative planning with AI agents'
-        );
-        logger.info(
-          '   4. Generate multiple comprehensive specification files\n'
-        );
-
-        logger.success('✨ Features available in Claude Code:');
-        logger.info(
-          '   • Multi-agent collaboration (Research, Architecture, UX, Business, Security)'
-        );
-        logger.info(
-          '   • Deep requirement analysis with "why-chain" questioning'
-        );
-        logger.info('   • Multiple interconnected specification files');
-        logger.info('   • Professional-grade, implementation-ready output');
-        logger.info('   • Iterative refinement and validation\n');
-
-        // Suggest creating a simple spec if they provided content via CLI
-        if (concept) {
-          logger.info(`Ready to plan specifications for: "${concept}"`);
-          logger.info(
-            'Use the Claude Code command above for the full interactive experience.'
-          );
-        }
+        logger.endWorkflow();
       } catch (error) {
-        logger.error('Error launching specification planning system', error);
-        logger.info(
-          '\nTip: Ensure you have proper network connectivity and try again.'
-        );
+        logger.error('Error creating specification', error);
+        logger.endWorkflow();
       }
     });
 
@@ -175,7 +142,7 @@ export const registerSpecCommands = (
         );
 
         if (entry) {
-          const { formatSingleMatch } = await import('../formatters.js');
+          const { formatSingleMatch } = await import('../utils/formatters.js');
 
           const formattedItem = {
             id: entry.id,

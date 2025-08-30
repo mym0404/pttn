@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 
 import { createPlanManager } from '../managers';
-import { logger } from '../utils';
+import { logger, readStdin } from '../utils';
 
 export const registerPlanCommands = (
   program: Command,
@@ -13,15 +13,19 @@ export const registerPlanCommands = (
 
   planCmd
     .command('create')
-    .description('Create a new strategic plan')
+    .description('Create a new strategic plan from stdin input')
     .argument('<title>', 'Plan title')
-    .argument('<content>', 'Plan content')
-    .action(async (title: string, content: string) => {
+    .action(async (title: string) => {
       logger.startWorkflow('Creating Strategic Plan');
 
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
       try {
+        const content = await readStdin();
+        if (!content) {
+          throw new Error('No content provided via stdin');
+        }
+
         const planId = await manager.create(title, content);
         logger.success(`Plan created successfully with ID: ${planId}`);
         logger.endWorkflow();
@@ -74,7 +78,7 @@ export const registerPlanCommands = (
         );
 
         if (plan) {
-          const { formatSingleMatch } = await import('../formatters.js');
+          const { formatSingleMatch } = await import('../utils/formatters.js');
 
           const formattedItem = {
             id: plan.id,
@@ -119,7 +123,7 @@ ${content}
 
         // Always use AI-optimized output
         const { formatSingleMatch, formatMultipleMatches, formatNoMatches } =
-          await import('../formatters.js');
+          await import('../utils/formatters.js');
 
         const formattedItems = results.map((result) => {
           const plan = plans.find((p) => p.file === result.file);
