@@ -98,7 +98,7 @@ Finds user role specifications within authorization category
 
 ## Related Commands
 
-- [/spec](./spec)
+- [/spec](/docs/commands/spec)
 
 ## Troubleshooting
 

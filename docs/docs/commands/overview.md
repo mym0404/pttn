@@ -14,29 +14,29 @@ cc-self-refer provides a comprehensive set of commands for managing your project
 
 Session history and conversation management:
 
-- **[/page-save](./page-save)** - Page Save - Session History Dump with Citations and Memory Management
-- **[/page-refer](./page-refer)** - Refer Page - Load Session History Context
+- **[/page-save](/docs/commands/page-save)** - Page Save - Session History Dump with Citations and Memory Management
+- **[/page-refer](/docs/commands/page-refer)** - Refer Page - Load Session History Context
 
 ### 📋 Plan Commands
 
 Strategic planning and task management:
 
-- **[/plan-resolve](./plan-resolve)** - Plan Resolve - Execute Strategic Plans and Mark Complete
-- **[/plan-create](./plan-create)** - Plan Create - Create New Implementation Planning Document
+- **[/plan-resolve](/docs/commands/plan-resolve)** - Plan Resolve - Execute Strategic Plans and Mark Complete
+- **[/plan-create](/docs/commands/plan-create)** - Plan Create - Create New Implementation Planning Document
 
 ### 🎨 Pattern Commands
 
 Code pattern library management:
 
-- **[/pattern-use](./pattern-use)** - Use Code Pattern - Apply Predefined Code Patterns
-- **[/pattern-create](./pattern-create)** - Code Pattern - Save Reusable Code Patterns
+- **[/pattern-use](/docs/commands/pattern-use)** - Use Code Pattern - Apply Predefined Code Patterns
+- **[/pattern-create](/docs/commands/pattern-create)** - Code Pattern - Save Reusable Code Patterns
 
 ### 📚 Spec Commands
 
 Project specification management:
 
-- **[/spec](./spec)** - Spec - Adaptive Interactive Project Planning System
-- **[/spec-refer](./spec-refer)** - Refer Spec - Access Project Specifications
+- **[/spec](/docs/commands/spec)** - Spec - Adaptive Interactive Project Planning System
+- **[/spec-refer](/docs/commands/spec-refer)** - Refer Spec - Access Project Specifications
 
 ## Quick Reference
 

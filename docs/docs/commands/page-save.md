@@ -34,7 +34,7 @@ npx -y cc-self-refer page create "<title>"
 
 ## Related Commands
 
-- [/page-refer](./page-refer)
+- [/page-refer](/docs/commands/page-refer)
 
 ## Troubleshooting
 

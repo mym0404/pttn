@@ -55,8 +55,8 @@ npx -y cc-self-refer plan view <id_or_keyword>
 
 ## Related Commands
 
-- [/plan-create](./plan-create)
-- [/plan-edit](./plan-edit)
+- [/plan-create](/docs/commands/plan-create)
+- [/plan-edit](/docs/commands/plan-edit)
 
 ## Troubleshooting
 

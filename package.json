@@ -21,13 +21,13 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "t": "pnpm lint && pnpm typecheck && pnpm build",
-    "release": "yes | npx release-it patch",
+    "release": "yes | npx release-it patch && doc:deploy",
     "sync:commands": "zx scripts/sync-commands.mjs",
     "docs:dev": "cd docs && pnpm start",
     "docs:build": "cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:generate": "node scripts/generate-command-docs.mjs",
-    "build:all": "pnpm build && pnpm docs:build"
+    "doc:deploy": "cd docs && GIT_USER=mym0404 pnpm run deploy"
   },
   "keywords": [
     "claude",

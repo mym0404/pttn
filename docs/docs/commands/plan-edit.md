@@ -46,8 +46,8 @@ cc-self-refer plan edit <id_or_keyword>
 
 ## Related Commands
 
-- [/plan-create](./plan-create)
-- [/plan-resolve](./plan-resolve)
+- [/plan-create](/docs/commands/plan-create)
+- [/plan-resolve](/docs/commands/plan-resolve)
 
 ## Troubleshooting
 

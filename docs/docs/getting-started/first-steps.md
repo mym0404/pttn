@@ -56,6 +56,6 @@ In Claude Code, use slash commands:
 
 ## Next Steps
 
-- Explore [command documentation](../commands/overview)
-- Learn [best practices](../guides/best-practices)
-- Set up [team collaboration](../guides/team-collaboration)
+- Explore [command documentation](/docs/commands/overview)
+- Learn [best practices](/docs/guides/best-practices)
+- Set up [team collaboration](/docs/guides/team-collaboration)

@@ -87,8 +87,8 @@ Based on your answers, I need to understand:
 
 ## Related Commands
 
-- [/plan-edit](./plan-edit)
-- [/plan-resolve](./plan-resolve)
+- [/plan-edit](/docs/commands/plan-edit)
+- [/plan-resolve](/docs/commands/plan-resolve)
 
 ## Troubleshooting
 

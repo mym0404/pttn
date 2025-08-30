@@ -42,7 +42,7 @@ npx -y cc-self-refer pattern list
 
 ## Related Commands
 
-- [/pattern-create](./pattern-create)
+- [/pattern-create](/docs/commands/pattern-create)
 
 ## Troubleshooting
 

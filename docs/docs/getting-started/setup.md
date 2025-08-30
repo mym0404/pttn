@@ -300,7 +300,7 @@ Integrate with your build process:
 
 Now that your project is set up:
 
-1. [Learn the basic commands](./first-steps)
+1. [Learn the basic commands](/docs/getting-started/first-steps)
 2. [Create your first specification](/docs/commands/spec)
 3. [Set up your first plan](/docs/commands/plan-create)
 4. [Save useful patterns](/docs/commands/pattern-create)

@@ -9,6 +9,7 @@ const config: Config = {
 
   url: 'https://mym0404.github.io',
   baseUrl: '/cc-self-refer/',
+  trailingSlash: true,
 
   organizationName: 'mym0404',
   projectName: 'cc-self-refer',

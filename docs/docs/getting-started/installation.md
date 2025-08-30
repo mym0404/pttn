@@ -268,14 +268,14 @@ rm -rf .claude/
 
 Now that you have cc-self-refer installed, proceed to:
 
-- [Setup Guide](./setup) - Configure your first project
-- [First Steps](./first-steps) - Learn basic commands
-- [Commands Overview](../commands/overview) - Explore all available commands
+- [Setup Guide](/docs/getting-started/setup) - Configure your first project
+- [First Steps](/docs/getting-started/first-steps) - Learn basic commands
+- [Commands Overview](/docs/commands/overview) - Explore all available commands
 
 ## Getting Help
 
 If you encounter issues not covered here:
 
-- Check our [Troubleshooting Guide](./troubleshooting)
+- Check our [Troubleshooting Guide](/docs/getting-started/troubleshooting)
 - [Open an issue](https://github.com/mym0404/cc-self-refer/issues)
 - [Join the discussion](https://github.com/mym0404/cc-self-refer/discussions)

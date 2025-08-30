@@ -42,7 +42,7 @@ npx -y cc-self-refer page view <id>        # View specific page
 
 ## Related Commands
 
-- [/page-save](./page-save)
+- [/page-save](/docs/commands/page-save)
 
 ## Troubleshooting
 

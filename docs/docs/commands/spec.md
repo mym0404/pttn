@@ -101,7 +101,7 @@ Key Questions:
 
 ## Related Commands
 
-- [/spec-refer](./spec-refer)
+- [/spec-refer](/docs/commands/spec-refer)
 
 ## Troubleshooting
 

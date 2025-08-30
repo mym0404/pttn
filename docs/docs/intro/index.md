@@ -77,7 +77,7 @@ Through CLI commands and Claude Code slash commands, you can:
 
 ## Getting Started
 
-Ready to enhance your Claude Code workflow? Check out our [Getting Started Guide](./getting-started/installation) to install and set up cc-self-refer in minutes.
+Ready to enhance your Claude Code workflow? Check out our [Getting Started Guide](/docs/getting-started/installation) to install and set up cc-self-refer in minutes.
 
 ## Community and Support
 
