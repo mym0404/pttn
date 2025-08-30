@@ -43,8 +43,10 @@ export default [
   },
   {
     ignores: [
-      'dist/**',
-      'node_modules/**',
+      '**/dist/**',
+      '**/node_modules/**',
+      'docs/build/**',
+      'docs/.docusaurus',
       'scripts/**',
       '**/*.json',
       '.eslintcache',
