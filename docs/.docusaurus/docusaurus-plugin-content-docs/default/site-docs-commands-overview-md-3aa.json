@@ -1,0 +1,28 @@
+{
+  "id": "commands/overview",
+  "title": "Commands Overview",
+  "description": "cc-self-refer provides a comprehensive set of commands for managing your project context. These commands are available both through the CLI and as Claude Code slash commands.",
+  "source": "@site/docs/commands/overview.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/overview",
+  "permalink": "/cc-self-refer/docs/commands/overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/overview.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "overview",
+    "title": "Commands Overview",
+    "sidebar_label": "Overview"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Troubleshooting",
+    "permalink": "/cc-self-refer/docs/getting-started/troubleshooting"
+  },
+  "next": {
+    "title": "/page-save",
+    "permalink": "/cc-self-refer/docs/commands/page-save"
+  }
+}

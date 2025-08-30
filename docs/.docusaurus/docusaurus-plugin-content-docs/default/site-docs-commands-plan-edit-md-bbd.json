@@ -1,0 +1,28 @@
+{
+  "id": "commands/plan-edit",
+  "title": "Plan Edit",
+  "description": "Usage: /plan-edit",
+  "source": "@site/docs/commands/plan-edit.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/plan-edit",
+  "permalink": "/cc-self-refer/docs/commands/plan-edit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/plan-edit.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "plan-edit",
+    "title": "Plan Edit",
+    "sidebar_label": "/plan-edit"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "/plan-create",
+    "permalink": "/cc-self-refer/docs/commands/plan-create"
+  },
+  "next": {
+    "title": "/plan-resolve",
+    "permalink": "/cc-self-refer/docs/commands/plan-resolve"
+  }
+}

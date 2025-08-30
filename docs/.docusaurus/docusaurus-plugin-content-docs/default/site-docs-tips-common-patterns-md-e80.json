@@ -1,0 +1,28 @@
+{
+  "id": "tips/common-patterns",
+  "title": "Common Patterns",
+  "description": "Frequently used patterns and solutions with cc-self-refer.",
+  "source": "@site/docs/tips/common-patterns.md",
+  "sourceDirName": "tips",
+  "slug": "/tips/common-patterns",
+  "permalink": "/cc-self-refer/docs/tips/common-patterns",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/tips/common-patterns.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "common-patterns",
+    "title": "Common Patterns",
+    "sidebar_label": "Common Patterns"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Performance",
+    "permalink": "/cc-self-refer/docs/tips/performance"
+  },
+  "next": {
+    "title": "Troubleshooting",
+    "permalink": "/cc-self-refer/docs/tips/troubleshooting"
+  }
+}

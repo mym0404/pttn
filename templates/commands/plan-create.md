@@ -72,7 +72,7 @@ Round 3 - Implementation:
 
 ## Implementation
 [Detailed technical implementation including:
-- Framework/library choices and versions
+- Framework/library choices (without version, assume latest versions'll be used)
 - Specific files to create/modify with exact paths
 - Code snippets or pseudo-code for core logic
 - Package dependencies to install

@@ -1,0 +1,28 @@
+{
+  "id": "guides/workflow-optimization",
+  "title": "Workflow Optimization",
+  "description": "Streamline your development process with optimized cc-self-refer workflows.",
+  "source": "@site/docs/guides/workflow-optimization.md",
+  "sourceDirName": "guides",
+  "slug": "/guides/workflow-optimization",
+  "permalink": "/cc-self-refer/docs/guides/workflow-optimization",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/guides/workflow-optimization.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "workflow-optimization",
+    "title": "Workflow Optimization",
+    "sidebar_label": "Workflow Optimization"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Best Practices",
+    "permalink": "/cc-self-refer/docs/guides/best-practices"
+  },
+  "next": {
+    "title": "Team Collaboration",
+    "permalink": "/cc-self-refer/docs/guides/team-collaboration"
+  }
+}

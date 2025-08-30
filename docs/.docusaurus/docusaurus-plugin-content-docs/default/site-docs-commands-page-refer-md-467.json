@@ -1,0 +1,28 @@
+{
+  "id": "commands/page-refer",
+  "title": "Refer Page - Load Session History Context",
+  "description": "Usage: /page-refer",
+  "source": "@site/docs/commands/page-refer.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/page-refer",
+  "permalink": "/cc-self-refer/docs/commands/page-refer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/page-refer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "page-refer",
+    "title": "Refer Page - Load Session History Context",
+    "sidebar_label": "/page-refer"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "/page-save",
+    "permalink": "/cc-self-refer/docs/commands/page-save"
+  },
+  "next": {
+    "title": "/plan-create",
+    "permalink": "/cc-self-refer/docs/commands/plan-create"
+  }
+}

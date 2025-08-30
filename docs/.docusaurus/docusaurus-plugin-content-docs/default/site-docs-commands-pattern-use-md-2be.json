@@ -1,0 +1,28 @@
+{
+  "id": "commands/pattern-use",
+  "title": "Use Code Pattern - Apply Predefined Code Patterns",
+  "description": "Usage: /pattern-use",
+  "source": "@site/docs/commands/pattern-use.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/pattern-use",
+  "permalink": "/cc-self-refer/docs/commands/pattern-use",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/pattern-use.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "pattern-use",
+    "title": "Use Code Pattern - Apply Predefined Code Patterns",
+    "sidebar_label": "/pattern-use"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "/pattern-create",
+    "permalink": "/cc-self-refer/docs/commands/pattern-create"
+  },
+  "next": {
+    "title": "/spec",
+    "permalink": "/cc-self-refer/docs/commands/spec"
+  }
+}

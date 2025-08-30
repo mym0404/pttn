@@ -1,0 +1,28 @@
+{
+  "id": "commands/plan-create",
+  "title": "Plan Create - Create New Implementation Planning Document",
+  "description": "Usage: /plan-create",
+  "source": "@site/docs/commands/plan-create.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/plan-create",
+  "permalink": "/cc-self-refer/docs/commands/plan-create",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/plan-create.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "plan-create",
+    "title": "Plan Create - Create New Implementation Planning Document",
+    "sidebar_label": "/plan-create"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "/page-refer",
+    "permalink": "/cc-self-refer/docs/commands/page-refer"
+  },
+  "next": {
+    "title": "/plan-edit",
+    "permalink": "/cc-self-refer/docs/commands/plan-edit"
+  }
+}

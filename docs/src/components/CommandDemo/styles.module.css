@@ -1,0 +1,115 @@
+.commandDemo {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  overflow: hidden;
+  margin: 1.5rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.header {
+  background: linear-gradient(90deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-light) 100%);
+  color: white;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+}
+
+.prompt {
+  font-weight: 600;
+}
+
+.commandBadge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-color);
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  color: var(--ifm-font-color-base);
+}
+
+.tab:hover {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-primary);
+}
+
+.activeTab {
+  background: var(--ifm-color-primary);
+  color: white;
+  border-color: var(--ifm-color-primary);
+}
+
+.activeTab:hover {
+  background: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+}
+
+.content {
+  padding: 1rem;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--ifm-code-background);
+  border-radius: var(--ifm-global-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.inputPrompt {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.output {
+  padding: 0.75rem;
+  background: var(--ifm-code-background);
+  border-radius: var(--ifm-global-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+}
+
+.output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+[data-theme='dark'] .commandDemo {
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+[data-theme='dark'] .tabs {
+  border-bottom-color: var(--ifm-color-emphasis-400);
+}
+
+[data-theme='dark'] .tab {
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+[data-theme='dark'] .tab:hover {
+  background: var(--ifm-color-emphasis-300);
+}

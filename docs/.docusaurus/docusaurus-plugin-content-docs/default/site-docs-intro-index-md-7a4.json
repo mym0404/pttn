@@ -1,0 +1,25 @@
+{
+  "id": "intro/index",
+  "title": "Introduction",
+  "description": "cc-self-refer is a powerful CLI tool that enables intelligent self-reference capabilities for Claude Code projects. It provides organized context management through the .claude directory structure, allowing Claude Code to maintain awareness across sessions and build upon previous work.",
+  "source": "@site/docs/intro/index.md",
+  "sourceDirName": "intro",
+  "slug": "/intro",
+  "permalink": "/cc-self-refer/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/intro/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "index",
+    "title": "Introduction",
+    "sidebar_label": "Introduction",
+    "slug": "/intro"
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Self-Referring Model",
+    "permalink": "/cc-self-refer/docs/intro/self-referring-model"
+  }
+}

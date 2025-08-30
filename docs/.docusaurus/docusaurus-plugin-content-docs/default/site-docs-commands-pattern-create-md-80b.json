@@ -1,0 +1,28 @@
+{
+  "id": "commands/pattern-create",
+  "title": "Code Pattern - Save Reusable Code Patterns",
+  "description": "Usage: /pattern-create",
+  "source": "@site/docs/commands/pattern-create.md",
+  "sourceDirName": "commands",
+  "slug": "/commands/pattern-create",
+  "permalink": "/cc-self-refer/docs/commands/pattern-create",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/commands/pattern-create.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "pattern-create",
+    "title": "Code Pattern - Save Reusable Code Patterns",
+    "sidebar_label": "/pattern-create"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "/plan-resolve",
+    "permalink": "/cc-self-refer/docs/commands/plan-resolve"
+  },
+  "next": {
+    "title": "/pattern-use",
+    "permalink": "/cc-self-refer/docs/commands/pattern-use"
+  }
+}

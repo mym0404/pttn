@@ -1,0 +1,118 @@
+{
+  "/cc-self-refer/docs-672": {
+    "__comp": "5e95c892",
+    "__context": {
+      "plugin": "aba21aa0"
+    }
+  },
+  "/cc-self-refer/docs-94b": {
+    "__comp": "a7bd4aaa",
+    "__props": "af765048"
+  },
+  "/cc-self-refer/docs-082": {
+    "__comp": "a94703ab"
+  },
+  "/cc-self-refer/docs/commands/overview-db3": {
+    "__comp": "17896441",
+    "content": "3aa355b4"
+  },
+  "/cc-self-refer/docs/commands/page-refer-7b9": {
+    "__comp": "17896441",
+    "content": "4678feae"
+  },
+  "/cc-self-refer/docs/commands/page-save-36a": {
+    "__comp": "17896441",
+    "content": "d6dbc831"
+  },
+  "/cc-self-refer/docs/commands/pattern-create-84b": {
+    "__comp": "17896441",
+    "content": "80b98c62"
+  },
+  "/cc-self-refer/docs/commands/pattern-use-7e4": {
+    "__comp": "17896441",
+    "content": "2be77842"
+  },
+  "/cc-self-refer/docs/commands/plan-create-76a": {
+    "__comp": "17896441",
+    "content": "2363f09d"
+  },
+  "/cc-self-refer/docs/commands/plan-edit-898": {
+    "__comp": "17896441",
+    "content": "bbde962c"
+  },
+  "/cc-self-refer/docs/commands/plan-resolve-ff3": {
+    "__comp": "17896441",
+    "content": "ce0b336d"
+  },
+  "/cc-self-refer/docs/commands/spec-293": {
+    "__comp": "17896441",
+    "content": "6426e1d4"
+  },
+  "/cc-self-refer/docs/commands/spec-refer-6ed": {
+    "__comp": "17896441",
+    "content": "b875b762"
+  },
+  "/cc-self-refer/docs/getting-started/first-steps-be8": {
+    "__comp": "17896441",
+    "content": "a39aaf1d"
+  },
+  "/cc-self-refer/docs/getting-started/installation-085": {
+    "__comp": "17896441",
+    "content": "54f44165"
+  },
+  "/cc-self-refer/docs/getting-started/setup-7a0": {
+    "__comp": "17896441",
+    "content": "530ea7a0"
+  },
+  "/cc-self-refer/docs/getting-started/troubleshooting-a42": {
+    "__comp": "17896441",
+    "content": "ffb8877b"
+  },
+  "/cc-self-refer/docs/guides/best-practices-5a2": {
+    "__comp": "17896441",
+    "content": "a2738a55"
+  },
+  "/cc-self-refer/docs/guides/ide-integration-313": {
+    "__comp": "17896441",
+    "content": "c7bd31b1"
+  },
+  "/cc-self-refer/docs/guides/team-collaboration-d21": {
+    "__comp": "17896441",
+    "content": "84d39b15"
+  },
+  "/cc-self-refer/docs/guides/workflow-optimization-314": {
+    "__comp": "17896441",
+    "content": "3b642d22"
+  },
+  "/cc-self-refer/docs/intro-f43": {
+    "__comp": "17896441",
+    "content": "7a4fffdf"
+  },
+  "/cc-self-refer/docs/intro/architecture-6f4": {
+    "__comp": "17896441",
+    "content": "0658869c"
+  },
+  "/cc-self-refer/docs/intro/self-referring-model-902": {
+    "__comp": "17896441",
+    "content": "3681df78"
+  },
+  "/cc-self-refer/docs/tips/common-patterns-50c": {
+    "__comp": "17896441",
+    "content": "e80de7a3"
+  },
+  "/cc-self-refer/docs/tips/performance-3a5": {
+    "__comp": "17896441",
+    "content": "99becb35"
+  },
+  "/cc-self-refer/docs/tips/troubleshooting-154": {
+    "__comp": "17896441",
+    "content": "244545a6"
+  },
+  "/cc-self-refer/-42a": {
+    "__comp": "1df93b7f",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  }
+}

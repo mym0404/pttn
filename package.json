@@ -22,7 +22,12 @@
     "test:coverage": "vitest --coverage",
     "t": "pnpm lint && pnpm typecheck && pnpm build",
     "release": "yes | npx release-it patch",
-    "sync:commands": "zx scripts/sync-commands.mjs"
+    "sync:commands": "zx scripts/sync-commands.mjs",
+    "docs:dev": "cd docs && pnpm start",
+    "docs:build": "cd docs && pnpm build",
+    "docs:serve": "cd docs && pnpm serve",
+    "docs:generate": "node scripts/generate-command-docs.mjs",
+    "build:all": "pnpm build && pnpm docs:build"
   },
   "keywords": [
     "claude",
@@ -45,7 +50,7 @@
   "devDependencies": {
     "@eslint/js": "^9.34.0",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.10.5",
+    "@types/node": "catalog:",
     "@vitest/ui": "^3.2.4",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
@@ -56,7 +61,7 @@
     "prettier": "^3.6.2",
     "tsc-alias": "^1.8.16",
     "tsdown": "^0.2.17",
-    "typescript": "^5.7.3",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.41.0",
     "vitest": "^3.2.4",
     "zx": "^8.8.1"

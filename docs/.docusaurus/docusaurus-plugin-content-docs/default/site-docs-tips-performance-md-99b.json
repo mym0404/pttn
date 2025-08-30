@@ -1,0 +1,28 @@
+{
+  "id": "tips/performance",
+  "title": "Performance Optimization",
+  "description": "Optimize cc-self-refer for large projects and fast operations.",
+  "source": "@site/docs/tips/performance.md",
+  "sourceDirName": "tips",
+  "slug": "/tips/performance",
+  "permalink": "/cc-self-refer/docs/tips/performance",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-github-username/cc-self-refer/tree/main/docs/docs/tips/performance.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "performance",
+    "title": "Performance Optimization",
+    "sidebar_label": "Performance"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "IDE Integration",
+    "permalink": "/cc-self-refer/docs/guides/ide-integration"
+  },
+  "next": {
+    "title": "Common Patterns",
+    "permalink": "/cc-self-refer/docs/tips/common-patterns"
+  }
+}

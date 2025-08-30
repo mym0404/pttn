@@ -28,7 +28,9 @@
       "Bash(npx cc-self-refer:*)",
       "Bash(pnpm dev:*)",
       "Bash(npx:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(pnpm start:*)",
+      "mcp__playwright__init-browser"
     ],
     "deny": [],
     "ask": []
