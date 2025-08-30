@@ -84,11 +84,11 @@ export const createPlanManager = (contentDir: string): PlanManager => {
       }));
     },
 
-    async view(idOrKeyword: string): Promise<string> {
+    async view(id: string): Promise<string> {
       const plans = await this.list();
 
       // Try to find by ID first
-      const idNum = parseInt(idOrKeyword);
+      const idNum = parseInt(id);
       if (!isNaN(idNum)) {
         const plan = plans.find((p: PlanInfo) => p.id === idNum);
         if (plan?.content) {
@@ -96,17 +96,7 @@ export const createPlanManager = (contentDir: string): PlanManager => {
         }
       }
 
-      // Search by keyword
-      const results = await this.search(idOrKeyword);
-      if (results.length > 0) {
-        const bestMatch = results[0];
-        const plan = plans.find((p: PlanInfo) => p.file === bestMatch.file);
-        if (plan?.content) {
-          return plan.content;
-        }
-      }
-
-      throw new Error(`Plan not found: ${idOrKeyword}`);
+      throw new Error(`Plan not found: ${id}`);
     },
 
     async create(title: string, content: string): Promise<number> {

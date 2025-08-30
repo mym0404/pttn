@@ -87,11 +87,11 @@ export const createSpecManager = (contentDir: string): SpecManager => {
       }));
     },
 
-    async view(idOrKeyword: string): Promise<string> {
+    async view(id: string): Promise<string> {
       const entries = await this.list();
 
       // Try to find by ID first
-      const idNum = parseInt(idOrKeyword);
+      const idNum = parseInt(id);
       if (!isNaN(idNum)) {
         const entry = entries.find((e: SpecInfo) => e.id === idNum);
         if (entry?.content) {
@@ -99,17 +99,7 @@ export const createSpecManager = (contentDir: string): SpecManager => {
         }
       }
 
-      // Search by keyword
-      const results = await this.search(idOrKeyword);
-      if (results.length > 0) {
-        const bestMatch = results[0];
-        const entry = entries.find((e: SpecInfo) => e.file === bestMatch.file);
-        if (entry?.content) {
-          return entry.content;
-        }
-      }
-
-      throw new Error(`Spec entry not found: ${idOrKeyword}`);
+      throw new Error(`Spec entry not found: ${id}`);
     },
 
     async create(

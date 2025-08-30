@@ -3,9 +3,12 @@ import { glob } from 'glob';
 import { join, resolve } from 'path';
 
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
+import {
+  AdvancedSearchEngine,
+  SearchableItem,
+} from '../utils/advancedSearch.js';
 import { ensureDir } from '../utils/index.js';
 import { extractLanguage, extractTitle } from '../utils/index.js';
-import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
@@ -88,11 +91,11 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       }));
     },
 
-    async view(idOrKeyword: string): Promise<string> {
+    async view(id: string): Promise<string> {
       const patterns = await this.list();
 
       // Try to find by ID first
-      const idNum = parseInt(idOrKeyword);
+      const idNum = parseInt(id);
       if (!isNaN(idNum)) {
         const pattern = patterns.find((p: PatternInfo) => p.id === idNum);
         if (pattern?.content) {
@@ -100,19 +103,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         }
       }
 
-      // Search by keyword
-      const results = await this.search(idOrKeyword);
-      if (results.length > 0) {
-        const bestMatch = results[0];
-        const pattern = patterns.find(
-          (p: PatternInfo) => p.file === bestMatch.file
-        );
-        if (pattern?.content) {
-          return pattern.content;
-        }
-      }
-
-      throw new Error(`Pattern not found: ${idOrKeyword}`);
+      throw new Error(`Pattern not found: ${id}`);
     },
 
     create: async function (name: string, content: string): Promise<string> {

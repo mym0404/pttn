@@ -80,29 +80,18 @@ export const createPageManager = (contentDir: string): PageManager => {
       }));
     },
 
-    async view(idOrKeyword: string): Promise<string> {
+    async view(id: string): Promise<string> {
       const pages = await this.list();
 
       // Try to find by ID first
-      const idNum = parseInt(idOrKeyword);
+      const idNum = parseInt(id);
       if (!isNaN(idNum)) {
         const page = pages.find((p: PageInfo) => p.id === idNum);
         if (page?.content) {
           return page.content;
         }
       }
-
-      // Search by keyword
-      const results = await this.search(idOrKeyword);
-      if (results.length > 0) {
-        const bestMatch = results[0];
-        const page = pages.find((p: PageInfo) => p.file === bestMatch.file);
-        if (page?.content) {
-          return page.content;
-        }
-      }
-
-      throw new Error(`Page not found: ${idOrKeyword}`);
+      throw new Error(`Page not found: ${id}`);
     },
 
     async create(title: string, content: string): Promise<number> {
