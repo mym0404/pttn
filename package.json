@@ -21,7 +21,8 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "t": "pnpm lint && pnpm typecheck && pnpm build",
-    "release": "yes | npx release-it patch"
+    "release": "yes | npx release-it patch",
+    "sync:commands": "zx scripts/sync-commands.mjs"
   },
   "keywords": [
     "claude",
