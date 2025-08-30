@@ -54,7 +54,7 @@ const addLine = (str, added, backward = false) => {
   }
 };
 
-const addLineToFile = (path, added, backward = false) => 
+const addLineToFile = (path, added, backward = false) =>
   write(path, addLine(read(path), added, backward));
 
 const print = (...args) => echo(chalk.blue(`[${_printTag}]`, ...args));
@@ -97,7 +97,7 @@ async function main() {
 
   // Get all .md files from templates directory
   const templateFiles = fs.readdirSync(templateDir).filter(file => file.endsWith('.md'));
-  
+
   if (templateFiles.length === 0) {
     printError('No template files found in', templateDir);
     exit(1);
@@ -109,10 +109,16 @@ async function main() {
   for (const file of templateFiles) {
     const sourcePath = join(templateDir, file);
     const targetPath = join(targetDir, file);
-    
-    const content = read(sourcePath);
+
+    const content = `
+**IMPORTANT**: npx -y cc-self-refer not working in this project because this is project of cc-self-refer cli.
+instead, run \`pnpm build\` and \`node dist/cli.js\` directly.
+ 
+----------------------------
+ 
+${read(sourcePath)}`;
     write(targetPath, content);
-    
+
     print(`Synced: ${file}`);
   }
 

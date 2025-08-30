@@ -8,5 +8,8 @@ export const ensureDir = async (path: string): Promise<void> => {
 };
 
 export const sanitizeFilename = (name: string): string => {
-  return name.replace(/\s+/g, '-').replace(/[/\\:*?"<>|]/g, '');
+  return name
+    .replace(/\s+/g, '-')
+    .replace(/[/\\:*?"<>|]/g, '')
+    .toLowerCase();
 };
