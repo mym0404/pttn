@@ -20,7 +20,7 @@ export const registerPlanCommands = (
 
   planCmd
     .command('create')
-    .description('Create a new strategic plan from stdin input')
+    .description('Create a new plan')
     .argument('<title>', 'Plan title')
     .action(async (title: string) => {
       logger.startWorkflow('Creating Strategic Plan');
@@ -42,7 +42,7 @@ export const registerPlanCommands = (
 
   planCmd
     .command('list')
-    .description('List all strategic plans')
+    .description('List all plans')
     .action(async () => {
       const globalOptions = program.opts();
       const manager = createPlanManager(getContentDir(globalOptions));
@@ -66,7 +66,7 @@ export const registerPlanCommands = (
 
   planCmd
     .command('view')
-    .description('View a strategic plan by ID number')
+    .description('View a plan by ID number')
     .argument('<id>', 'Plan ID number')
     .action(async (id: string) => {
       const globalOptions = program.opts();
@@ -88,7 +88,7 @@ export const registerPlanCommands = (
 
   planCmd
     .command('search')
-    .description('Search strategic plans')
+    .description('Search plans')
     .argument('<keyword>', 'Search keyword')
     .action(async (keyword: string) => {
       const globalOptions = program.opts();
