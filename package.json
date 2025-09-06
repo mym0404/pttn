@@ -1,6 +1,6 @@
 {
   "name": "cc-self-refer",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Claude Code Self Reference Helper - CLI tool for managing .claude directory content",
   "type": "module",
   "main": "dist/index.js",
