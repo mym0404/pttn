@@ -35,7 +35,7 @@ export const registerPatternCommands = (
 
         const items = patterns.map((pattern) => ({
           id: pattern.id,
-          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? `\n     ${pc.gray(pattern.explanation)}` : ''}`,
+          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? `\n     ${pc.white(pattern.explanation)}` : ''}`,
         }));
         formatList('Code Patterns', items);
       } catch (error) {
@@ -61,7 +61,7 @@ export const registerPatternCommands = (
           patterns,
           formatOptions,
           (item) =>
-            `Language: ${item.language}${item.explanation ? `\n     ${pc.gray(item.explanation)}` : ''}`
+            `Language: ${item.language}${item.explanation ? ` - ${pc.white(item.explanation)}` : ''}`
         );
       } catch (error) {
         logger.error('Error searching patterns', error);
