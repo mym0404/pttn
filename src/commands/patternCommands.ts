@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import pc from 'picocolors';
 
 import { createPatternManager } from '../managers';
 import {
@@ -34,7 +35,7 @@ export const registerPatternCommands = (
 
         const items = patterns.map((pattern) => ({
           id: pattern.id,
-          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? ` - ${pattern.explanation}` : ''}`,
+          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? `\n     ${pc.gray(pattern.explanation)}` : ''}`,
         }));
         formatList('Code Patterns', items);
       } catch (error) {
@@ -60,7 +61,7 @@ export const registerPatternCommands = (
           patterns,
           formatOptions,
           (item) =>
-            `Language: ${item.language}${item.explanation ? ` - ${item.explanation}` : ''}`
+            `Language: ${item.language}${item.explanation ? `\n     ${pc.gray(item.explanation)}` : ''}`
         );
       } catch (error) {
         logger.error('Error searching patterns', error);
