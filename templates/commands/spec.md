@@ -66,13 +66,13 @@ Based on the user's response, engage in a **fully interactive, extensive dialogu
 - Authentication and authorization
 - Performance requirements
 
-**User Interface:**
-- UI components and layouts
-- User interaction flows
-- State management
-- Forms and validations
-- Navigation structure
-- Responsive design needs
+**Interface & Interaction (if applicable):**
+- API interfaces for libraries
+- CLI commands for tools
+- UI components for applications
+- Integration interfaces
+- Communication protocols
+- Input/output specifications
 
 **Data & Processing:**
 - Data input/output formats
@@ -92,32 +92,24 @@ Based on the user's response, engage in a **fully interactive, extensive dialogu
 
 ### Step 3: Specification Planning
 
-After thorough discovery, determine the specification structure:
+After thorough discovery, determine the specification structure based on scope:
 
-**For Complete Product Specifications:**
-```
-Based on our discussion, I'll create a comprehensive specification suite with these documents:
+**For Complete System/Initial Setup:**
+- Core architecture and infrastructure
+- Data models and database design
+- API structure and authentication
+- Security framework
+- Base configurations
 
-1. Product Vision & Strategy
-2. User Personas & Journeys
-3. Core Functional Requirements
-4. Technical Architecture
-5. API Specifications
-6. UI/UX Design System
-7. Security & Compliance Framework
-8. Performance & Scalability Requirements
-9. Deployment & Operations Strategy
-10. Testing & Quality Assurance
-[... additional specs as needed]
-
-Let me draft these specifications based on everything we've discussed...
-```
-
-**For Focused Specifications:**
-```
-Based on our discussion, I'll create a detailed specification for [specific area].
-This will cover [key aspects] and integrate with your existing specifications...
-```
+**For Individual Features (Most Common):**
+Each feature gets its own comprehensive specification:
+- Feature overview and user stories
+- Data model changes/additions
+- API endpoints needed
+- Business logic and rules
+- UI/UX requirements (if applicable)
+- Integration points
+- Testing scenarios
 
 ### Step 4: Create Multiple Specification Files
 
@@ -147,26 +139,85 @@ EOF
 # Continue for all planned specifications...
 ```
 
-## Expected Output Structure
+## Expected Output Examples
 
-After extensive dialogue, the command generates multiple specification files. Here's what gets created:
-
-### Example: E-commerce Platform Specifications
-
+### Initial Project Setup Specs
 ```
-.claude/specs/
-├── 001-product-vision-and-core-functionality.md
-├── 002-user-types-and-permissions.md
-├── 003-product-catalog-system.md
-├── 004-shopping-cart-and-checkout.md
-├── 005-payment-processing-integration.md
-├── 006-order-management-system.md
-├── 007-inventory-tracking.md
-├── 008-search-and-filtering.md
-├── 009-api-specifications.md
-├── 010-database-schema.md
-├── 011-security-and-authentication.md
-└── 012-performance-requirements.md
+├── 001-system-architecture.md
+├── 002-database-schema.md
+├── 003-api-structure.md
+├── 004-authentication-system.md
+└── 005-deployment-configuration.md
+```
+
+### Feature-Based Specs (Most Common Pattern)
+
+**E-commerce Project Evolution:**
+```
+├── 001-initial-setup.md
+├── 002-user-registration-feature.md
+├── 003-product-catalog-feature.md
+├── 004-shopping-cart-feature.md
+├── 005-payment-integration-feature.md
+├── 006-order-tracking-feature.md
+├── 007-review-system-feature.md
+├── 008-recommendation-engine-feature.md
+├── 009-admin-dashboard-feature.md
+└── 010-inventory-management-feature.md
+```
+
+**SaaS Platform Features:**
+```
+├── 011-subscription-billing-feature.md
+├── 012-team-collaboration-feature.md
+├── 013-notification-system-feature.md
+├── 014-data-export-feature.md
+├── 015-api-rate-limiting-feature.md
+├── 016-audit-logging-feature.md
+└── 017-two-factor-auth-feature.md
+```
+
+### Individual Feature Specification Content
+
+**Example: 005-payment-integration-feature.md**
+```markdown
+# Payment Integration Feature
+
+## Overview
+Enable users to make payments through multiple payment providers
+
+## User Stories
+- As a customer, I want to pay with credit card
+- As a customer, I want to save payment methods
+- As a business, I need PCI compliance
+
+## Technical Requirements
+
+### Data Model Changes
+- New tables: payment_methods, transactions
+- User table: add stripe_customer_id
+
+### API Endpoints
+- POST /api/payments/process
+- GET /api/payments/methods
+- POST /api/payments/methods
+- DELETE /api/payments/methods/:id
+
+### Business Logic
+- Payment retry logic
+- Refund handling
+- Currency conversion
+- Tax calculation
+
+### Integration Points
+- Stripe API integration
+- PayPal SDK integration
+- Webhook handlers
+
+### Security Considerations
+- PCI DSS compliance
+- Token vault implementation
+- Sensitive data encryption
 ```
 
 ## Key Principles
