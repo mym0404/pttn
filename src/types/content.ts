@@ -28,7 +28,6 @@ export interface SpecInfo {
   id: number;
   title: string;
   file: string;
-  category: string;
   lastUpdated: Date;
   content?: string;
 }

@@ -24,12 +24,11 @@ export interface PatternManager {
 }
 
 export interface SpecManager {
-  list(category?: string): Promise<SpecInfo[]>;
-  search(keyword: string, category?: string): Promise<SearchResult[]>;
+  list(): Promise<SpecInfo[]>;
+  search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(
     title: string,
-    content: string,
-    category?: string
+    content: string
   ): Promise<{ id: number; filename: string }>;
 }

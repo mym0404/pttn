@@ -5,14 +5,14 @@ import { join, resolve } from 'path';
 
 import { SearchResult, SpecInfo, SpecManager } from '../types';
 import { ensureDir, sanitizeFilename } from '../utils';
-import { extractCategory, extractTitle } from '../utils';
+import { extractTitle } from '../utils';
 import { AdvancedSearchEngine, SearchableItem } from '../utils/advancedSearch';
 
 export const createSpecManager = (contentDir: string): SpecManager => {
   const specDir = resolve(contentDir, 'specs');
 
   return {
-    async list(category?: string): Promise<SpecInfo[]> {
+    async list(): Promise<SpecInfo[]> {
       await ensureDir(specDir);
 
       // For numbered files in spec directory
@@ -24,18 +24,13 @@ export const createSpecManager = (contentDir: string): SpecManager => {
         const stats = await stat(filepath);
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
-        const entryCategory = extractCategory(content, file);
         const idMatch = file.match(/^(\d+)-/);
         const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
-
-        // Filter by category if specified
-        if (category && entryCategory !== category) continue;
 
         entries.push({
           id,
           title,
           file,
-          category: entryCategory,
           lastUpdated: stats.mtime,
           content,
         });
@@ -44,8 +39,8 @@ export const createSpecManager = (contentDir: string): SpecManager => {
       return entries.sort((a, b) => b.id - a.id);
     },
 
-    async search(keyword: string, category?: string): Promise<SearchResult[]> {
-      const entries = await this.list(category);
+    async search(keyword: string): Promise<SearchResult[]> {
+      const entries = await this.list();
 
       // Convert SpecInfo to SearchableItem format
       const searchableItems: SearchableItem[] = entries
@@ -54,14 +49,12 @@ export const createSpecManager = (contentDir: string): SpecManager => {
           id: entry.id,
           title: entry.title,
           content: entry.content!,
-          category: entry.category,
           lastUpdated: entry.lastUpdated,
           file: entry.file,
         }));
 
-      // Initialize advanced search engine with category filter
+      // Initialize advanced search engine
       const searchEngine = new AdvancedSearchEngine({
-        categoryFilter: category,
         minScore: 0.3,
         maxResults: 50,
       });
@@ -70,17 +63,15 @@ export const createSpecManager = (contentDir: string): SpecManager => {
 
       // Convert enhanced results back to SearchResult format
       return enhancedResults.map((result) => ({
-        title: `${result.item.title} (${result.item.category})`,
+        title: result.item.title,
         file: result.item.file,
         score: Math.round(result.score.final * 100) / 100,
-        category: result.item.category,
         matchedFields: result.matchedFields,
         highlights: result.matchHighlights,
         scoreBreakdown: {
           exactMatch: result.score.exactMatch,
           semanticSimilarity: result.score.semanticSimilarity,
           keywordRelevance: result.score.keywordRelevance,
-          categoryBoost: result.score.categoryBoost,
           recencyScore: result.score.recencyScore,
           fieldBoost: result.score.fieldBoost,
         },
@@ -104,8 +95,7 @@ export const createSpecManager = (contentDir: string): SpecManager => {
 
     async create(
       title: string,
-      content: string,
-      category: string = 'general'
+      content: string
     ): Promise<{ id: number; filename: string }> {
       // Ensure directory exists
       if (!existsSync(specDir)) {
@@ -124,8 +114,6 @@ export const createSpecManager = (contentDir: string): SpecManager => {
 
       // Create full content with metadata
       const fullContent = `# ${title}
-
-**Category**: ${category}
 
 ${content}
 `;

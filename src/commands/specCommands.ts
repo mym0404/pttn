@@ -21,24 +21,21 @@ export const registerSpecCommands = (
   specCmd
     .command('list')
     .description('List all project specification entries')
-    .option('-c, --category <category>', 'Filter by category')
-    .action(async (cmdOptions: { category?: string }) => {
+    .action(async () => {
       const globalOptions = program.opts();
       const manager = createSpecManager(getContentDir(globalOptions));
       try {
-        const entries = await manager.list(cmdOptions.category);
+        const entries = await manager.list();
 
         if (entries.length === 0) {
-          const msg = cmdOptions.category
-            ? `No spec entries found in category "${cmdOptions.category}"`
-            : 'No spec entries found in .claude/specs/';
+          const msg = 'No spec entries found';
           logger.warning(msg);
           return;
         }
 
         const items = entries.map((entry) => ({
           id: entry.id,
-          text: `${entry.title} (${entry.category} | ${entry.lastUpdated.toLocaleDateString()})`,
+          text: `${entry.title} (${entry.lastUpdated.toLocaleDateString()})`,
         }));
         formatList('Project Specifications', items);
       } catch (error) {
@@ -50,13 +47,12 @@ export const registerSpecCommands = (
     .command('search')
     .description('Search project specification repository')
     .argument('<keyword>', 'Search keyword')
-    .option('-c, --category <category>', 'Filter by category')
-    .action(async (keyword: string, cmdOptions: { category?: string }) => {
+    .action(async (keyword: string) => {
       const globalOptions = program.opts();
       const manager = createSpecManager(getContentDir(globalOptions));
       try {
-        const results = await manager.search(keyword, cmdOptions.category);
-        const specs = await manager.list(cmdOptions.category);
+        const results = await manager.search(keyword);
+        const specs = await manager.list();
 
         const formatOptions = createFormatOptions('spec', keyword);
 
@@ -64,8 +60,7 @@ export const registerSpecCommands = (
           results,
           specs,
           formatOptions,
-          (item) =>
-            `Category: ${item.category} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+          (item) => `Updated: ${item.lastUpdated.toLocaleDateString()}`
         );
       } catch (error) {
         logger.error('Error searching specs', error);
@@ -76,8 +71,7 @@ export const registerSpecCommands = (
     .command('create')
     .description('Create a new project specification from stdin input')
     .argument('<title>', 'Specification title')
-    .option('-c, --category <category>', 'Category', 'general')
-    .action(async (title: string, cmdOptions?: { category?: string }) => {
+    .action(async (title: string) => {
       logger.startWorkflow('Creating Project Specification');
 
       const globalOptions = program.opts();
@@ -88,11 +82,7 @@ export const registerSpecCommands = (
           throw new Error('No content provided via stdin');
         }
 
-        const result = await manager.create(
-          title,
-          content,
-          cmdOptions?.category
-        );
+        const result = await manager.create(title, content);
         logger.success(
           `Specification created successfully with ID: ${result.id} (${result.filename})`
         );
