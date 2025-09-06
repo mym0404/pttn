@@ -112,12 +112,7 @@ export const createPlanManager = (contentDir: string): PlanManager => {
       const filename = `${paddedId}-${sanitizeFilename(title)}.md`;
       const filepath = join(plansDir, filename);
 
-      const fullContent = `# ${title}
-
-${content}
-`;
-
-      await writeFile(filepath, fullContent);
+      await writeFile(filepath, content);
       return nextId;
     },
 

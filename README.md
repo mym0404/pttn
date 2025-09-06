@@ -89,8 +89,7 @@ your-project/
 
 - **Purpose**: High-level project planning and architecture decisions
 - **Usage**:
-  - `/plan-create "Feature Name" "Description"` creates comprehensive planning documents
-  - `/plan-edit "id|keyword" "modifications"` modifies existing plans
+  - `/plan-create` creates comprehensive planning documents interactively
   - `/plan-resolve "id|keyword"` views and loads plans for reference
 - **Content**: Implementation phases, success criteria, technical decisions, risk assessment
 - **AI Benefit**: Claude references these plans to understand project direction and constraints
