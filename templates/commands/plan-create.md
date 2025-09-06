@@ -15,7 +15,7 @@ Create comprehensive planning to implement specific product specification or req
 1. **Analyze Initial Request**: Identify all information gaps from user's brief description
 2. **Interactive Q&A Session**: Continue asking targeted questions until all implementation details are clear
 3. **Generate Plan Content**: Create comprehensive plan markdown using all gathered information
-4. **Execute CLI Command**: Save the plan using `cc-self-refer` CLI (REQUIRED)
+4. **Execute CLI Command**: Save the plan using `npx -y cc-self-refer ` CLI (REQUIRED)
 
 ### Information Gathering Requirements
 
