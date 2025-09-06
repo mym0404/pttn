@@ -110,3 +110,14 @@ Claude will:
    <formatted content>
    EOF
    ```
+
+## Reference Commands
+
+If users want to reference existing content while creating patterns:
+
+```bash
+# View existing patterns
+npx cc-self-refer pattern list
+npx cc-self-refer pattern search "<keyword>"  
+npx cc-self-refer pattern view "<pattern-id>"
+```

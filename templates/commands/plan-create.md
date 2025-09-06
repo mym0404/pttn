@@ -249,38 +249,24 @@ The implementation plans created should:
 - Provide clear success criteria and validation steps
 - Reference existing patterns, specs, or previous sessions when relevant
 
-## Usage Examples
+## Reference Commands
 
-When user types `/plan-create`, the agent responds with the initial discovery questions, then continues with adaptive questioning based on responses.
+If users want to reference existing content while creating plans:
 
-**Example Flow:**
-
-```
-User: /plan-create
-
-Agent: I'll help you create a comprehensive implementation plan through detailed conversation.
-
-First, I need to understand what you're planning to implement:
-
-**What would you like to plan?**
-
-Please describe in detail:
-- The feature, fix, or system you want to implement
-- The problem it solves or requirement it fulfills  
-- Your current technical environment and constraints
-- Any specific approaches or technologies you're considering
-
-The more detail you provide about the implementation context and requirements, the better I can help create a plan that perfectly fits your project's needs and constraints.
-
-Take your time - this initial context is crucial for creating an actionable implementation plan.
-```
-
-**After thorough Q&A session, execute CLI command:**
 ```bash
-npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
-<comprehensive-plan-content>
-EOF
-```
+# View existing patterns
+npx cc-self-refer pattern list
+npx cc-self-refer pattern search "<keyword>"  
+npx cc-self-refer pattern view "<pattern-id>"
 
-This command transforms implementation planning into a deep collaborative process that produces comprehensive, actionable plans that truly capture the project's technical requirements and constraints.
+# View existing specs  
+npx cc-self-refer spec list
+npx cc-self-refer spec search "<keyword>"
+npx cc-self-refer spec view "<spec-id>"
+
+# View existing plans
+npx cc-self-refer plan list
+npx cc-self-refer plan search "<keyword>"
+npx cc-self-refer plan view "<plan-id>"
+```
 
