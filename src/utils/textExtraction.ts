@@ -93,3 +93,8 @@ export const extractTags = (content: string): string[] => {
   }
   return [];
 };
+
+export const extractExplanation = (content: string): string | undefined => {
+  const explanationMatch = content.match(/\[EXPLANATION\]\s*(.+?)(?:\n|$)/);
+  return explanationMatch?.[1]?.trim();
+};

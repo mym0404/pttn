@@ -20,6 +20,7 @@ export interface PatternInfo {
   title: string;
   file: string;
   language: string;
+  explanation?: string;
   lastUpdated: Date;
   content?: string;
 }

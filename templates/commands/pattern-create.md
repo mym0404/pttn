@@ -36,6 +36,8 @@ EOF
 ````markdown
 # <Pattern Name>
 
+[EXPLANATION] one or two line of excerpt, explanation of this code pattern
+
 ## Usage
 
 ```[language]
@@ -49,6 +51,8 @@ Example:
 
 ````markdown
 # Zod Schema Definition
+
+[EXPLANATION] how to create a zod schema definition
 
 ## Usage
 
@@ -67,6 +71,8 @@ Example - Utility Function Usage:
 
 ````markdown
 # API Error Handler Usage
+
+[EXPLANATION] handle api error with apiErrorHandler utility
 
 ## Usage
 
@@ -95,6 +101,8 @@ Example with multiple variants:
 
 ````markdown
 # Button Component
+
+[EXPLANATION] Button component usage
 
 ## Usage
 

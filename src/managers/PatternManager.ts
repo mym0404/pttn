@@ -8,7 +8,11 @@ import {
   SearchableItem,
 } from '../utils/advancedSearch.js';
 import { ensureDir, sanitizeFilename } from '../utils/index.js';
-import { extractLanguage, extractTitle } from '../utils/index.js';
+import {
+  extractExplanation,
+  extractLanguage,
+  extractTitle,
+} from '../utils/index.js';
 
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
@@ -26,6 +30,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
         const language = extractLanguage(content, file);
+        const explanation = extractExplanation(content);
         const idMatch = file.match(/^(\d+)-/);
         const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
 
@@ -34,12 +39,13 @@ export const createPatternManager = (contentDir: string): PatternManager => {
           title,
           file,
           language,
+          explanation,
           lastUpdated: stats.mtime,
           content,
         });
       }
 
-      return patterns.sort((a, b) => b.id - a.id);
+      return patterns.sort((a, b) => a.id - b.id);
     },
 
     async search(keyword: string, language?: string): Promise<SearchResult[]> {

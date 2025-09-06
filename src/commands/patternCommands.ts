@@ -34,7 +34,7 @@ export const registerPatternCommands = (
 
         const items = patterns.map((pattern) => ({
           id: pattern.id,
-          text: `${pattern.title} - Language: ${pattern.language} | Updated: ${pattern.lastUpdated.toLocaleDateString()}`,
+          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? ` - ${pattern.explanation}` : ''}`,
         }));
         formatList('Code Patterns', items);
       } catch (error) {
@@ -60,7 +60,7 @@ export const registerPatternCommands = (
           patterns,
           formatOptions,
           (item) =>
-            `Language: ${item.language} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+            `Language: ${item.language}${item.explanation ? ` - ${item.explanation}` : ''}`
         );
       } catch (error) {
         logger.error('Error searching patterns', error);
