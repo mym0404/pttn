@@ -25,6 +25,8 @@ EOF
 
 ### Step 1: Initial Scope Understanding (MANDATORY)
 
+**CRITICAL: Only proceed to Step 4 (CLI execution) after completing Steps 1-3 dialogue. Do not use implementation tools during discovery phase.**
+
 When user types `/spec`, the agent MUST first ask:
 
 ```
@@ -47,48 +49,6 @@ Take your time - this initial context is crucial for creating valuable specifica
 ### Step 2: Extensive Interactive Discovery
 
 Based on the user's response, engage in a **fully interactive, extensive dialogue** to understand every aspect:
-
-#### Discovery Areas to Explore:
-
-**Core Functionality:**
-- What problem does this solve and how
-- Main features and capabilities
-- User workflows and interactions
-- Business logic and rules
-- Edge cases and error handling
-- Data models and relationships
-
-**System Architecture:**
-- Technical components and structure
-- API design and endpoints
-- Database schema and storage
-- Integration points
-- Authentication and authorization
-- Performance requirements
-
-**Interface & Interaction (if applicable):**
-- API interfaces for libraries
-- CLI commands for tools
-- UI components for applications
-- Integration interfaces
-- Communication protocols
-- Input/output specifications
-
-**Data & Processing:**
-- Data input/output formats
-- Processing algorithms
-- Storage requirements
-- Caching strategies
-- Real-time vs batch processing
-- Data validation rules
-
-**Security & Compliance:**
-- Security requirements
-- Data privacy considerations
-- Access control mechanisms
-- Audit logging needs
-- Compliance requirements
-- Encryption and protection
 
 ### Step 3: Specification Planning
 

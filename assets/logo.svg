@@ -8,62 +8,58 @@
       <stop offset="75%" style="stop-color:#f5576c;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#4facfe;stop-opacity:1" />
     </linearGradient>
-    
+
     <radialGradient id="circleGrad" cx="50%" cy="50%" r="50%">
       <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.8" />
       <stop offset="30%" style="stop-color:#4ecdc4;stop-opacity:0.6" />
       <stop offset="60%" style="stop-color:#45b7d1;stop-opacity:0.4" />
       <stop offset="100%" style="stop-color:#96ceb4;stop-opacity:0.2" />
     </radialGradient>
-    
+
     <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#6a11cb;stop-opacity:1" />
       <stop offset="50%" style="stop-color:#2575fc;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#667eea;stop-opacity:1" />
     </linearGradient>
-    
+
     <!-- Filters -->
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge> 
+      <feMerge>
         <feMergeNode in="coloredBlur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    
+
     <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
     </filter>
-    
+
     <filter id="bigBlur" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
     </filter>
-    
+
     <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
       <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
     </filter>
   </defs>
-  
+
   <!-- Background blur circles -->
   <circle cx="80" cy="60" r="25" fill="url(#circleGrad)" filter="url(#bigBlur)" opacity="0.6"/>
   <circle cx="320" cy="40" r="35" fill="url(#circleGrad)" filter="url(#bigBlur)" opacity="0.4"/>
   <circle cx="350" cy="160" r="20" fill="url(#circleGrad)" filter="url(#bigBlur)" opacity="0.8"/>
   <circle cx="50" cy="150" r="30" fill="url(#circleGrad)" filter="url(#bigBlur)" opacity="0.5"/>
-  
+
   <!-- Main geometric shapes -->
   <g filter="url(#glow)">
     <!-- Central diamond -->
     <path d="M200 50 L230 100 L200 150 L170 100 Z" fill="url(#mainGrad)" opacity="0.9"/>
-    
-    <!-- Side triangles -->
-    <path d="M140 80 L170 100 L140 120 Z" fill="url(#mainGrad)" opacity="0.7" filter="url(#blur)"/>
-    <path d="M260 80 L230 100 L260 120 Z" fill="url(#mainGrad)" opacity="0.7" filter="url(#blur)"/>
-    
+
     <!-- Connection lines -->
     <line x1="170" y1="100" x2="140" y2="100" stroke="url(#mainGrad)" stroke-width="3" opacity="0.8" filter="url(#glow)"/>
     <line x1="230" y1="100" x2="260" y2="100" stroke="url(#mainGrad)" stroke-width="3" opacity="0.8" filter="url(#glow)"/>
   </g>
-  
+
   <!-- Floating particles -->
   <circle cx="100" cy="80" r="2" fill="#ff6b6b" filter="url(#glow)" opacity="0.8"/>
   <circle cx="300" cy="120" r="1.5" fill="#4ecdc4" filter="url(#glow)" opacity="0.9"/>
@@ -71,19 +67,19 @@
   <circle cx="280" cy="70" r="1" fill="#96ceb4" filter="url(#glow)" opacity="0.8"/>
   <circle cx="150" cy="170" r="1.8" fill="#f093fb" filter="url(#glow)" opacity="0.6"/>
   <circle cx="250" cy="50" r="2.2" fill="#764ba2" filter="url(#glow)" opacity="0.9"/>
-  
+
   <!-- Main title -->
-  <text x="200" y="35" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif" 
-        font-size="28" font-weight="bold" fill="url(#textGrad)" filter="url(#shadow)">
-    cc-self-refer
+  <text x="200" y="35" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif"
+        font-size="22" font-weight="bold" fill="url(#textGrad)" filter="url(#shadow)">
+    Claude Code Self References
   </text>
-  
+
   <!-- Subtitle -->
-  <text x="200" y="185" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif" 
-        font-size="12" fill="#6b7280" opacity="0.8">
-    Claude Code Self-Reference Helper
+  <text x="200" y="185" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif"
+        font-size="18" fill="#6b7280" opacity="0.8">
+    Store your context permanently
   </text>
-  
+
   <!-- Additional blur overlay for depth -->
   <rect x="0" y="0" width="400" height="200" fill="url(#circleGrad)" opacity="0.1" filter="url(#bigBlur)"/>
 </svg>
