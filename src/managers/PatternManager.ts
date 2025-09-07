@@ -125,7 +125,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       const filename = `${paddedId}-${sanitizeFilename(name)}.md`;
       const filepath = join(patternsDir, filename);
 
-      const fullContent = `# ${name}\n\n${content}`;
+      const fullContent = `${content}`;
 
       await writeFile(filepath, fullContent);
       return filename;
