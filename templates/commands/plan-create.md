@@ -30,8 +30,9 @@ EOF
 2. Have a conversation to understand details
 3. Create the plan with CLI command
 
-**Start by asking:**
+**MANDATORY: Infinite Interactive Dialogue Process**
 
+**Start by asking:**
 ```
 What would you like to plan?
 
@@ -39,18 +40,43 @@ Please describe:
 - What you want to implement
 - The problem it solves
 - Your current tech setup
-
-I'll ask follow-up questions to create a detailed plan.
 ```
 
-Then have a natural conversation asking about:
-- Technical details and architecture
-- Specific requirements and features  
-- Files that need changes
-- Dependencies and integrations
-- Success criteria
+**CRITICAL: After every user response, analyze what implementation details are still missing and ask deeper questions. NEVER stop asking until you know exactly how to implement everything.**
 
-After gathering enough information, create the plan using:
+**Self-Assessment Questions - Ask yourself after each user response:**
+- "What files exactly need to be created or modified?"
+- "What specific code changes are required?"
+- "What dependencies need to be installed?"
+- "What configuration changes are needed?"
+- "How will this integrate with existing code?"
+- "What testing approach should be used?"
+
+**Continuous Implementation Deep-Dive Pattern:**
+- If user says "add authentication" → Ask: Which files handle auth? What database changes? JWT or sessions? Middleware needed? Registration flow? Password reset?
+- If user says "improve performance" → Ask: What specific bottlenecks? Which components are slow? Database queries? Frontend rendering? API endpoints? Caching strategy?
+- If user says "refactor components" → Ask: Which exact components? What's the new structure? How to maintain backwards compatibility? Migration steps?
+
+**Keep Digging Until You Know:**
+- Exact file paths that need changes
+- Specific functions/components to create/modify
+- Complete dependency list with versions
+- Step-by-step implementation sequence
+- All configuration changes required
+- Comprehensive testing strategy
+- Success criteria with measurable outcomes
+
+**Signs You Need More Implementation Details:**
+- You don't know exact file paths → ASK MORE
+- You're unsure about code structure → ASK MORE
+- Dependencies are unclear → ASK MORE
+- Implementation steps are vague → DRILL DOWN
+- Testing approach is undefined → ASK MORE
+- You can't write specific todo items → ASK MORE
+
+**ONLY create the plan when you can confidently say: "I know exactly which files to modify, what code to write, what dependencies to install, and how to test everything."**
+
+After complete implementation understanding, create the plan using:
 
 ```bash
 npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
