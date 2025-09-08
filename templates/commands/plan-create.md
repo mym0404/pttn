@@ -130,6 +130,7 @@ Round 3 - Implementation:
 
 ## Plan Document Template
 
+======================TEMPLATE=====================
 ```markdown
 # <Task Name>
 
@@ -165,48 +166,7 @@ Round 3 - Implementation:
 - Docs: [External documentation link if needed]
 ```
 
-### Example Plan
-
-```markdown
-# Fix Memory Leak in WebSocket Handler
-
-## Overview
-Resolve memory leak causing server crashes after 24 hours of operation. Event listeners are not being properly cleaned up on disconnect.
-
-## Implementation
-**Root Cause:** Event listeners not removed on socket disconnect
-**Affected Service:** WebSocket server (`src/services/websocket.ts`)
-
-**Fix approach:**
-```typescript
-// Add cleanup in disconnect handler
-socket.on('disconnect', () => {
-  socket.removeAllListeners();
-  clearInterval(heartbeatInterval);
-  delete activeSockets[socket.id];
-});
-```
-
-**Memory profiling:**
-- Use Chrome DevTools for heap snapshots
-- Monitor with `process.memoryUsage()`
-
-## Todo List
-- [ ] Add memory profiling logs
-- [ ] Implement proper cleanup handlers
-- [ ] Test with connection stress tool
-- [ ] Monitor for 48 hours in staging
-- [ ] Deploy fix to production
-
-## Success Criteria
-- [ ] Memory usage stable over 48 hours
-- [ ] No orphaned event listeners in heap dumps
-- [ ] Server handles 10k connect/disconnect cycles
-
-## References
-- Page #23: Previous WebSocket issues
-- Pattern #7: Resource cleanup patterns
-```
+======================TEMPLATE END=====================
 
 ### Q&A Completion Checklist
 
