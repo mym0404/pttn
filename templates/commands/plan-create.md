@@ -23,107 +23,44 @@ EOF
 
 ## Interactive Deep-Dive Process
 
-## ⚠️ CRITICAL: Command Priority Override
+## Interactive Planning Process
 
-**When `/plan-create` is executed, it IMMEDIATELY overrides any other active modes (Spec Mode, etc.)**
+**Simple Workflow:**
+1. Ask what the user wants to plan
+2. Have a conversation to understand details
+3. Create the plan with CLI command
 
-- DO NOT use ExitPlanMode during discovery
-- DO NOT use TodoWrite for implementation tasks during discovery
-- DO NOT start implementation or make code changes
-- FOCUS ONLY on understanding requirements through dialogue
-- ONLY create plan documents via CLI - NO implementation
-
-### Step 1: Initial Scope Understanding (MANDATORY)
-
-**CRITICAL: Only proceed to Step 4 (CLI execution) after completing Steps 1-3 dialogue. Do not use implementation tools during discovery phase.**
-
-When user types `/plan-create`, the agent MUST first ask:
+**Start by asking:**
 
 ```
-I'll help you create a comprehensive implementation plan through detailed conversation.
+What would you like to plan?
 
-First, I need to understand what you're planning to implement:
+Please describe:
+- What you want to implement
+- The problem it solves
+- Your current tech setup
 
-**What would you like to plan?**
-
-Please describe in detail:
-- The feature, fix, or system you want to implement
-- The problem it solves or requirement it fulfills
-- Your current technical environment and constraints
-- Any specific approaches or technologies you're considering
-
-The more detail you provide about the implementation context and requirements, the better I can help create a plan that perfectly fits your project's needs and constraints.
-
-Take your time - this initial context is crucial for creating an actionable implementation plan.
+I'll ask follow-up questions to create a detailed plan.
 ```
 
-### Step 2: Extensive Interactive Discovery
+Then have a natural conversation asking about:
+- Technical details and architecture
+- Specific requirements and features  
+- Files that need changes
+- Dependencies and integrations
+- Success criteria
 
-Based on the user's response, engage in a **fully interactive, extensive dialogue** to understand every implementation aspect:
-
-**Technical Context Deep-Dive:**
-- Current tech stack and framework versions
-- Existing architecture and patterns
-- Database and infrastructure setup
-- Authentication and security requirements
-- Performance and scalability needs
-- Testing and deployment processes
-
-**Implementation Requirements Discovery:**
-- Specific functionality and user stories
-- Technical design and architecture decisions
-- Files and modules that need changes
-- Dependencies and integrations required
-- Error handling and edge cases
-- Success metrics and validation criteria
-
-### Step 3: Implementation Planning
-
-After thorough discovery, determine the plan structure based on implementation type:
-
-**For New Features:**
-- User stories and acceptance criteria
-- Technical architecture and design patterns
-- Database schema changes
-- API endpoints and interfaces
-- Frontend components and user flows
-- Integration points and data flow
-- Testing strategy and scenarios
-
-**For Bug Fixes:**
-- Root cause analysis and diagnosis
-- Impact assessment and affected systems
-- Fix strategy and implementation approach
-- Testing and validation requirements
-- Deployment and rollback considerations
-
-**For Performance/Refactoring:**
-- Current bottlenecks and target metrics
-- Refactoring strategy and migration steps
-- Backward compatibility considerations
-- Monitoring and observability improvements
-- Rollout and validation approach
-
-### Step 4: Create Implementation Plan
-
-**CRITICAL: ONLY CREATE PLAN DOCUMENT - DO NOT IMPLEMENT**
-
-Execute CLI command to create the plan:
+After gathering enough information, create the plan using:
 
 ```bash
 npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
-<comprehensive-plan-content>
+<plan-content>
 EOF
 ```
 
-**AFTER CLI EXECUTION:**
-- STOP immediately after creating the plan document
-- DO NOT start implementation
-- DO NOT edit code files  
-- DO NOT use Write, Edit, or MultiEdit tools
-- Plan creation is COMPLETE - user must execute implementation separately
-
 ## Plan Document Template
+
+**IMPORTANT: the following implementation details are just example. The content of implementation section will vary depend on the plan requirement. **
 
 ======================TEMPLATE=====================
 ```markdown
@@ -133,8 +70,6 @@ EOF
 [Concise description of what needs to be done, why it's needed, and expected outcome]
 
 ## Implementation
-
-**IMPORTANT: the following implementation details are just example. The content of implementation section will vary depend on the plan requirement. **
 
 ### Required Content
 
