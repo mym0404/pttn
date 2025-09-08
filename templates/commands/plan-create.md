@@ -134,37 +134,74 @@ EOF
 
 ## Implementation
 
-### Prerequisites and Setup
-[Dependencies to install (npm/yarn/pnpm packages, system requirements)]
-[Environment variables and configuration files to create/modify]
-[Database setup, migrations, or schema changes needed]
-[Authentication setup, API keys, or credentials required]
-[Development tools, CLI installations, or workspace configuration]
+**IMPORTANT: the following implementation details are just example. The content of implementation section will vary depend on the plan requirement. **
 
-### Core Implementation
-[Specific files to create with full paths (e.g., src/components/NewFeature.tsx)]
-[Existing files to modify with exact locations and changes needed]
-[Code snippets, function signatures, or architectural patterns to implement]
-[State management setup (Redux, Context, Zustand patterns)]
-[API endpoints to create/modify with request/response schemas]
-[Business logic implementation with algorithms or data processing steps]
-[UI components with props interfaces and styling requirements]
+### Required Content
 
-### Integration and Testing
-[Integration points with existing systems, APIs, or third-party services]
-[Unit test files to create with test scenarios and mock requirements]
-[Integration test setup for API endpoints or component interactions]
-[End-to-end test scenarios for user workflows]
-[Performance testing considerations and benchmarks]
-[Error handling implementation and fallback strategies]
 
-### Deployment and Finalization
-[Build process modifications or new build scripts]
-[Environment-specific configuration for staging/production]
-[Database migration scripts or data seeding requirements]
-[Monitoring, logging, or analytics implementation]
-[Documentation updates (README, API docs, component docs)]
-[Version control considerations (branching, PR requirements)]
+**Technical Stack & Dependencies**
+- Framework: [React, Vue, Node.js, etc.]
+- Language & Version: [TypeScript 5.x, Node 18+, etc.]  
+- Package Manager: [npm, pnpm, yarn]
+- Required Dependencies: List exact package names and versions
+- New Dependencies to Install: Exact commands to run
+  ```bash
+  npm install package-name@version
+  pnpm add package-name
+  ```
+
+**Architecture & File Structure **
+- Directory Structure: Show exact paths where files will be created/modified
+- Component/Module Design: Describe the main classes, functions, or components
+- Data Flow: How data moves through the system
+- State Management: Redux, Context, or other patterns used
+
+**Implementation Steps **
+1. **Setup Phase**
+   - Environment configuration
+   - Dependency installation commands (exact CLI commands)
+   - Database migration commands (if needed)
+
+2. **Core Development**
+   - File Creation: List all new files to create with their exact paths
+   - File Modification: List existing files to modify with specific functions/sections
+   - Code Patterns: Reference existing patterns or describe new ones
+
+3. **Integration Phase**  
+   - API Integration: Exact endpoint URLs, request/response formats
+   - Component Integration: How new components connect to existing ones
+   - Testing Integration: Test file locations and testing commands
+
+4. **Validation & Deployment**
+   - Build Commands: `npm run build`, `pnpm build`, etc.
+   - Test Commands: `npm test`, `pnpm test`, `npm run e2e`, etc.
+   - Linting Commands: `npm run lint`, `pnpm lint`, etc.
+
+**Configuration Details **
+- Environment Variables: Exact variable names and example values
+- Config Files: Which files need modification (tsconfig.json, package.json, etc.)
+- Build Settings: Webpack, Vite, or other build tool configurations
+
+**External References **
+- Documentation Links: Include exact URLs for libraries, APIs, or frameworks
+- CLI Commands from Docs: Copy exact commands from documentation
+  ```bash
+  # Example: From Next.js docs
+  npx create-next-app@latest my-app --typescript --tailwind
+  ```
+- Code Examples: Include relevant code snippets from documentation
+
+**Error Handling & Edge Cases (에러 처리 및 엣지 케이스)**
+- Common Error Scenarios: What could go wrong and how to handle it
+- Validation Rules: Input validation, data validation requirements
+- Fallback Strategies: What to do when primary approach fails
+
+**Performance Considerations (성능 고려사항)**
+- Optimization Strategies: Lazy loading, caching, bundling
+- Monitoring: How to measure success (metrics, logging)
+- Scalability: How the solution handles growth
+
+
 
 ## Todo List
 - [ ] [Specific action item 1]
