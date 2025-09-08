@@ -28,7 +28,10 @@ EOF
 **When `/plan-create` is executed, it IMMEDIATELY overrides any other active modes (Spec Mode, etc.)**
 
 - DO NOT use ExitPlanMode during discovery
+- DO NOT use TodoWrite for implementation tasks during discovery
+- DO NOT start implementation or make code changes
 - FOCUS ONLY on understanding requirements through dialogue
+- ONLY create plan documents via CLI - NO implementation
 
 ### Step 1: Initial Scope Understanding (MANDATORY)
 
@@ -103,6 +106,8 @@ After thorough discovery, determine the plan structure based on implementation t
 
 ### Step 4: Create Implementation Plan
 
+**CRITICAL: ONLY CREATE PLAN DOCUMENT - DO NOT IMPLEMENT**
+
 Execute CLI command to create the plan:
 
 ```bash
@@ -110,6 +115,13 @@ npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
 <comprehensive-plan-content>
 EOF
 ```
+
+**AFTER CLI EXECUTION:**
+- STOP immediately after creating the plan document
+- DO NOT start implementation
+- DO NOT edit code files
+- DO NOT use Write, Edit, or MultiEdit tools
+- Plan creation is COMPLETE - user must execute implementation separately
 
 ## Plan Document Template
 
