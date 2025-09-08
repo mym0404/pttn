@@ -119,9 +119,21 @@ EOF
 **AFTER CLI EXECUTION:**
 - STOP immediately after creating the plan document
 - DO NOT start implementation
-- DO NOT edit code files
+- DO NOT edit code files  
 - DO NOT use Write, Edit, or MultiEdit tools
 - Plan creation is COMPLETE - user must execute implementation separately
+
+**What the plan should contain based on discovered requirements:**
+- Detailed step-by-step implementation guide
+- Specific file paths and code locations to modify
+- Code snippets and architectural patterns to follow
+- Dependencies and packages to install
+- Configuration changes and environment variables
+- Testing scenarios and validation steps
+- Integration points with existing systems
+- Error handling and edge case considerations
+- Performance optimization strategies if needed
+- Deployment and rollback procedures
 
 ## Plan Document Template
 
