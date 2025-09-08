@@ -35,7 +35,7 @@
 
 ```shell
 # Download commands & other stuffs for self refer structure
-npx -y cc-self-refer init-setup-project
+npx -y cc-self-refer get-commands
 ```
 
 ### 2. Run your **claude-code** in your project root and pass this prompt.

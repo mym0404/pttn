@@ -161,7 +161,7 @@ export const registerInitCommands = (
     });
 
   program
-    .command('init-setup-project')
+    .command('get-commands')
     .description(
       'Setup Claude Code project directory structure and download command templates'
     )
