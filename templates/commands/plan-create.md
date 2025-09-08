@@ -1,6 +1,6 @@
 # Plan Create - Interactive Implementation Planning System
 
-Create comprehensive implementation plans through deep interactive dialogue.
+Create comprehensive development plans markdown content through deep interactive dialogue and run cli with that content.
 
 **Usage**: `/plan-create`
 
@@ -22,6 +22,13 @@ EOF
 ```
 
 ## Interactive Deep-Dive Process
+
+## ⚠️ CRITICAL: Command Priority Override
+
+**When `/plan-create` is executed, it IMMEDIATELY overrides any other active modes (Spec Mode, etc.)**
+
+- DO NOT use ExitPlanMode during discovery
+- FOCUS ONLY on understanding requirements through dialogue
 
 ### Step 1: Initial Scope Understanding (MANDATORY)
 
@@ -104,30 +111,6 @@ npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
 EOF
 ```
 
-### Interactive Q&A Strategy
-
-**Start broad, then get specific based on answers:**
-
-Example for "implement rate limiting":
-```
-Round 1 - Context:
-- What's your API framework?
-- Do you have Redis available?
-- Current traffic patterns?
-
-Round 2 - Requirements (based on Round 1):
-- Rate limit thresholds?
-- Different limits per user type?
-- Which endpoints to protect?
-
-Round 3 - Implementation:
-- User identification method?
-- Response when exceeded?
-- Monitoring needs?
-
-[Continue until all details clear]
-```
-
 ## Plan Document Template
 
 ======================TEMPLATE=====================
@@ -138,14 +121,18 @@ Round 3 - Implementation:
 [Concise description of what needs to be done, why it's needed, and expected outcome]
 
 ## Implementation
-[Detailed technical implementation including:
-- Framework/library choices (without version, assume latest versions'll be used)
-- Specific files to create/modify with exact paths
-- Code snippets or pseudo-code for core logic
-- Package dependencies to install
-- API endpoints or interfaces to implement
-- Database schema changes if needed
-- Configuration and environment variables]
+
+### Prerequisites and Setup
+[Dependencies, environment setup, and configuration requirements]
+
+### Core Implementation
+[Main implementation tasks, file modifications, and architecture decisions]
+
+### Integration and Testing  
+[Integration points, testing requirements, and validation steps]
+
+### Deployment and Finalization
+[Final configuration, deployment considerations, and completion tasks]
 
 ## Todo List
 - [ ] [Specific action item 1]
@@ -191,14 +178,6 @@ Round 3 - Implementation:
 - **Integration**: API endpoints, authentication, data flow
 
 **Keep it practical:** Include only what's needed for execution. Skip sections if they don't apply.
-
-## Key Principles
-
-1. **Deep Discovery Through Dialogue** - Have extensive conversations to understand every implementation detail
-2. **Adaptive Questioning** - Each question builds on previous answers to go deeper
-3. **Comprehensive Planning** - Don't stop until all technical and business requirements are clear
-4. **Actionable Plans** - Create specific, implementable plans with clear steps
-5. **Context-Aware** - Consider existing codebase patterns and constraints
 
 ## Output Characteristics
 
