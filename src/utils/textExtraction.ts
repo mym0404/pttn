@@ -1,7 +1,5 @@
 import fm from 'front-matter';
 
-import { PlanInfo } from '../types';
-
 export const extractTitle = (content: string): string => {
   const lines = content.split('\n');
   for (const line of lines) {
@@ -13,22 +11,15 @@ export const extractTitle = (content: string): string => {
   return 'Untitled';
 };
 
-export const extractStatus = (content: string): PlanInfo['status'] => {
-  const statusMatch = content.match(/\*\*Status\*\*:\s*\[([^\]]+)]/);
-  if (statusMatch && statusMatch[1]) {
-    const status = statusMatch[1].trim();
-    if (['Planning', 'In Progress', 'Completed'].includes(status)) {
-      return status as PlanInfo['status'];
-    }
-  }
-  return 'Planning';
-};
-
 export const extractLanguage = (content: string, filename: string): string => {
-  // Try to extract from Language metadata
-  const langMetaMatch = content.match(/\*\*Language\*\*:\s*([^\n]+)/);
-  if (langMetaMatch && langMetaMatch[1]) {
-    return langMetaMatch[1].trim().toLowerCase();
+  // Try to extract from front-matter first
+  try {
+    const parsed = fm<{ language?: string }>(content);
+    if (parsed.attributes.language) {
+      return parsed.attributes.language.trim().toLowerCase();
+    }
+  } catch {
+    // Ignore parsing errors and fall back to other methods
   }
 
   // Try to extract from code blocks
@@ -46,59 +37,15 @@ export const extractLanguage = (content: string, filename: string): string => {
   return 'text';
 };
 
-export const extractCategory = (content: string, filepath: string): string => {
-  // Try to extract from content metadata
-  const categoryMatch = content.match(/\*\*Category\*\*:\s*([^\n]+)/);
-  if (categoryMatch && categoryMatch[1]) {
-    return categoryMatch[1].trim();
-  }
-
-  // Try to infer from directory structure
-  const pathParts = filepath.split('/');
-  if (pathParts.length > 1) {
-    return pathParts[pathParts.length - 2] || 'general';
-  }
-
-  return 'general';
-};
-
-export const extractPatternType = (content: string): string => {
-  const typeMatch = content.match(/\*\*Type\*\*:\s*([^\n|]+)/);
-  if (typeMatch && typeMatch[1]) {
-    return typeMatch[1].trim();
-  }
-
-  // Infer from content patterns
-  if (content.includes('useState') || content.includes('useEffect')) {
-    return 'react-hook';
-  }
-  if (content.includes('className=') || content.includes('styled-components')) {
-    return 'react-component';
-  }
-  if (content.includes('interface ') || content.includes('type ')) {
-    return 'typescript-type';
-  }
-  if (content.includes('const ') && content.includes('=>')) {
-    return 'function';
-  }
-
-  return 'code-snippet';
-};
-
-export const extractTags = (content: string): string[] => {
-  const tagsMatch = content.match(/\*\*Tags\*\*:\s*([^\n]+)/);
-  if (tagsMatch && tagsMatch[1]) {
-    return tagsMatch[1]
-      .split(',')
-      .map((tag) => tag.trim())
-      .filter((tag) => tag.length > 0);
-  }
-  return [];
-};
-
-export const extractExplanation = (content: string): string | undefined => {
-  const explanationMatch = content.match(/\[EXPLANATION\]\s*(.+?)(?:\n|$)/);
-  return explanationMatch?.[1]?.trim();
+export const extractExplanation = (content: string): string => {
+  // Try to extract from front-matter first
+  try {
+    const parsed = fm<{ explanation?: string }>(content);
+    if (parsed.attributes.explanation) {
+      return parsed.attributes.explanation.trim();
+    }
+  } catch {}
+  return '';
 };
 
 export const extractKeywords = (content: string): string[] => {
@@ -112,15 +59,6 @@ export const extractKeywords = (content: string): string[] => {
     }
   } catch {
     // Ignore parsing errors and fall back to manual extraction
-  }
-
-  // Fallback: try to extract from content metadata format
-  const keywordsMetaMatch = content.match(/\*\*Keywords\*\*:\s*([^\n]+)/);
-  if (keywordsMetaMatch && keywordsMetaMatch[1]) {
-    return keywordsMetaMatch[1]
-      .split(',')
-      .map((keyword) => keyword.trim())
-      .filter((keyword) => keyword.length > 0);
   }
 
   return [];

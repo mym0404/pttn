@@ -13,14 +13,19 @@ export interface PlanManager {
   search(keyword: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
   create(title: string, content: string): Promise<number>;
-  resolve(idOrKeyword: string): Promise<void>;
 }
 
 export interface PatternManager {
   list(): Promise<PatternInfo[]>;
   search(keyword: string, language?: string): Promise<SearchResult[]>;
   view(idOrKeyword: string): Promise<string>;
-  create(name: string, content: string, keywords: string[]): Promise<string>;
+  create(
+    name: string,
+    content: string,
+    keywords: string[],
+    language: string,
+    explanation: string
+  ): Promise<string>;
 }
 
 export interface SpecManager {

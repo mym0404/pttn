@@ -56,7 +56,7 @@ export const registerPlanCommands = (
 
         const items = plans.map((plan) => ({
           id: plan.id,
-          text: `${plan.title} - Status: ${plan.status} | Updated: ${plan.lastUpdated.toLocaleDateString()}`,
+          text: `${plan.title} - Updated: ${plan.lastUpdated.toLocaleDateString()}`,
         }));
         formatList('Strategic Plans', items);
       } catch (error) {
@@ -103,28 +103,10 @@ export const registerPlanCommands = (
           results,
           plans,
           formatOptions,
-          (item) =>
-            `Status: ${item.status} | Updated: ${item.lastUpdated.toLocaleDateString()}`
+          (item) => `Updated: ${item.lastUpdated.toLocaleDateString()}`
         );
       } catch (error) {
         logger.error('Error searching plans', error);
-      }
-    });
-
-  planCmd
-    .command('resolve')
-    .description('Mark a plan as completed')
-    .argument('<idOrKeyword>', 'Plan ID or search keyword')
-    .action(async (idOrKeyword: string) => {
-      logger.startWorkflow('Resolving Strategic Plan');
-
-      const globalOptions = program.opts();
-      const manager = createPlanManager(getContentDir(globalOptions));
-      try {
-        await manager.resolve(idOrKeyword);
-        logger.success('Plan marked as completed');
-      } catch (error) {
-        logger.error('Error resolving plan', error);
       }
     });
 };

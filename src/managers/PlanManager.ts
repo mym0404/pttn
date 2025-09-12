@@ -4,7 +4,7 @@ import { join, resolve } from 'path';
 
 import { PlanInfo, PlanManager, SearchResult } from '../types';
 import { ensureDir, sanitizeFilename } from '../utils';
-import { extractStatus, extractTitle } from '../utils';
+import { extractTitle } from '../utils';
 import {
   AdvancedSearchEngine,
   SearchableItem,
@@ -25,7 +25,6 @@ export const createPlanManager = (contentDir: string): PlanManager => {
         const stats = await stat(filepath);
         const content = await readFile(filepath, 'utf-8');
         const title = extractTitle(content);
-        const status = extractStatus(content);
         const idMatch = file.match(/^(\d+)-/);
         const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
 
@@ -33,7 +32,6 @@ export const createPlanManager = (contentDir: string): PlanManager => {
           id,
           title,
           file,
-          status,
           lastUpdated: stats.mtime,
           content,
         });
@@ -52,7 +50,6 @@ export const createPlanManager = (contentDir: string): PlanManager => {
           id: plan.id,
           title: plan.title,
           content: plan.content!,
-          category: plan.status, // Use status as category for plans
           lastUpdated: plan.lastUpdated,
           file: plan.file,
         }));
@@ -114,39 +111,6 @@ export const createPlanManager = (contentDir: string): PlanManager => {
 
       await writeFile(filepath, content);
       return nextId;
-    },
-
-    async resolve(idOrKeyword: string): Promise<void> {
-      const content = await this.view(idOrKeyword);
-      const plans = await this.list();
-
-      // Find the plan file
-      let targetFile: string;
-      const idNum = parseInt(idOrKeyword);
-      if (!isNaN(idNum)) {
-        const plan = plans.find((p: PlanInfo) => p.id === idNum);
-        if (!plan) throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = plan.file;
-      } else {
-        const results = await this.search(idOrKeyword);
-        if (results.length === 0)
-          throw new Error(`Plan not found: ${idOrKeyword}`);
-        targetFile = results[0].file;
-      }
-
-      const filepath = join(plansDir, targetFile);
-
-      // Update status to Completed
-      const updatedContent = content.replace(
-        /\*\*Status\*\*: \[.*\]/,
-        '**Status**: [Completed]'
-      );
-      const finalContent = updatedContent.replace(
-        /\*\*Last Updated\*\*: .+/,
-        `**Last Updated**: ${new Date().toISOString()}`
-      );
-
-      await writeFile(filepath, finalContent);
     },
   };
 };

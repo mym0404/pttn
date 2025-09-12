@@ -151,8 +151,8 @@ Always verify that changes maintain compatibility across:
 
 [PATTERN LIST]
 
-| ID  | Name                         | Keywords                                     |
-|-----|------------------------------|----------------------------------------------|
-| 001 | commander-js-command-pattern | commander, subcommands, cli-options, argument-parsing |
+| ID | Name | Keywords |
+|----|------|----------|
+| 002 | test-pattern | test, example |
 
 [PATTERN LIST END]

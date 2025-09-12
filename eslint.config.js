@@ -18,6 +18,7 @@ export default [
       sourceType: 'module',
     },
     rules: {
+      'no-empty': 'off',
       // Simple import sort rules
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',

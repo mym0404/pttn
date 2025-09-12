@@ -122,7 +122,9 @@ export const createPatternManager = (contentDir: string): PatternManager => {
     async create(
       name: string,
       content: string,
-      keywords: string[]
+      keywords: string[],
+      language: string,
+      explanation: string
     ): Promise<string> {
       await ensureDir(patternsDir);
 
@@ -140,10 +142,12 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       let fullContent: string;
 
       if (content.startsWith('---')) {
-        // Parse existing frontmatter and add keywords
+        // Parse existing frontmatter and add metadata
         const parsed = fm(content);
         const frontMatter = parsed.attributes as any;
         frontMatter.keywords = keywords.join(', ');
+        frontMatter.language = language;
+        frontMatter.explanation = explanation;
 
         // Rebuild content with updated frontmatter
         const frontMatterYaml = Object.entries(frontMatter)
@@ -156,9 +160,11 @@ ${frontMatterYaml}
 
 ${parsed.body}`;
       } else {
-        // Add new frontmatter with keywords
+        // Add new frontmatter with metadata
         fullContent = `---
 keywords: ${keywords.join(', ')}
+language: ${language}
+explanation: ${explanation}
 ---
 
 ${content}`;

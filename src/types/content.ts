@@ -10,7 +10,6 @@ export interface PlanInfo {
   id: number;
   title: string;
   file: string;
-  status: 'Planning' | 'In Progress' | 'Completed';
   lastUpdated: Date;
   content?: string;
 }
