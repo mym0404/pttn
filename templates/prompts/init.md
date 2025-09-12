@@ -37,33 +37,47 @@ When these keywords appear in user prompts, determine if the user intends to use
 **Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `Pattern Refering... ♦️` to indicate self-reference action execution.
 
 ### Pattern Commands
-When users mention patterns, follow these workflows:
 
-#### Using/Applying Patterns
-- "use pattern" / "apply pattern" / "use existing patterns" → Execute these CLI commands:
-  ```bash
-  # 1. Search for relevant patterns
-  npx -y cc-self-refer pattern search <keyword>
-  
-  # 2. View specific pattern if needed (when search only shows summary)
-  npx -y cc-self-refer pattern view <id>
-  
-  # 3. IMPLEMENT the actual code using the pattern's principles
-  #    - Apply architectural decisions from the pattern
-  #    - Focus on implementing working code, not examples
-  #    - Implement directly in the project structure
-  ```
+#### Pattern Matching Intelligence
+**CRITICAL**: The CLAUDE.md context includes a [PATTERN LIST] table with columns: ID, Name, Language, Keywords, Explanation.
 
-- "find Redux pattern" / "search API patterns" → Use `npx -y cc-self-refer pattern search <keyword>`
-- "use pattern #5" / "apply pattern 005" → Use `npx -y cc-self-refer pattern view <id>` then implement
+**When processing ANY user request**, check if the request matches patterns in the table by analyzing:
+- **Name**: Direct pattern name matches
+- **Keywords**: Related terms and concepts
+- **Explanation**: Functional descriptions and use cases
+- **Language**: Technology stack alignment
+
+#### Pattern Usage Workflows
+
+**Explicit Pattern Requests:**
+- "use pattern" / "apply pattern X" / "use existing patterns"
+- "find pattern for X" / "search patterns"
+- "use pattern #5" / "apply pattern 005"
+
+**Implicit Pattern Matching:**
+When user requests involve coding tasks that align with existing pattern Names, Keywords, or Explanations:
+
+1. **Identify Match**: Compare user's request against the CLAUDE.md pattern table
+2. **Retrieve Pattern**: Use `npx -y cc-self-refer pattern view <id>` for matching patterns
+3. **Apply Pattern**: Implement user's request using the pattern's principles and structure
+4. **Inform User**: Use this format to indicate pattern usage:
+   ```
+   Pattern Refering... ♦️ 
+   Used Patterns: #002 test-pattern, #003 test-table-pattern
+   ```
+
+**Example Matching Logic:**
+- User asks for "table component" → Match patterns with keywords: "table", "component", "markdown"
+- User requests "test setup" → Match patterns with keywords: "test", "example"
+
+**Pattern Creation:**
 - "create pattern" / "save as pattern" → **Read and execute** `.claude/commands/pattern-create.md`
 
 **IMPORTANT Agent Behavior:**
-1. **Identify** the user's intent from natural language
-2. **Read** the appropriate `.claude/commands/*.md` file
-3. **Execute** all instructions and commands specified in that file
-4. **Use** the retrieved context to complete the user's request
-5. **Follow** the exact workflow described in the command documentation
+1. **Scan** CLAUDE.md pattern table for relevant matches during any coding request
+2. **Retrieve** matching patterns using `npx -y cc-self-refer pattern view <id>`
+3. **Apply** pattern principles to implement user's actual requirements
+4. **Reference** patterns proactively when they enhance development efficiency
 
 ====================== END CLAUDE.md CONTENT ======================
 
