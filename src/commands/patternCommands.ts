@@ -146,7 +146,9 @@ export const registerPatternCommands = (
 
   patternCmd
     .command('sync')
-    .description('Sync CLAUDE.md pattern table with actual patterns in .claude/patterns/')
+    .description(
+      'Sync CLAUDE.md pattern table with actual patterns in .claude/patterns/'
+    )
     .action(async () => {
       const globalOptions = program.opts();
       const manager = createPatternManager(getContentDir(globalOptions));
