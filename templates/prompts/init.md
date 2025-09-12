@@ -88,7 +88,13 @@ When user requests involve coding tasks that align with existing pattern Names, 
 
 ====================== END CLAUDE.md CONTENT ======================
 
-### 2. Analyze and Initialize Patterns
+### 2. Run PATTERN LIST table sync command
+
+```bash
+npx -y cc-self-refer pattern sync
+```
+
+### 3. Analyze and Initialize Patterns
 
 **Important**: Instead of manually adding technical specifications and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the pattern directories:
 
@@ -96,7 +102,7 @@ When user requests involve coding tasks that align with existing pattern Names, 
 
 After identifying reusable code patterns and architectural decisions: , read `.claude/commands/pattern-create.md` and apply it's usage
 
-### 3. Ensure .claude directory structure exists
+### 4. Ensure .claude directory structure exists
 
 Verify the following directories exist (create if missing):
 
