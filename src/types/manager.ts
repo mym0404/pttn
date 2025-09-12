@@ -26,6 +26,7 @@ export interface PatternManager {
     language: string,
     explanation: string
   ): Promise<string>;
+  syncClaudeMd(): Promise<void>;
 }
 
 export interface SpecManager {

@@ -143,4 +143,18 @@ export const registerPatternCommands = (
         }
       }
     );
+
+  patternCmd
+    .command('sync')
+    .description('Sync CLAUDE.md pattern table with actual patterns in .claude/patterns/')
+    .action(async () => {
+      const globalOptions = program.opts();
+      const manager = createPatternManager(getContentDir(globalOptions));
+      try {
+        await manager.syncClaudeMd();
+        logger.success('CLAUDE.md pattern table synced successfully');
+      } catch (error) {
+        logger.error('Error syncing CLAUDE.md pattern table', error);
+      }
+    });
 };

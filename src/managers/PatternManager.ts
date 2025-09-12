@@ -8,7 +8,7 @@ import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
-import { updateClaudeMdWithNewPattern } from '../utils/claudeMdPatternManager.js';
+import { syncClaudeMdPatternTable } from '../utils/claudeMdPatternManager.js';
 import { ensureDir, sanitizeFilename } from '../utils/index.js';
 import {
   extractExplanation,
@@ -20,38 +20,40 @@ import {
 export const createPatternManager = (contentDir: string): PatternManager => {
   const patternsDir = resolve(contentDir, 'patterns');
 
+  const list = async (): Promise<PatternInfo[]> => {
+    await ensureDir(patternsDir);
+
+    const files = await glob('*.md', { cwd: patternsDir });
+    const patterns: PatternInfo[] = [];
+
+    for (const file of files) {
+      const filepath = join(patternsDir, file);
+      const stats = await stat(filepath);
+      const content = await readFile(filepath, 'utf-8');
+      const title = extractTitle(content);
+      const language = extractLanguage(content, file);
+      const explanation = extractExplanation(content);
+      const keywords = extractKeywords(content);
+      const idMatch = file.match(/^(\d+)-/);
+      const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
+
+      patterns.push({
+        id,
+        title,
+        file,
+        language,
+        keywords,
+        explanation,
+        lastUpdated: stats.mtime,
+        content,
+      });
+    }
+
+    return patterns.sort((a, b) => a.id - b.id);
+  };
+
   return {
-    async list(): Promise<PatternInfo[]> {
-      await ensureDir(patternsDir);
-
-      const files = await glob('*.md', { cwd: patternsDir });
-      const patterns: PatternInfo[] = [];
-
-      for (const file of files) {
-        const filepath = join(patternsDir, file);
-        const stats = await stat(filepath);
-        const content = await readFile(filepath, 'utf-8');
-        const title = extractTitle(content);
-        const language = extractLanguage(content, file);
-        const explanation = extractExplanation(content);
-        const keywords = extractKeywords(content);
-        const idMatch = file.match(/^(\d+)-/);
-        const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
-
-        patterns.push({
-          id,
-          title,
-          file,
-          language,
-          keywords,
-          explanation,
-          lastUpdated: stats.mtime,
-          content,
-        });
-      }
-
-      return patterns.sort((a, b) => a.id - b.id);
-    },
+    list,
 
     async search(keyword: string, language?: string): Promise<SearchResult[]> {
       const patterns = await this.list();
@@ -171,16 +173,14 @@ ${content}`;
 
       await writeFile(filepath, fullContent);
 
-      // Update CLAUDE.md with pattern list
-      await updateClaudeMdWithNewPattern(
-        nextId,
-        name,
-        keywords,
-        language,
-        explanation
-      );
+      // Sync CLAUDE.md after creating pattern
+      await syncClaudeMdPatternTable(await list());
 
       return filename;
+    },
+
+    syncClaudeMd: async (): Promise<void> => {
+      await syncClaudeMdPatternTable(await list());
     },
   };
 };

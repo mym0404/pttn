@@ -25,12 +25,11 @@ Create or update `CLAUDE.md` file in the project root with the following content
 This project uses `cc-self-refer` for intelligent self-reference capabilities.
 Claude Code agents should use these CLI commands to access and manage project context automatically:
 
-## Pattern Table
+## Pattern List Table
 
 [PATTERN LIST]
 
-| ID  | Name               | Language | Keywords              | Explanation                                                                           |
-|-----|--------------------|----------|-----------------------|---------------------------------------------------------------------------------------|
+No patterns available yet.
 
 [PATTERN LIST END]
 
