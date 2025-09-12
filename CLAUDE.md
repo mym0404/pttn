@@ -151,8 +151,9 @@ Always verify that changes maintain compatibility across:
 
 [PATTERN LIST]
 
-| ID | Name | Keywords |
-|----|------|----------|
-| 002 | test-pattern | test, example |
+| ID | Name | Language | Keywords | Explanation |
+|----|------|----------|----------|-------------|
+| 002 | test-pattern | text | test, example |  |
+| 003 | test-table-pattern | markdown | test, table, markdown | Test pattern to verify the CLAUDE.md table includes language and explanation columns. |
 
 [PATTERN LIST END]

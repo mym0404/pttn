@@ -2,10 +2,14 @@ import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
+import { getProjectRoot } from './getProjectRoot';
+
 interface PatternListEntry {
   id: number;
   name: string;
   keywords: string[];
+  language: string;
+  explanation: string;
 }
 
 const PATTERN_LIST_START = '[PATTERN LIST]';
@@ -15,11 +19,13 @@ const PATTERN_LIST_END = '[PATTERN LIST END]';
  * Update the pattern list in CLAUDE.md with a new pattern
  */
 export const updateClaudeMdWithNewPattern = async (
-  projectRoot: string,
   patternId: number,
   patternName: string,
-  keywords: string[]
+  keywords: string[],
+  language: string,
+  explanation: string
 ): Promise<void> => {
+  const projectRoot = getProjectRoot();
   const claudeMdPath = join(projectRoot, 'CLAUDE.md');
 
   // Read existing CLAUDE.md content
@@ -39,6 +45,8 @@ export const updateClaudeMdWithNewPattern = async (
     id: patternId,
     name: patternName,
     keywords,
+    language,
+    explanation,
   });
 
   // Sort by ID
@@ -80,8 +88,8 @@ ${PATTERN_LIST_END}`;
   // Build markdown table
   let table = `${PATTERN_LIST_START}
 
-| ID | Name | Keywords |
-|----|------|----------|
+| ID | Name | Language | Keywords | Explanation |
+|----|------|----------|----------|-------------|
 `;
 
   for (const pattern of patterns) {
@@ -94,7 +102,7 @@ ${PATTERN_LIST_END}`;
     // Join keywords with comma
     const keywordString = pattern.keywords.join(', ');
 
-    table += `| ${paddedId} | ${cleanName} | ${keywordString} |\n`;
+    table += `| ${paddedId} | ${cleanName} | ${pattern.language} | ${keywordString} | ${pattern.explanation} |\n`;
   }
 
   table += `\n${PATTERN_LIST_END}`;
@@ -134,7 +142,10 @@ export const getPatternListFromClaudeMd = async (
   // Skip header lines and parse table rows
   let inTable = false;
   for (const line of lines) {
-    if (line.includes('| ID | Name | Keywords |')) {
+    if (
+      line.includes('| ID | Name | Language | Keywords | Explanation |') ||
+      line.includes('| ID | Name | Keywords |')
+    ) {
       inTable = true;
       continue;
     }
@@ -147,11 +158,30 @@ export const getPatternListFromClaudeMd = async (
       if (parts.length >= 3) {
         const id = parseInt(parts[0]);
         if (!isNaN(id)) {
-          patterns.push({
-            id,
-            name: parts[1],
-            keywords: parts[2] ? parts[2].split(',').map((k) => k.trim()) : [],
-          });
+          // Handle both old format (3 columns) and new format (5 columns)
+          if (parts.length >= 5) {
+            // New format: ID, Name, Language, Keywords, Explanation
+            patterns.push({
+              id,
+              name: parts[1],
+              language: parts[2],
+              keywords: parts[3]
+                ? parts[3].split(',').map((k) => k.trim())
+                : [],
+              explanation: parts[4] || '',
+            });
+          } else {
+            // Old format: ID, Name, Keywords - provide defaults
+            patterns.push({
+              id,
+              name: parts[1],
+              language: 'text',
+              keywords: parts[2]
+                ? parts[2].split(',').map((k) => k.trim())
+                : [],
+              explanation: '',
+            });
+          }
         }
       }
     }

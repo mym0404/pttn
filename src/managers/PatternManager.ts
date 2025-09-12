@@ -9,7 +9,6 @@ import {
   SearchableItem,
 } from '../utils/advancedSearch.js';
 import { updateClaudeMdWithNewPattern } from '../utils/claudeMdPatternManager.js';
-import { getProjectRoot } from '../utils/getProjectRoot';
 import { ensureDir, sanitizeFilename } from '../utils/index.js';
 import {
   extractExplanation,
@@ -174,10 +173,11 @@ ${content}`;
 
       // Update CLAUDE.md with pattern list
       await updateClaudeMdWithNewPattern(
-        getProjectRoot(),
         nextId,
         name,
-        keywords
+        keywords,
+        language,
+        explanation
       );
 
       return filename;
