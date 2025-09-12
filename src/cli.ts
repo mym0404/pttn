@@ -2,7 +2,6 @@
 
 import { Command } from 'commander';
 import { resolve } from 'path';
-import { findPackageRoot } from 'workspace-tools';
 
 import { registerInitCommands } from './commands/initCommands.js';
 import { registerPageCommands } from './commands/pageCommands.js';
@@ -10,15 +9,15 @@ import { registerPatternCommands } from './commands/patternCommands.js';
 import { registerPlanCommands } from './commands/planCommands.js';
 import { registerSpecCommands } from './commands/specCommands.js';
 import { getPackageVersion } from './utils';
+import { getProjectRoot } from './utils/getProjectRoot';
 
 const program = new Command();
 
 // Get content directory based on --dir option
 const getContentDir = (cmdOptions: { dir?: string }): string => {
-  const projectRoot = findPackageRoot(process.cwd()) || process.cwd();
   return cmdOptions.dir
-    ? resolve(projectRoot, cmdOptions.dir)
-    : resolve(projectRoot, '.claude');
+    ? resolve(getProjectRoot(), cmdOptions.dir)
+    : resolve(getProjectRoot(), '.claude');
 };
 
 program

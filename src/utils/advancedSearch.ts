@@ -15,6 +15,7 @@ export interface SearchableItem {
   title: string;
   content: string;
   category?: string;
+  keywords?: string[];
   lastUpdated: Date;
   file: string;
 }
@@ -222,6 +223,7 @@ export class AdvancedSearchEngine {
       { text: item.title, weight: this.options.fieldWeights.title },
       { text: item.content, weight: this.options.fieldWeights.content },
       { text: item.category || '', weight: this.options.fieldWeights.category },
+      { text: item.keywords?.join(' ') || '', weight: 2.5 }, // High weight for keywords
     ];
 
     for (const field of fields) {

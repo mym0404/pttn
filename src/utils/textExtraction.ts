@@ -1,3 +1,5 @@
+import fm from 'front-matter';
+
 import { PlanInfo } from '../types';
 
 export const extractTitle = (content: string): string => {
@@ -97,4 +99,29 @@ export const extractTags = (content: string): string[] => {
 export const extractExplanation = (content: string): string | undefined => {
   const explanationMatch = content.match(/\[EXPLANATION\]\s*(.+?)(?:\n|$)/);
   return explanationMatch?.[1]?.trim();
+};
+
+export const extractKeywords = (content: string): string[] => {
+  try {
+    const parsed = fm<{ keywords?: string }>(content);
+    if (parsed.attributes.keywords) {
+      return parsed.attributes.keywords
+        .split(',')
+        .map((keyword) => keyword.trim())
+        .filter((keyword) => keyword.length > 0);
+    }
+  } catch {
+    // Ignore parsing errors and fall back to manual extraction
+  }
+
+  // Fallback: try to extract from content metadata format
+  const keywordsMetaMatch = content.match(/\*\*Keywords\*\*:\s*([^\n]+)/);
+  if (keywordsMetaMatch && keywordsMetaMatch[1]) {
+    return keywordsMetaMatch[1]
+      .split(',')
+      .map((keyword) => keyword.trim())
+      .filter((keyword) => keyword.length > 0);
+  }
+
+  return [];
 };

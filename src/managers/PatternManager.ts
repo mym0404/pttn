@@ -1,3 +1,4 @@
+import fm from 'front-matter';
 import { readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
@@ -7,9 +8,12 @@ import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
+import { updateClaudeMdWithNewPattern } from '../utils/claudeMdPatternManager.js';
+import { getProjectRoot } from '../utils/getProjectRoot';
 import { ensureDir, sanitizeFilename } from '../utils/index.js';
 import {
   extractExplanation,
+  extractKeywords,
   extractLanguage,
   extractTitle,
 } from '../utils/index.js';
@@ -31,6 +35,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
         const title = extractTitle(content);
         const language = extractLanguage(content, file);
         const explanation = extractExplanation(content);
+        const keywords = extractKeywords(content);
         const idMatch = file.match(/^(\d+)-/);
         const id = idMatch && idMatch[1] ? parseInt(idMatch[1]) : 0;
 
@@ -39,6 +44,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
           title,
           file,
           language,
+          keywords,
           explanation,
           lastUpdated: stats.mtime,
           content,
@@ -66,6 +72,7 @@ export const createPatternManager = (contentDir: string): PatternManager => {
           title: pattern.title,
           content: pattern.content!,
           category: pattern.language, // Use language as category for patterns
+          keywords: pattern.keywords,
           lastUpdated: pattern.lastUpdated,
           file: pattern.file,
         }));
@@ -112,7 +119,11 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       throw new Error(`Pattern not found: ${id}`);
     },
 
-    async create(name: string, content: string): Promise<string> {
+    async create(
+      name: string,
+      content: string,
+      keywords: string[]
+    ): Promise<string> {
       await ensureDir(patternsDir);
 
       const patterns = await this.list();
@@ -125,9 +136,44 @@ export const createPatternManager = (contentDir: string): PatternManager => {
       const filename = `${paddedId}-${sanitizeFilename(name)}.md`;
       const filepath = join(patternsDir, filename);
 
-      const fullContent = `${content}`;
+      // Add keywords to content using front-matter
+      let fullContent: string;
+
+      if (content.startsWith('---')) {
+        // Parse existing frontmatter and add keywords
+        const parsed = fm(content);
+        const frontMatter = parsed.attributes as any;
+        frontMatter.keywords = keywords.join(', ');
+
+        // Rebuild content with updated frontmatter
+        const frontMatterYaml = Object.entries(frontMatter)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('\n');
+
+        fullContent = `---
+${frontMatterYaml}
+---
+
+${parsed.body}`;
+      } else {
+        // Add new frontmatter with keywords
+        fullContent = `---
+keywords: ${keywords.join(', ')}
+---
+
+${content}`;
+      }
 
       await writeFile(filepath, fullContent);
+
+      // Update CLAUDE.md with pattern list
+      await updateClaudeMdWithNewPattern(
+        getProjectRoot(),
+        nextId,
+        name,
+        keywords
+      );
+
       return filename;
     },
   };

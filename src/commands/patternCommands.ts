@@ -35,7 +35,7 @@ export const registerPatternCommands = (
 
         const items = patterns.map((pattern) => ({
           id: pattern.id,
-          text: `${pattern.title} - Language: ${pattern.language}${pattern.explanation ? `\n     ${pc.white(pattern.explanation)}` : ''}`,
+          text: `${pattern.title}${pattern.keywords && pattern.keywords.length > 0 ? ` - Keywords: ${pattern.keywords.join(', ')}` : ''}${pattern.explanation ? `\n     ${pc.white(pattern.explanation)}` : ''}`,
         }));
         formatList('Code Patterns', items);
       } catch (error) {
@@ -61,7 +61,7 @@ export const registerPatternCommands = (
           patterns,
           formatOptions,
           (item) =>
-            `Language: ${item.language}${item.explanation ? ` - ${pc.white(item.explanation)}` : ''}`
+            `${item.keywords && item.keywords.length > 0 ? ` - Keywords: ${item.keywords.join(', ')}` : ''}${item.explanation ? ` - ${pc.white(item.explanation)}` : ''}`
         );
       } catch (error) {
         logger.error('Error searching patterns', error);
@@ -94,7 +94,8 @@ export const registerPatternCommands = (
     .command('create')
     .description('Create a new code pattern from stdin input')
     .argument('<name>', 'Pattern name')
-    .action(async (name: string) => {
+    .argument('<keywords>', 'Comma-separated keywords for the pattern')
+    .action(async (name: string, keywords: string) => {
       logger.startWorkflow('Creating Code Pattern');
 
       const globalOptions = program.opts();
@@ -105,8 +106,21 @@ export const registerPatternCommands = (
           throw new Error('No content provided via stdin');
         }
 
-        const filename = await manager.create(name, content);
+        // Parse keywords from argument
+        const keywordsList = keywords
+          .split(',')
+          .map((k) => k.trim())
+          .filter((k) => k);
+
+        if (keywordsList.length === 0) {
+          throw new Error('At least one keyword is required');
+        }
+
+        const filename = await manager.create(name, content, keywordsList);
         logger.success(`Pattern created successfully: ${filename}`);
+        logger.info(
+          `Added to CLAUDE.md with keywords: ${keywordsList.join(', ')}`
+        );
       } catch (error) {
         logger.error('Error creating pattern', error);
       }
