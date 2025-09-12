@@ -25,6 +25,15 @@ Create or update `CLAUDE.md` file in the project root with the following content
 This project uses `cc-self-refer` for intelligent self-reference capabilities.
 Claude Code agents should use these CLI commands to access and manage project context automatically:
 
+## Pattern Table
+
+[PATTERN LIST]
+
+| ID  | Name               | Language | Keywords              | Explanation                                                                           |
+|-----|--------------------|----------|-----------------------|---------------------------------------------------------------------------------------|
+
+[PATTERN LIST END]
+
 ## Keyword Detection and Command Intent Recognition
 
 **When users use natural language prompts, agents should READ the corresponding command documentation and EXECUTE the instructions within:**
@@ -36,18 +45,18 @@ When these keywords appear in user prompts, determine if the user intends to use
 
 **Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `Pattern Refering... ♦️` to indicate self-reference action execution.
 
-### Pattern Commands
+## Pattern Commands
 
-#### Pattern Matching Intelligence
-**CRITICAL**: The CLAUDE.md context includes a [PATTERN LIST] table with columns: ID, Name, Language, Keywords, Explanation.
+### Pattern Matching Intelligence
+**CRITICAL**: The CLAUDE.md context includes a [PATTERN LIST] table already with columns: ID, Name, Language, Keywords, Explanation. You should know what I mean.
 
-**When processing ANY user request**, check if the request matches patterns in the table by analyzing:
+**When processing ANY user request**, check if the request matches patterns in the [PATTERN LIST] by analyzing:
 - **Name**: Direct pattern name matches
 - **Keywords**: Related terms and concepts
 - **Explanation**: Functional descriptions and use cases
 - **Language**: Technology stack alignment
 
-#### Pattern Usage Workflows
+### Pattern Usage Workflows
 
 **Explicit Pattern Requests:**
 - "use pattern" / "apply pattern X" / "use existing patterns"
@@ -57,37 +66,34 @@ When these keywords appear in user prompts, determine if the user intends to use
 **Implicit Pattern Matching:**
 When user requests involve coding tasks that align with existing pattern Names, Keywords, or Explanations:
 
-1. **Identify Match**: Compare user's request against the CLAUDE.md pattern table
+1. **Identify Match**: Compare user's request against the [PATTERN LIST] 
 2. **Retrieve Pattern**: Use `npx -y cc-self-refer pattern view <id>` for matching patterns
 3. **Apply Pattern**: Implement user's request using the pattern's principles and structure
 4. **Inform User**: Use this format to indicate pattern usage:
    ```
    Pattern Refering... ♦️ 
-   Used Patterns: #002 test-pattern, #003 test-table-pattern
+   Used Patterns: #002 api-response, #003 error-handling
    ```
 
 **Example Matching Logic:**
-- User asks for "table component" → Match patterns with keywords: "table", "component", "markdown"
-- User requests "test setup" → Match patterns with keywords: "test", "example"
-
-**Pattern Creation:**
-- "create pattern" / "save as pattern" → **Read and execute** `.claude/commands/pattern-create.md`
+- "implement todo api" → Extract keywords: "api", "todo" → Match patterns containing these terms
+- "create table component" → Extract keywords: "table", "component" → Match patterns with "table", "markdown", "component"
+- "setup testing" → Extract keywords: "test", "setup" → Match patterns with "test", "example"
+- "build React form" → Extract keywords: "react", "form" → Match patterns with "react", "form", "validation"
+- "add authentication" → Extract keywords: "auth", "authentication" → Match patterns with "auth", "login", "security"
+- "database connection" → Extract keywords: "database", "connection" → Match patterns with "db", "connection", "orm"
+- "error handling" → Extract keywords: "error", "handling" → Match patterns with "error", "exception", "validation"
 
 **IMPORTANT Agent Behavior:**
-1. **Scan** CLAUDE.md pattern table for relevant matches during any coding request
+1. **Scan** [PATTERN LIST] for relevant matches during any coding request
 2. **Retrieve** matching patterns using `npx -y cc-self-refer pattern view <id>`
 3. **Apply** pattern principles to implement user's actual requirements
-4. **Reference** patterns proactively when they enhance development efficiency
 
 ====================== END CLAUDE.md CONTENT ======================
 
-### 2. Analyze and Initialize Specification Repository and Patterns
+### 2. Analyze and Initialize Patterns
 
-**Important**: Instead of manually adding technical specifications and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the spec and pattern directories:
-
-#### Project Specification Analysis & Extraction
-
-After analyzing the project's business requirements, user experience needs, and technical architecture, read `.claude/commands/spec.md` and apply it's usage
+**Important**: Instead of manually adding technical specifications and code patterns to CLAUDE.md, analyze the project and use the CLI commands to populate the pattern directories:
 
 #### Code Pattern Analysis & Extraction
 
