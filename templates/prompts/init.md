@@ -29,7 +29,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 
 [PATTERN LIST]
 
-No patterns available yet.
+**LEAVE IT EMPTY FOR NOW, Don't fill the contents from the initialization phase**
 
 [PATTERN LIST END]
 
