@@ -84,6 +84,19 @@ export const registerPatternCommands = (
 
       try {
         const content = await manager.view(id);
+
+        // Get file path and show it before content
+        const patterns = await manager.list();
+        const idNum = parseInt(id);
+        const pattern = patterns.find((p) => p.id === idNum);
+
+        if (pattern) {
+          const contentDir = getContentDir(globalOptions);
+          const filePath = `${contentDir}/patterns/${pattern.file}`;
+          logger.info(`Pattern file: ${filePath}`);
+          console.log('');
+        }
+
         formatViewResult(content);
       } catch (error) {
         formatNoMatchResult('pattern', id);
