@@ -37,10 +37,26 @@ When these keywords appear in user prompts, determine if the user intends to use
 **Response Format for Self-Reference Actions**: If you determine that the user's natural language prompt requires using cc-self-refer functionality, prefix your response with `Pattern Refering... ♦️` to indicate self-reference action execution.
 
 ### Pattern Commands
-- "use pattern" / "apply pattern" / "use existing patterns" → **Read and execute** `.claude/commands/pattern-use.md`
+When users mention patterns, follow these workflows:
+
+#### Using/Applying Patterns
+- "use pattern" / "apply pattern" / "use existing patterns" → Execute these CLI commands:
+  ```bash
+  # 1. Search for relevant patterns
+  npx -y cc-self-refer pattern search <keyword>
+  
+  # 2. View specific pattern if needed (when search only shows summary)
+  npx -y cc-self-refer pattern view <id>
+  
+  # 3. IMPLEMENT the actual code using the pattern's principles
+  #    - Apply architectural decisions from the pattern
+  #    - Focus on implementing working code, not examples
+  #    - Implement directly in the project structure
+  ```
+
+- "find Redux pattern" / "search API patterns" → Use `npx -y cc-self-refer pattern search <keyword>`
+- "use pattern #5" / "apply pattern 005" → Use `npx -y cc-self-refer pattern view <id>` then implement
 - "create pattern" / "save as pattern" → **Read and execute** `.claude/commands/pattern-create.md`
-- "find Redux pattern" / "search API patterns" → **Read and execute** `.claude/commands/pattern-use.md` for search
-- "use pattern #5" / "apply pattern 005" → **Read and execute** `.claude/commands/pattern-use.md` with specific ID
 
 **IMPORTANT Agent Behavior:**
 1. **Identify** the user's intent from natural language
