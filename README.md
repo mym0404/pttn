@@ -44,6 +44,9 @@ npx -y cc-self-refer get-commands
 The following commands will print the prompt out for setting up claude code self referring context management system.
 
 Run `npx -y cc-self-refer init-get-prompt` and follow instructions step by step.
+
+- You shouldn\'t fill [PATTERN LIST] at now.
+- Copy exactly same content from the CLAUDE.md content of the prompt.
 ```
 
 That's it! Your project now has intelligent self-reference capabilities.
