@@ -1,6 +1,5 @@
-
+import copy from 'rollup-plugin-copy';
 import { defineConfig } from 'tsdown';
-
 
 export default defineConfig({
   entry: ['src/cli.ts'],
@@ -12,4 +11,11 @@ export default defineConfig({
   silent: true,
   minify: true,
   treeshake: true,
+  plugins: [
+    copy({
+      targets: [
+        { src: 'templates', dest: 'dist' }
+      ]
+    })
+  ],
 });
