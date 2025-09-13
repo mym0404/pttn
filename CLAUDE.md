@@ -104,7 +104,7 @@ This tool is designed to work with Claude Code's command system. The init proces
 #### Binding Contract
 
 Each command template is a **thin wrapper** that:
-1. **MUST** call `npx -y cc-self-refer` with appropriate arguments
+1. **MUST** call `npx cc-self-refer` with appropriate arguments
 2. **MUST NOT** implement any business logic directly  
 4. **MUST** include a `## What does this command do` section with exact CLI commands
 
@@ -136,7 +136,7 @@ Each command template is a **thin wrapper** that:
 
 #### Verification Checklist
 
-- [ ] Command template calls `npx -y cc-self-refer`
+- [ ] Command template calls `npx cc-self-refer`
 - [ ] All arguments are properly mapped
 - [ ] Error handling considers CLI exit codes
 - [ ] Documentation matches actual CLI behavior

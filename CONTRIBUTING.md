@@ -122,7 +122,7 @@ cc-self-refer/
 
 - Add new templates to `templates/commands/`
 - Use established format with Usage and Implementation sections
-- Reference `npx -y cc-self-refer` commands
+- Reference `npx cc-self-refer` commands
 
 ### 📚 Documentation
 

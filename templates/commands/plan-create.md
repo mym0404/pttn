@@ -16,7 +16,7 @@ This command initiates a comprehensive implementation planning process through e
 
 ```bash
 # Create the implementation plan after planning:
-npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
+npx cc-self-refer plan create "<plan-title>" <<'EOF'
 <plan-content>
 EOF
 ```
@@ -79,7 +79,7 @@ Please describe:
 After complete implementation understanding, create the plan using:
 
 ```bash
-npx -y cc-self-refer plan create "<plan-title>" <<'EOF'
+npx cc-self-refer plan create "<plan-title>" <<'EOF'
 <plan-content>
 EOF
 ```

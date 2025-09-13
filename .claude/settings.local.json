@@ -30,7 +30,8 @@
       "Bash(npx:*)",
       "Bash(chmod:*)",
       "Bash(pnpm start:*)",
-      "mcp__playwright__init-browser"
+      "mcp__playwright__init-browser",
+      "Bash(git diff:*)"
     ],
     "deny": [],
     "ask": []

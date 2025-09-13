@@ -31,19 +31,25 @@
 
 ## Quick Setup
 
+### 0. Install Package (Recommended)
+
+```bash
+pnpm add -D cc-self-refer # or other package manager installation command
+```
+
 ### 1. Run Initialization Commands
 
-```shell
+```bash
 # Download commands & other stuffs for self refer structure
-npx -y cc-self-refer get-commands
+npx cc-self-refer get-commands
 ```
 
 ### 2. Run your **claude-code** in your project root and pass this prompt.
 
-```shell
+```bash
 The following commands will print the prompt out for setting up claude code self referring context management system.
 
-Run `npx -y cc-self-refer init-get-prompt` and follow instructions step by step.
+Run `npx cc-self-refer init-get-prompt` and follow instructions step by step.
 
 - You shouldn\'t fill [PATTERN LIST] at now.
 - Copy exactly same content from the CLAUDE.md content of the prompt.

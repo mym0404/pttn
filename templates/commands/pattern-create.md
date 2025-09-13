@@ -13,7 +13,7 @@ Extract code snippet or common pattern in project and run cc-self-refer pattern 
 ### CLI Command Used
 
 ```bash
-npx -y cc-self-refer pattern create "<pattern-name>" "<keyword1>,<keyword2>,<keyword3>" "<language>" "<explanation>" <<'EOF'
+npx cc-self-refer pattern create "<pattern-name>" "<keyword1>,<keyword2>,<keyword3>" "<language>" "<explanation>" <<'EOF'
 <pattern-content>
 EOF
 ```
@@ -143,7 +143,7 @@ Claude will:
 2. Generate <formatted content> with the above rules.
 3. Execute: 
    ```bash
-   npx -y cc-self-refer pattern create "api-error-handler" "error,handler,api,utilities" "typescript" "Utility pattern for handling API errors in TypeScript applications with proper error typing." <<'EOF'
+   npx cc-self-refer pattern create "api-error-handler" "error,handler,api,utilities" "typescript" "Utility pattern for handling API errors in TypeScript applications with proper error typing." <<'EOF'
    <formatted content>
    EOF
    ```

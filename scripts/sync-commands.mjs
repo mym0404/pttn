@@ -111,7 +111,7 @@ async function main() {
     const targetPath = join(targetDir, file);
 
     const content = `
-**IMPORTANT**: npx -y cc-self-refer not working in this project because this is project of cc-self-refer cli.
+**IMPORTANT**: npx cc-self-refer not working in this project because this is project of cc-self-refer cli.
 instead, run \`pnpm build\` and \`node dist/cli.js\` directly.
  
 ----------------------------
