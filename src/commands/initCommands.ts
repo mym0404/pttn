@@ -64,8 +64,10 @@ const setupClaudeSelfReferProject = async (
 const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
   const settingsPath = resolve(claudeDir, 'settings.local.json');
   const requiredPermissions = [
+    'Bash(npx cc-self-refer:*)',
     'Bash(npx cc-self-refer *)',
-    'Bash(cc-self-refer *)',
+    'Bash(cc-self-refer:*)',
+    'Bash(npx cc-self-refer *)',
   ];
 
   try {
