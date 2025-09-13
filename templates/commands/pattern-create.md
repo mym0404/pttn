@@ -20,7 +20,22 @@ EOF
 
 ### Command Arguments
 - `pattern-name`: Name of the code pattern, Don't include `pattern` in the name
-- `keywords`: Comma-separated **specific** keywords for pattern search and CLAUDE.md listing (required). Use only unique, pattern-specific terms. Avoid generic language names (javascript, nodejs, python) or broad categories. Focus on the distinctive aspects of the pattern (e.g., "commander", "subcommands", "cli-options" rather than "javascript, nodejs, cli")
+- `keywords`: Comma-separated keywords for pattern search (3-5 keywords recommended)
+  - **DO**: Use conceptual terms that describe the pattern's purpose and functionality
+  - **DO**: Include technology-specific terms when they're central to the pattern (e.g., "fabric", "turbo-module", "codegen")
+  - **DO**: Focus on what the pattern DOES, not implementation details
+  - **DON'T**: Use generic language names alone (javascript, typescript, python)
+  - **DON'T**: Use specific class/method names unless they're widely recognized APIs
+  - **DON'T**: Over-specify with implementation details
+
+  Examples:
+  - ✅ GOOD: "fabric,component,props,events" (describes pattern purpose)
+  - ✅ GOOD: "commands,imperative,async" (describes functionality)
+  - ✅ GOOD: "validation,error-handling,schemas" (describes what it does)
+  - ❌ BAD: "javascript,nodejs,function" (too generic)
+  - ❌ BAD: "RCTViewComponentView,updateProps,initWithFrame" (too specific - API names)
+  - ❌ BAD: "ios,objective-c,native" (only platform/language identifiers)
+
 - `language`: Programming language (e.g., javascript, typescript, python, go, rust)
 - `explanation`: Brief explanation (1-2 sentences) of what this pattern does and when to use it
 - `pattern-content`: Complete code snippet or pattern content
