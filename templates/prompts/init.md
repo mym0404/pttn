@@ -45,6 +45,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 ### Pattern Usage Workflows
 
 **Explicit Pattern Requests:**
+Pay special attention to the word "pattern" in user requests - this often indicates they want to use stored patterns.
 - "use pattern" / "apply pattern X" / "use existing patterns"
 - "find pattern for X" / "search patterns"
 - "use pattern #5" / "apply pattern 005"
@@ -52,7 +53,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 **Implicit Pattern Matching:**
 When user requests involve coding tasks that align with existing pattern Names, Keywords, or Explanations:
 
-1. **Identify Match**: Compare user's request against the [PATTERN LIST] 
+1. **Identify Match**: Compare user's request against the [PATTERN LIST]. If no matching patterns are found, read CLAUDE.md directly to get the updated pattern list
 2. **Retrieve Pattern**: Use `npx cc-self-refer pattern view <id>` for matching patterns
 3. **Apply Pattern**: Implement user's request using the pattern's principles and structure
 4. **Inform User**: Use this format to indicate pattern usage:
