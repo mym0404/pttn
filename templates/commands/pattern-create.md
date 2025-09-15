@@ -50,7 +50,7 @@ EOF
 - Usage snippets demonstrate practical application, NOT implementation details
 - Contain snippets as concise as possible, only required pieces.
 - If the pattern has multiple variants or usage modes, include all of them in the Usage section. Each variant should be a concise, one-line example showing different configurations or use cases.
-- **Knowledge section is REQUIRED**: Include any essential information needed to use the pattern effectively. Markdown list formatted. not verbose
+- **Knowledge section is REQUIRED**: Include any essential information needed to use the pattern effectively. Markdown list formatted. Don't include verbose informations could be retrieved from usage itself. Don't excess 5 list item.
 
 ````markdown
 # <Pattern Name>
