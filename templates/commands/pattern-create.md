@@ -59,12 +59,12 @@ EOF
 
 [Include relevant information based on the pattern context, such as:]
 - File locations
-- File name convention 
+- File name conventions
 - Important constraints or limitations
-- Available options, variants, or configurations list item per option
+- Available options, variants, or configurations list items per option
 - Common pitfalls or things to watch out for
 - Performance considerations
-- Any other critical information specific to this pattern
+- Any other critical informations specific to this pattern
 
 ## Usage
 
