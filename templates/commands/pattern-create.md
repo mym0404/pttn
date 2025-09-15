@@ -82,8 +82,9 @@ Example - Schema Pattern:
 
 ## Knowledge
 
-- Always chain `.strict()` to prevent unexpected properties
+- All domain models must be placed in `src/domain/model/` folder
 - Export both schema and TypeScript type together
+- Use PascalCase for file names (e.g., `User.ts`)
 - Use `.optional()` sparingly - prefer required fields with defaults
 
 ## Usage
