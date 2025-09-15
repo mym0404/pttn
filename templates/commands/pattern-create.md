@@ -58,13 +58,12 @@ EOF
 ## Knowledge
 
 [Include relevant information based on the pattern context, such as:]
-- File locations or import paths
-- Required dependencies or prerequisites
+- File locations
+- File name convention 
 - Important constraints or limitations
-- Available options, variants, or configurations
+- Available options, variants, or configurations list item per option
 - Common pitfalls or things to watch out for
 - Performance considerations
-- Security implications
 - Any other critical information specific to this pattern
 
 ## Usage
