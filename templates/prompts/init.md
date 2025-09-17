@@ -76,6 +76,15 @@ When user requests involve coding tasks that align with existing pattern Names, 
 2. **Retrieve** matching patterns using `npx cc-self-refer pattern view <id>`
 3. **Apply** pattern principles to implement user's actual requirements
 
+
+## Guide List
+
+Guides are project-specific coding guidelines and best practices that should be followed when working on this project. They provide concrete, actionable recommendations for consistent code development.
+
+[GUIDE LIST]
+
+[GUIDE LIST END]
+
 ====================== END CLAUDE.md CONTENT ======================
 
 

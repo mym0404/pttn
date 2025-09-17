@@ -27,6 +27,7 @@
 - 📄 **Session History**: Preserve development context across Claude sessions
 - 🧩 **Code Patterns**: Build a library of reusable, project-specific code templates
 - 📋 **Project Specifications**: Maintain comprehensive project planning including business requirements, user experience, technical architecture, and operational procedures
+- 📝 **Coding Guidelines**: Project-specific coding standards and best practices
 - 🔍 **Intelligent Search**: Find relevant information instantly with semantic search
 
 ## Quick Setup
@@ -76,7 +77,8 @@ your-project/
 │   │   ├── spec-refer.md # Access technical specifications
 │   │   ├── spec.md # Interactive specification planning
 │   │   ├── pattern-use.md # Apply code patterns
-│   │   └── pattern-create.md     # Save new patterns
+│   │   ├── pattern-create.md     # Save new patterns
+│   │   └── guide-create.md       # Create coding guidelines
 │   │
 │   ├── plans/             # 📋 Strategic Plans & Architecture
 │   │   └── [numbered plans like: 001-user-authentication.md]
@@ -124,6 +126,13 @@ your-project/
 - **Content**: Business logic, user flows, feature requirements, technical design, operational workflows, project constraints
 - **AI Benefit**: Claude makes informed decisions aligned with your complete project vision and requirements
 
+### 📝 `CLAUDE.md` - Coding Guidelines
+
+- **Purpose**: Project-specific coding standards and best practices stored directly in CLAUDE.md
+- **Usage**: `/guide-create` to add new guidelines; automatically referenced by Claude
+- **Content**: Code style rules, library preferences, architectural conventions, error handling patterns
+- **AI Benefit**: Claude follows your established coding standards and project conventions automatically
+
 ## Why This Works
 
 Each directory serves a specific purpose in building **persistent AI context**:
@@ -132,6 +141,7 @@ Each directory serves a specific purpose in building **persistent AI context**:
 2. **Pages** maintain session continuity
 3. **Patterns** ensure consistency
 4. **Specifications** provide comprehensive project guidance
+5. **Guidelines** enforce coding standards
 
 The result: Claude becomes increasingly intelligent about your specific project over time.
 
