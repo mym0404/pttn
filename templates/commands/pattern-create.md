@@ -50,9 +50,21 @@ EOF
 - Usage snippets demonstrate practical application, NOT implementation details
 - Contain snippets as concise as possible, only required pieces.
 - If the pattern has multiple variants or usage modes, include all of them in the Usage section. Each variant should be a concise, one-line example showing different configurations or use cases.
+- **Knowledge section is REQUIRED**: Include any essential information needed to use the pattern effectively. Markdown list formatted. Don't include verbose informations could be retrieved from usage itself. Don't excess 5 list item.
 
 ````markdown
 # <Pattern Name>
+
+## Knowledge
+
+[Include relevant information based on the pattern context, such as:]
+- File locations
+- File name conventions
+- Important constraints or limitations
+- Available options, variants, or configurations list items per option
+- Common pitfalls or things to watch out for
+- Performance considerations
+- Any other critical informations specific to this pattern
 
 ## Usage
 
@@ -63,10 +75,17 @@ EOF
 
 ````
 
-Example:
+Example - Schema Pattern:
 
 ````markdown
 # Zod Schema Definition
+
+## Knowledge
+
+- All domain models must be placed in `src/domain/model/` folder
+- Export both schema and TypeScript type together
+- Use PascalCase for file names (e.g., `User.ts`)
+- Use `.optional()` sparingly - prefer required fields with defaults
 
 ## Usage
 
@@ -81,10 +100,17 @@ export type User = z.infer<typeof useSchema>;
 ```
 ````
 
-Example - Utility Function Usage:
+Example - Error Handling Pattern:
 
 ````markdown
 # API Error Handler Usage
+
+## Knowledge
+
+- Returns user-friendly string, never throws
+- Handles AxiosError, Response, and generic Error types
+- Optional second parameter for custom fallback message
+- Rate limit errors (429) include retry timing info
 
 ## Usage
 
@@ -109,10 +135,18 @@ const handleSubmit = async () => {
 ```
 ````
 
-Example with multiple variants:
+Example - Component Pattern:
 
 ````markdown
 # Button Component
+
+## Knowledge
+
+- Extends all native button props and events
+- Variant options: primary | secondary | destructive | ghost | link
+- Size options: sm | md (default) | lg
+- Use `asChild` prop to render as different element
+- Built-in accessibility and focus management
 
 ## Usage
 
