@@ -3,12 +3,13 @@ import { readFile, stat, writeFile } from 'fs/promises';
 import { glob } from 'glob';
 import { join, resolve } from 'path';
 
+import type { AgentSelection } from '../constants/agents.js';
 import { PatternInfo, PatternManager, SearchResult } from '../types/index.js';
 import {
   AdvancedSearchEngine,
   SearchableItem,
 } from '../utils/advancedSearch.js';
-import { syncClaudeMdPatternTable } from '../utils/claudeMdPatternManager.js';
+import { syncAgentPromptPatternTable } from '../utils/agentPromptPatternManager.js';
 import { ensureDir, sanitizeFilename } from '../utils/index.js';
 import {
   extractExplanation,
@@ -173,14 +174,13 @@ ${content}`;
 
       await writeFile(filepath, fullContent);
 
-      // Sync CLAUDE.md after creating pattern
-      await syncClaudeMdPatternTable(await list());
+      // Sync agent prompt after creating pattern
+      await syncAgentPromptPatternTable(await list(), { contentDir });
 
       return filename;
     },
 
-    syncClaudeMd: async (): Promise<void> => {
-      await syncClaudeMdPatternTable(await list());
-    },
+    syncPromptTable: async (): Promise<AgentSelection> =>
+      syncAgentPromptPatternTable(await list(), { contentDir }),
   };
 };

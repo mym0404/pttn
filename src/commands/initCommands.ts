@@ -1,14 +1,20 @@
+import { cancel, isCancel, select } from '@clack/prompts';
 import { Command } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 import { cp, readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 
+import { AgentId, agentRegistry } from '../constants/agents.js';
 import {
   ensureDir,
   getCommandTemplatesPath,
   getPromptTemplatesPath,
   logger,
 } from '../utils';
+import {
+  resolveAgentSelection,
+  writeAgentSelection,
+} from '../utils/agentConfig.js';
 
 const setupClaudeSelfReferProject = async (
   claudeDir: string
@@ -112,6 +118,48 @@ const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
   }
 };
 
+const promptForAgentSelection = async (claudeDir: string): Promise<void> => {
+  const initialSelection = await resolveAgentSelection({
+    contentDir: claudeDir,
+  });
+
+  const options = Object.entries(agentRegistry).map(([agentId, config]) => ({
+    value: agentId as AgentId,
+    label: `${config.label} (${config.promptFile})`,
+  }));
+
+  const selection = await select({
+    message: 'Select the agent prompt file to manage',
+    options,
+    initialValue: initialSelection.agentId,
+  });
+
+  if (isCancel(selection)) {
+    cancel('Agent selection cancelled. Keeping existing configuration.');
+    return;
+  }
+
+  const agentId = selection as AgentId;
+  const { previousAgent, promptFile, label, configPath } =
+    await writeAgentSelection({
+      contentDir: claudeDir,
+      agentId,
+    });
+
+  if (previousAgent && previousAgent !== agentId) {
+    logger.info(
+      `Updated self-refer.json agent from ${previousAgent} to ${agentId}`
+    );
+  } else if (!previousAgent) {
+    logger.info(`Set self-refer.json agent to ${agentId}`);
+  } else {
+    logger.info(`self-refer.json agent remains ${agentId}`);
+  }
+
+  logger.info(`Active prompt file: ${promptFile} (${label})`);
+  logger.info(`Configuration saved at ${configPath}`);
+};
+
 export const registerInitCommands = (
   program: Command,
   getContentDir: (cmdOptions: { dir?: string }) => string
@@ -144,6 +192,7 @@ export const registerInitCommands = (
       try {
         const claudeDir = getContentDir(options);
         await setupClaudeSelfReferProject(claudeDir);
+        await promptForAgentSelection(claudeDir);
       } catch (error) {
         logger.error('Project setup failed', error);
         process.exit(1);

@@ -1,3 +1,4 @@
+import type { AgentSelection } from '../constants/agents.js';
 import type { PageInfo, PatternInfo, PlanInfo, SpecInfo } from './content.js';
 import type { SearchResult } from './search.js';
 
@@ -26,7 +27,7 @@ export interface PatternManager {
     language: string,
     explanation: string
   ): Promise<string>;
-  syncClaudeMd(): Promise<void>;
+  syncPromptTable(): Promise<AgentSelection>;
 }
 
 export interface SpecManager {
