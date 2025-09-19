@@ -34,7 +34,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 ## Pattern Commands
 
 ### Pattern Matching Intelligence
-**CRITICAL**: The CLAUDE.md context includes a [PATTERN LIST] table already with columns: ID, Name, Language, Keywords, Explanation. You should know what I mean.
+**CRITICAL**: The active agent prompt context includes a [PATTERN LIST] table already with columns: ID, Name, Language, Keywords, Explanation. You should know what I mean.
 
 **When processing ANY user request**, check if the request matches patterns in the [PATTERN LIST] by analyzing:
 - **Name**: Direct pattern name matches
@@ -75,6 +75,14 @@ When user requests involve coding tasks that align with existing pattern Names, 
 1. **Scan** [PATTERN LIST] for relevant matches during any coding request
 2. **Retrieve** matching patterns using `npx cc-self-refer pattern view <id>`
 3. **Apply** pattern principles to implement user's actual requirements
+
+## Guide List
+
+Guides are project-specific coding guidelines and best practices that should be followed when working on this project. They provide concrete, actionable recommendations for consistent code development.
+
+[GUIDE LIST]
+
+[GUIDE LIST END]
 
 ====================== END PROMPT CONTENT ======================
 
