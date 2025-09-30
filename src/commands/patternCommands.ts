@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import pc from 'picocolors';
 
 import { createPatternManager } from '../managers';
+import { resolveAgentSelection } from '../utils/agentConfig.js';
 import {
   createFormatOptions,
   formatList,
@@ -123,7 +124,8 @@ export const registerPatternCommands = (
         logger.startWorkflow('Creating Code Pattern');
 
         const globalOptions = program.opts();
-        const manager = createPatternManager(getContentDir(globalOptions));
+        const contentDir = getContentDir(globalOptions);
+        const manager = createPatternManager(contentDir);
         try {
           const content = await readStdin();
           if (!content) {
@@ -147,9 +149,12 @@ export const registerPatternCommands = (
             language,
             explanation
           );
+          const { promptFile, label } = await resolveAgentSelection({
+            contentDir,
+          });
           logger.success(`Pattern created successfully: ${filename}`);
           logger.info(
-            `Added to CLAUDE.md with keywords: ${keywordsList.join(', ')}`
+            `Updated ${promptFile} (${label}) with keywords: ${keywordsList.join(', ')}`
           );
         } catch (error) {
           logger.error('Error creating pattern', error);
@@ -160,16 +165,19 @@ export const registerPatternCommands = (
   patternCmd
     .command('sync')
     .description(
-      'Sync CLAUDE.md pattern table with actual patterns in .claude/patterns/'
+      'Sync current agent prompt pattern table with .claude/patterns/'
     )
     .action(async () => {
       const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
+      const contentDir = getContentDir(globalOptions);
+      const manager = createPatternManager(contentDir);
       try {
-        await manager.syncClaudeMd();
-        logger.success('CLAUDE.md pattern table synced successfully');
+        const selection = await manager.syncPromptTable();
+        logger.success(
+          `${selection.promptFile} (${selection.label}) pattern table synced successfully`
+        );
       } catch (error) {
-        logger.error('Error syncing CLAUDE.md pattern table', error);
+        logger.error('Error syncing agent prompt pattern table', error);
       }
     });
 };

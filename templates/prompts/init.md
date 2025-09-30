@@ -6,17 +6,17 @@ Set up this project with intelligent self-reference capabilities by creating pro
 
 ## Implementation Steps
 
-### 1. Create or Update project CLAUDE.md file
+### 1. Create or Update project agent prompt file
 
-**Important**: If `CLAUDE.md` already exists in the project:
+**Important**: Determine the active agent via `.claude/self-refer.json` (default `CLAUDE.md`). If the file already exists in the project:
 
 - **Merge Strategy**: Improve and integrate existing sections while preserving valuable content
 - **New Sections**: Add any missing sections at the end of the file
 - **Preserve**: Keep any project-specific customizations and technical specifications
 
-Create or update `CLAUDE.md` file in the project root with the following content, customizing it for this specific project:
+Create or update the selected agent prompt file in the project root with the following content, customizing it for this specific project:
 
-====================== BEGIN CLAUDE.md CONTENT ======================
+====================== BEGIN PROMPT CONTENT ======================
 
 ...previous content or blank
 
@@ -34,7 +34,7 @@ Claude Code agents should use these CLI commands to access and manage project co
 ## Pattern Commands
 
 ### Pattern Matching Intelligence
-**CRITICAL**: The CLAUDE.md context includes a [PATTERN LIST] table already with columns: ID, Name, Language, Keywords, Explanation. You should know what I mean.
+**CRITICAL**: The active agent prompt context includes a [PATTERN LIST] table already with columns: ID, Name, Language, Keywords, Explanation. You should know what I mean.
 
 **When processing ANY user request**, check if the request matches patterns in the [PATTERN LIST] by analyzing:
 - **Name**: Direct pattern name matches
@@ -53,7 +53,7 @@ Pay special attention to the word "pattern" in user requests - this often indica
 **Implicit Pattern Matching:**
 When user requests involve coding tasks that align with existing pattern Names, Keywords, or Explanations:
 
-1. **Identify Match**: Compare user's request against the [PATTERN LIST]. If no matching patterns are found, read CLAUDE.md directly to get the updated pattern list
+1. **Identify Match**: Compare user's request against the [PATTERN LIST]. If no matching patterns are found, read the agent prompt file directly to get the updated pattern list
 2. **Retrieve Pattern**: Use `npx cc-self-refer pattern view <id>` for matching patterns
 3. **Apply Pattern**: Implement user's request using the pattern's principles and structure
 4. **Inform User**: Use this format to indicate pattern usage:
@@ -76,7 +76,6 @@ When user requests involve coding tasks that align with existing pattern Names, 
 2. **Retrieve** matching patterns using `npx cc-self-refer pattern view <id>`
 3. **Apply** pattern principles to implement user's actual requirements
 
-
 ## Guide List
 
 Guides are project-specific coding guidelines and best practices that should be followed when working on this project. They provide concrete, actionable recommendations for consistent code development.
@@ -85,7 +84,7 @@ Guides are project-specific coding guidelines and best practices that should be 
 
 [GUIDE LIST END]
 
-====================== END CLAUDE.md CONTENT ======================
+====================== END PROMPT CONTENT ======================
 
 
 ### 2. Analyze and Initialize Patterns
@@ -102,6 +101,7 @@ After identifying reusable code patterns and architectural decisions: , read `.c
 npx cc-self-refer pattern sync
 ```
 
+This command updates the active agent prompt file (e.g., `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`) based on `.claude/self-refer.json`.
 ### 4. Ensure .claude directory structure exists
 
 Verify the following directories exist (create if missing):
@@ -111,6 +111,7 @@ Verify the following directories exist (create if missing):
 - `.claude/patterns/` - For reusable code patterns
 - `.claude/specs/` - For project specification repository
 - `.claude/commands/` - For Claude Code commands
+- `.claude/self-refer.json` - For agent prompt selection
 
 ## Quick Reference
 
@@ -120,7 +121,8 @@ After running this initialization, your project will have the `.claude/` directo
 
 After completion:
 
-- `CLAUDE.md` exists with project-specific context
+- Active agent prompt file exists with project-specific context
+- `.claude/self-refer.json` defines the current agent
 - `.claude/` directory structure is ready with all commands
 - Self-referential development system ready for intelligent, context-aware sessions
 - Team can build and share specifications incrementally across development cycles

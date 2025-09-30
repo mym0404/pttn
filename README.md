@@ -43,6 +43,8 @@ pnpm add -D cc-self-refer # or other package manager installation command
 ```bash
 # Download commands & other stuffs for self refer structure
 npx cc-self-refer get-commands
+
+# During setup, pick the active agent when prompted (defaults to Claude).
 ```
 
 ### 2. Run your **claude-code** in your project root and pass this prompt.
@@ -53,7 +55,7 @@ The following commands will print the prompt out for setting up claude code self
 Run `npx cc-self-refer init-get-prompt` and follow instructions step by step.
 
 - You shouldn\'t fill [PATTERN LIST] at now.
-- Copy exactly same content from the CLAUDE.md content of the prompt.
+- Copy the content into the agent prompt file defined in `.claude/self-refer.json` (default is `CLAUDE.md`).
 ```
 
 That's it! Your project now has intelligent self-reference capabilities.
@@ -66,7 +68,7 @@ After running `/init-claude`, your project will have:
 
 ```
 your-project/
-├── CLAUDE.md              # 📜 Project Overview for Claude and command usages (merged if exists)
+├── CLAUDE.md / AGENTS.md / GEMINI.md # 📜 Agent-specific project overview (see `.claude/self-refer.json` for the active file)
 ├── .claude/
 │   ├── commands/           # 🎯 Claude Code Commands
 │   │   ├── plan-create.md # Create strategic plans
@@ -88,6 +90,8 @@ your-project/
 │   │
 │   ├── patterns/     # 🧩 Reusable Code Templates
 │   │   └── [numbered patterns like: 001-react-hook.md]
+│   │
+│   ├── self-refer.json # ⚙️ Active agent configuration
 │   │
 │   └── specs/         # 📋 Project Specification Repository
 │       └── [numbered entries like: 001-api-limits.md]

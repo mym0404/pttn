@@ -32,7 +32,9 @@
       "Bash(chmod:*)",
       "Bash(pnpm start:*)",
       "mcp__playwright__init-browser",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(npx cc-self-refer:*)",
+      "Bash(cc-self-refer:*)"
     ],
     "deny": [],
     "ask": []
