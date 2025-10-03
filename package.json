@@ -1,6 +1,6 @@
 {
   "name": "pttn",
-  "version": "1.0.53",
+  "version": "1.0.54",
   "description": "Claude Code Pattern Helper - CLI tool for managing code patterns in .claude directory",
   "type": "module",
   "main": "dist/index.js",
