@@ -23,11 +23,7 @@ program
     'Claude Code Pattern Helper - CLI tool for managing .claude directory content'
   )
   .version(getPackageVersion())
-  .option(
-    '-d, --dir <directory>',
-    'Directory for patterns',
-    '.claude'
-  );
+  .option('-d, --dir <directory>', 'Directory for patterns', '.claude');
 
 // Register all command groups
 registerPatternCommands(program, getContentDir);

@@ -1,1 +1,1 @@
-export { createPatternManager } from './PatternManager.js';
+export { PatternManager } from './PatternManager.js';

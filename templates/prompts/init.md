@@ -94,7 +94,7 @@ Guides are project-specific coding guidelines and best practices that should be 
 
 #### Code Pattern Analysis & Extraction
 
-After identifying reusable code patterns and architectural decisions: , read `.claude/commands/pattern-create.md` and apply it's usage
+After identifying reusable code patterns and architectural decisions: , read `.claude/commands/pttn-create.md` and apply it's usage
 
 ### 3. Run PATTERN LIST table sync command
 

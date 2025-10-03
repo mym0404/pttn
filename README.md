@@ -55,7 +55,7 @@ Run `npx pttn init-get-prompt` and follow instructions step by step.
 
 That's it! Your project now has intelligent self-reference capabilities.
 
-Restart claude-code and start creating patterns with `/pattern-create` command.
+Restart claude-code and start creating patterns with `/pttn-create` command.
 
 ## What Gets Created
 
@@ -66,8 +66,8 @@ your-project/
 ├── CLAUDE.md              # 📜 Project Overview for Claude and command usages (merged if exists)
 ├── .claude/
 │   ├── commands/           # 🎯 Claude Code Commands
-│   │   ├── pattern-use.md # Apply code patterns
-│   │   ├── pattern-create.md     # Save new patterns
+│   │   ├── pttn-use.md # Apply code patterns
+│   │   ├── pttn-create.md     # Save new patterns
 │   │   └── guide-create.md       # Create coding guidelines
 │   │
 │   └── patterns/     # 🧩 Reusable Code Templates
@@ -80,7 +80,7 @@ your-project/
 ### 🧩 `.claude/patterns/` - Reusable Templates
 
 - **Purpose**: Project-specific code patterns and templates
-- **Usage**: `/pattern-create` to save patterns; `/pattern-use` to apply them
+- **Usage**: `/pttn-create` to save patterns; `/pttn-use` to apply them
 - **Content**: Component templates, utility functions, configuration patterns
 - **AI Benefit**: Claude can apply your established patterns instead of generic solutions
 

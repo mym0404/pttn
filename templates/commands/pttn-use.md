@@ -2,7 +2,7 @@
 
 Retrieve and apply code patterns with `pttn pattern search` command
 
-**Usage**: `/pattern-use <number|keyword>`
+**Usage**: `/pttn-use <number|keyword>`
 
 ## What does this command do
 

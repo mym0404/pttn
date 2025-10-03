@@ -2,7 +2,7 @@
 
 Extract code snippet or common pattern in project and run pttn pattern create command
 
-**Usage**: `/pattern-create <pattern name> <snippet|filename with line number|description>`
+**Usage**: `/pttn-create <pattern name> <snippet|filename with line number|description>`
 
 ## What does this command do
 
@@ -179,7 +179,7 @@ Example - Component Pattern:
 When user requests:
 
 ```bash
-/pattern-create "api-error-handler" "snippet or filename with lines"
+/pttn-create "api-error-handler" "snippet or filename with lines"
 ```
 
 Claude will:

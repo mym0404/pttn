@@ -70,15 +70,11 @@
 
   <!-- Main title -->
   <text x="200" y="35" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif"
-        font-size="22" font-weight="bold" fill="url(#textGrad)" filter="url(#shadow)">
-    Claude Code Self References
-  </text>
+        font-size="22" font-weight="bold" fill="url(#textGrad)" filter="url(#shadow)">PTTN</text>
 
   <!-- Subtitle -->
   <text x="200" y="185" text-anchor="middle" font-family="'SF Pro Display', -apple-system, sans-serif"
-        font-size="18" fill="#6b7280" opacity="0.8">
-    Store your context permanently
-  </text>
+        font-size="18" fill="#6b7280" opacity="0.8">Store your code pattern and refer from ai agent</text>
 
   <!-- Additional blur overlay for depth -->
   <rect x="0" y="0" width="400" height="200" fill="url(#circleGrad)" opacity="0.1" filter="url(#bigBlur)"/>

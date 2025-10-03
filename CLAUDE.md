@@ -117,8 +117,8 @@ Each command template is a **thin wrapper** that:
 
 #### Command Templates and Their CLI Bindings
 
-- `pattern-create.md` - Pattern creation → `pattern create`
-- `pattern-use.md` - Pattern usage → `pattern view`
+- `pttn-create.md` - Pattern creation → `pattern create`
+- `pttn-use.md` - Pattern usage → `pattern view`
 
 #### Verification Checklist
 

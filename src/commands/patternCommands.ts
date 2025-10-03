@@ -1,12 +1,10 @@
 import { Command } from 'commander';
 import pc from 'picocolors';
 
-import { createPatternManager } from '../managers';
+import { PatternManager } from '../managers';
 import {
-  createFormatOptions,
   formatList,
-  formatNoMatchResult,
-  formatSearchResults,
+  formatPatternSearchResults,
   formatViewResult,
 } from '../utils/formatters.js';
 import { logger, readStdin } from '../utils/index.js';
@@ -24,7 +22,7 @@ export const registerPatternCommands = (
     .description('List all code patterns')
     .action(async () => {
       const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
+      const manager = new PatternManager(getContentDir(globalOptions));
       try {
         const patterns = await manager.list();
 
@@ -50,19 +48,12 @@ export const registerPatternCommands = (
     .option('-l, --language <lang>', 'Filter by programming language')
     .action(async (keyword: string, cmdOptions: { language?: string }) => {
       const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
+      const manager = new PatternManager(getContentDir(globalOptions));
       try {
         const results = await manager.search(keyword, cmdOptions.language);
         const patterns = await manager.list();
-        const formatOptions = createFormatOptions('pattern', keyword);
 
-        formatSearchResults(
-          results,
-          patterns,
-          formatOptions,
-          (item) =>
-            `[${pc.green(item.language)}]${item.keywords && item.keywords.length > 0 ? ` - Keywords: ${item.keywords.join(', ')}` : ''}${item.explanation ? ` - ${pc.white(item.explanation)}` : ''}`
-        );
+        formatPatternSearchResults(results, patterns, keyword);
       } catch (error) {
         logger.error('Error searching patterns', error);
       }
@@ -74,7 +65,7 @@ export const registerPatternCommands = (
     .argument('<id>', 'Pattern ID number')
     .action(async (id: string) => {
       const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
+      const manager = new PatternManager(getContentDir(globalOptions));
 
       // Validate that id is a number
       if (!/^\d+$/.test(id)) {
@@ -99,7 +90,7 @@ export const registerPatternCommands = (
 
         formatViewResult(content);
       } catch (error) {
-        formatNoMatchResult('pattern', id);
+        logger.error(`No pattern found matching "${id}"`);
       }
     });
 
@@ -123,7 +114,7 @@ export const registerPatternCommands = (
         logger.startWorkflow('Creating Code Pattern');
 
         const globalOptions = program.opts();
-        const manager = createPatternManager(getContentDir(globalOptions));
+        const manager = new PatternManager(getContentDir(globalOptions));
         try {
           const content = await readStdin();
           if (!content) {
@@ -164,7 +155,7 @@ export const registerPatternCommands = (
     )
     .action(async () => {
       const globalOptions = program.opts();
-      const manager = createPatternManager(getContentDir(globalOptions));
+      const manager = new PatternManager(getContentDir(globalOptions));
       try {
         await manager.syncClaudeMd();
         logger.success('CLAUDE.md pattern table synced successfully');
