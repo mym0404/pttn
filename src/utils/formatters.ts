@@ -3,7 +3,7 @@ import pc from 'picocolors';
 import { logger } from './logger.js';
 
 export interface FormatOptions {
-  type: 'page' | 'plan' | 'pattern' | 'spec';
+  type: 'pattern';
   searchTerm?: string;
   title: string;
 }
@@ -50,10 +50,7 @@ export const createFormatOptions = (
   searchTerm?: string
 ): FormatOptions => {
   const configs = {
-    page: { title: 'Page' },
-    plan: { title: 'Plan' },
     pattern: { title: 'Pattern' },
-    spec: { title: 'Spec' },
   };
 
   const config = configs[type];

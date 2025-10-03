@@ -4,10 +4,7 @@ import { Command } from 'commander';
 import { resolve } from 'path';
 
 import { registerInitCommands } from './commands/initCommands.js';
-import { registerPageCommands } from './commands/pageCommands.js';
 import { registerPatternCommands } from './commands/patternCommands.js';
-import { registerPlanCommands } from './commands/planCommands.js';
-import { registerSpecCommands } from './commands/specCommands.js';
 import { getPackageVersion } from './utils';
 import { getProjectRoot } from './utils/getProjectRoot';
 
@@ -21,22 +18,19 @@ const getContentDir = (cmdOptions: { dir?: string }): string => {
 };
 
 program
-  .name('cc-self-refer')
+  .name('pttn')
   .description(
-    'Claude Code Self Reference Helper - CLI tool for managing .claude directory content'
+    'Claude Code Pattern Helper - CLI tool for managing .claude directory content'
   )
   .version(getPackageVersion())
   .option(
     '-d, --dir <directory>',
-    'Directory for pages, plans, patterns, and project specs',
+    'Directory for patterns',
     '.claude'
   );
 
 // Register all command groups
-registerPageCommands(program, getContentDir);
-registerPlanCommands(program, getContentDir);
 registerPatternCommands(program, getContentDir);
-registerSpecCommands(program, getContentDir);
 registerInitCommands(program, getContentDir);
 
 program.parse();

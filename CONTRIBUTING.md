@@ -1,6 +1,6 @@
-# Contributing to cc-self-refer
+# Contributing to pttn
 
-Thank you for your interest in contributing to cc-self-refer! This guide will help you get started.
+Thank you for your interest in contributing to pttn! This guide will help you get started.
 
 ## Quick Start
 
@@ -21,8 +21,8 @@ Thank you for your interest in contributing to cc-self-refer! This guide will he
 
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/cc-self-refer.git
-cd cc-self-refer
+git clone https://github.com/yourusername/pttn.git
+cd pttn
 
 # Enable corepack and install dependencies
 corepack enable
@@ -60,13 +60,13 @@ Since this is a CLI tool that integrates with Claude Code:
    ```bash
    mkdir /tmp/test-project
    cd /tmp/test-project
-   node /path/to/cc-self-refer/dist/cli.js init
+   node /path/to/pttn/dist/cli.js init
    ```
 
 ## Project Structure
 
 ```
-cc-self-refer/
+pttn/
 ├── src/
 │   ├── cli.ts           # Main CLI interface with Commander.js
 │   ├── index.ts         # Core managers and functions
@@ -122,7 +122,7 @@ cc-self-refer/
 
 - Add new templates to `templates/commands/`
 - Use established format with Usage and Implementation sections
-- Reference `npx cc-self-refer` commands
+- Reference `npx pttn` commands
 
 ### 📚 Documentation
 
@@ -179,6 +179,6 @@ All contributors will be:
 
 - Listed in repository contributors
 - Mentioned in release notes for their contributions
-- Welcomed as part of the cc-self-refer community
+- Welcomed as part of the pttn community
 
-Thank you for making cc-self-refer better! 🚀
+Thank you for making pttn better! 🚀

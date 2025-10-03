@@ -1,6 +1,6 @@
 # Code Pattern - Save Reusable Code Patterns
 
-Extract code snippet or common pattern in project and run cc-self-refer pattern create command
+Extract code snippet or common pattern in project and run pttn pattern create command
 
 **Usage**: `/pattern-create <pattern name> <snippet|filename with line number|description>`
 
@@ -8,12 +8,12 @@ Extract code snippet or common pattern in project and run cc-self-refer pattern 
 
 ### ⚠️ IMPORTANT: CLI Command Execution Required
 
-**This command MUST execute the following `cc-self-refer` CLI command.**
+**This command MUST execute the following `pttn` CLI command.**
 
 ### CLI Command Used
 
 ```bash
-npx cc-self-refer pattern create "<pattern-name>" "<keyword1>,<keyword2>,<keyword3>" "<language>" "<explanation>" <<'EOF'
+npx pttn pattern create "<pattern-name>" "<keyword1>,<keyword2>,<keyword3>" "<language>" "<explanation>" <<'EOF'
 <pattern-content>
 EOF
 ```
@@ -190,9 +190,9 @@ Claude will:
    - "Or are you looking to save a specific implementation pattern?"
 
 2. Generate <formatted content> with the above rules.
-3. Execute: 
+3. Execute:
    ```bash
-   npx cc-self-refer pattern create "api-error-handler" "error,handler,api,utilities" "typescript" "Utility pattern for handling API errors in TypeScript applications with proper error typing." <<'EOF'
+   npx pttn pattern create "api-error-handler" "error,handler,api,utilities" "typescript" "Utility pattern for handling API errors in TypeScript applications with proper error typing." <<'EOF'
    <formatted content>
    EOF
    ```
@@ -203,7 +203,7 @@ If users want to reference existing content while creating patterns:
 
 ```bash
 # View existing patterns
-npx cc-self-refer pattern list
-npx cc-self-refer pattern search "<keyword>"  
-npx cc-self-refer pattern view "<pattern-id>"
+npx pttn pattern list
+npx pttn pattern search "<keyword>"
+npx pttn pattern view "<pattern-id>"
 ```

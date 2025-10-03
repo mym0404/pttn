@@ -9,20 +9,16 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 ### Core Architecture Components
 
 1. **CLI Entry Point (`src/cli.ts`)**:
-   - Commander.js-based CLI with subcommands for different content types
-   - Each command group (page, plan, pattern, spec) has CRUD operations
+   - Commander.js-based CLI with subcommands for pattern management
+   - Pattern command group has CRUD operations
 
 2. **Manager Layer (`src/managers/`)**:
-   - `PageManager`: Session history management in `.claude/pages/`
-   - `PlanManager`: Strategic planning in `.claude/plans/`
    - `PatternManager`: Code pattern templates in `.claude/patterns/`
-   - `SpecManager`: Project specification repository in `.claude/specs/`
 
 3. **Content Organization**:
    - All content uses numbered markdown files (001-title.md format)
    - Metadata extraction from frontmatter and content patterns
    - Semantic search using natural.js for content discovery
-   - Spec files contain comprehensive project planning (business + technical + operational)
 
 ### Key Design Patterns
 
@@ -36,7 +32,8 @@ This is a Node.js CLI tool that helps manage Claude Code's `.claude` directory s
 #### Project Structure
 
 ```
-cc-self-refer/
+
+pttn/
 ├── src/
 │   ├── cli.ts              # Main CLI entry point
 │   ├── managers/           # Content manager implementations
@@ -56,20 +53,16 @@ cc-self-refer/
 ```
 .claude/
 ├── commands/           # Claude Code command definitions (from templates)
-├── pages/             # Session history (auto-generated)
-├── plans/             # Strategic planning documents
-├── patterns/          # Reusable code templates
-└── specs/        # Project specification repository
+└── patterns/          # Reusable code templates
 ```
 
 ## Project Overview
 
-**cc-self-refer** is a Node.js CLI tool that provides intelligent self-reference capabilities for Claude Code projects. It manages the `.claude` directory structure to enable context-aware development sessions through organized content management.
+**pttn** is a Node.js CLI tool that provides intelligent pattern management capabilities for Claude Code projects. It manages the `.claude` directory structure to enable context-aware development sessions through organized pattern management.
 
 ### Core Features
 
 - **Code Pattern Templates**: Store and reuse architectural patterns and code snippets
-- **Project Specifications**: Maintain a searchable repository of comprehensive project planning documents
 
 ### Technology Stack
 
@@ -99,13 +92,13 @@ This tool is designed to work with Claude Code's command system. The init proces
 
 ### ⚠️ CRITICAL: CLI and Command Template Interdependencies
 
-**ALL command templates in `templates/commands/` MUST use the `cc-self-refer` CLI tool. They are NOT standalone implementations.**
+**ALL command templates in `templates/commands/` MUST use the `pttn` CLI tool. They are NOT standalone implementations.**
 
 #### Binding Contract
 
 Each command template is a **thin wrapper** that:
-1. **MUST** call `npx cc-self-refer` with appropriate arguments
-2. **MUST NOT** implement any business logic directly  
+1. **MUST** call `npx pttn` with appropriate arguments
+2. **MUST NOT** implement any business logic directly
 4. **MUST** include a `## What does this command do` section with exact CLI commands
 
 #### Why This Matters
@@ -124,19 +117,12 @@ Each command template is a **thin wrapper** that:
 
 #### Command Templates and Their CLI Bindings
 
-- `page-save.md` - Session extraction → `page extract-session` + `page create`
-- `page-refer.md` - Page reference → `page list`, `page search`, `page view`
-- `plan-create.md` - Plan creation → `plan create`
-- `plan-edit.md` - Plan editing → `plan edit` (full content replacement)
-- `plan-resolve.md` - Plan resolution → `plan view` + work + `plan delete`
 - `pattern-create.md` - Pattern creation → `pattern create`
 - `pattern-use.md` - Pattern usage → `pattern view`
-- `spec.md` - Specification planning → multiple `spec create` calls
-- `spec-refer.md` - Specification reference → `spec list`, `spec search`, `spec view`
 
 #### Verification Checklist
 
-- [ ] Command template calls `npx cc-self-refer`
+- [ ] Command template calls `npx pttn`
 - [ ] All arguments are properly mapped
 - [ ] Error handling considers CLI exit codes
 - [ ] Documentation matches actual CLI behavior

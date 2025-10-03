@@ -1,6 +1,6 @@
 # Use Code Pattern - Apply Predefined Code Patterns
 
-Retrieve and apply code patterns with `cc-self-refer pattern search` command
+Retrieve and apply code patterns with `pttn pattern search` command
 
 **Usage**: `/pattern-use <number|keyword>`
 
@@ -8,29 +8,29 @@ Retrieve and apply code patterns with `cc-self-refer pattern search` command
 
 ### ⚠️ IMPORTANT: CLI Command Execution Required
 
-**This command MUST execute the following `cc-self-refer` CLI commands.**
+**This command MUST execute the following `pttn` CLI commands.**
 
 ### CLI Commands Used
 
 ```bash
 # Search for patterns first
-npx cc-self-refer pattern search <keyword>
+npx pttn pattern search <keyword>
 
 # View specific pattern
-npx cc-self-refer pattern view <id>
+npx pttn pattern view <id>
 
 # List all patterns
-npx cc-self-refer pattern list
+npx pttn pattern list
 ```
 
 ### Command Arguments
 - `id_or_keyword`: Pattern ID number or search keyword
 
 ### Expected Workflow
-1. Search for relevant patterns using `npx cc-self-refer pattern search`
+1. Search for relevant patterns using `npx pttn pattern search`
 2. Check search results:
   - If search result contains full pattern content, use that content directly
-  - If search result only shows summary/metadata, use `npx cc-self-refer pattern view <number>` for complete content
+  - If search result only shows summary/metadata, use `npx pttn pattern view <number>` for complete content
 3. **IMPLEMENT the actual code** using the printed content:
   - Apply the pattern's architectural principles and design decisions
   - **Focus on implementing working code, not just creating examples or documentation**

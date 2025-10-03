@@ -1,19 +1,3 @@
-export interface PageInfo {
-  id: number;
-  title: string;
-  file: string;
-  createdAt: Date;
-  content?: string;
-}
-
-export interface PlanInfo {
-  id: number;
-  title: string;
-  file: string;
-  lastUpdated: Date;
-  content?: string;
-}
-
 export interface PatternInfo {
   id: number;
   title: string;
@@ -21,14 +5,6 @@ export interface PatternInfo {
   language: string;
   keywords?: string[];
   explanation?: string;
-  lastUpdated: Date;
-  content?: string;
-}
-
-export interface SpecInfo {
-  id: number;
-  title: string;
-  file: string;
   lastUpdated: Date;
   content?: string;
 }

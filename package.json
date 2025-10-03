@@ -1,12 +1,12 @@
 {
-  "name": "cc-self-refer",
+  "name": "pttn",
   "version": "1.0.53",
-  "description": "Claude Code Self Reference Helper - CLI tool for managing .claude directory content",
+  "description": "Claude Code Pattern Helper - CLI tool for managing code patterns in .claude directory",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "cc-self-refer": "./dist/cli.js"
+    "pttn": "./dist/cli.js"
   },
   "scripts": {
     "dev": "tsdown --silent && node dist/cli.js \"$@\"",
@@ -33,13 +33,13 @@
   ],
   "author": "MJ <mym0404@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/mym0404/cc-self-refer#readme",
+  "homepage": "https://github.com/mym0404/pttn#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mym0404/cc-self-refer.git"
+    "url": "git+https://github.com/mym0404/pttn.git"
   },
   "bugs": {
-    "url": "https://github.com/mym0404/cc-self-refer/issues"
+    "url": "https://github.com/mym0404/pttn/issues"
   },
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {

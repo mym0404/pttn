@@ -20,10 +20,10 @@ Create or update `CLAUDE.md` file in the project root with the following content
 
 ...previous content or blank
 
-# Self Reference Context Management System (cc-self-refer cli and context storage project sturcture)
+# Pattern Management System (pttn cli and context storage project sturcture)
 
-This project uses `cc-self-refer` for intelligent self-reference capabilities.
-Claude Code agents should use these CLI commands to access and manage project context automatically:
+This project uses `pttn` for intelligent pattern management capabilities.
+Claude Code agents should use these CLI commands to access and manage project patterns automatically:
 
 ## Pattern List Table
 
@@ -54,11 +54,11 @@ Pay special attention to the word "pattern" in user requests - this often indica
 When user requests involve coding tasks that align with existing pattern Names, Keywords, or Explanations:
 
 1. **Identify Match**: Compare user's request against the [PATTERN LIST]. If no matching patterns are found, read CLAUDE.md directly to get the updated pattern list
-2. **Retrieve Pattern**: Use `npx cc-self-refer pattern view <id>` for matching patterns
+2. **Retrieve Pattern**: Use `npx pttn pattern view <id>` for matching patterns
 3. **Apply Pattern**: Implement user's request using the pattern's principles and structure
 4. **Inform User**: Use this format to indicate pattern usage:
    ```
-   Pattern Refering... ♦️ 
+   Pattern Refering... ♦️
    Used Patterns: #002 api-response, #003 error-handling
    ```
 
@@ -73,7 +73,7 @@ When user requests involve coding tasks that align with existing pattern Names, 
 
 **IMPORTANT Agent Behavior:**
 1. **Scan** [PATTERN LIST] for relevant matches during any coding request
-2. **Retrieve** matching patterns using `npx cc-self-refer pattern view <id>`
+2. **Retrieve** matching patterns using `npx pttn pattern view <id>`
 3. **Apply** pattern principles to implement user's actual requirements
 
 
@@ -99,17 +99,14 @@ After identifying reusable code patterns and architectural decisions: , read `.c
 ### 3. Run PATTERN LIST table sync command
 
 ```bash
-npx cc-self-refer pattern sync
+npx pttn pattern sync
 ```
 
 ### 4. Ensure .claude directory structure exists
 
 Verify the following directories exist (create if missing):
 
-- `.claude/pages/` - For session history
-- `.claude/plans/` - For strategic planning documents
 - `.claude/patterns/` - For reusable code patterns
-- `.claude/specs/` - For project specification repository
 - `.claude/commands/` - For Claude Code commands
 
 ## Quick Reference
@@ -122,5 +119,5 @@ After completion:
 
 - `CLAUDE.md` exists with project-specific context
 - `.claude/` directory structure is ready with all commands
-- Self-referential development system ready for intelligent, context-aware sessions
-- Team can build and share specifications incrementally across development cycles
+- Pattern management system ready for intelligent, context-aware sessions
+- Team can build and share patterns incrementally across development cycles

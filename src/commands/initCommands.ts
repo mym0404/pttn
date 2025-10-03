@@ -13,7 +13,7 @@ import {
 const setupClaudeSelfReferProject = async (
   claudeDir: string
 ): Promise<void> => {
-  logger.startWorkflow('CC Self-Refer Project Setup');
+  logger.startWorkflow('Pattern Project Setup');
 
   try {
     // Use version-specific URL if not provided
@@ -21,10 +21,7 @@ const setupClaudeSelfReferProject = async (
 
     // Create directory structure
     logger.info('Creating directory structure');
-    await ensureDir(resolve(claudeDir, 'pages'));
-    await ensureDir(resolve(claudeDir, 'plans'));
     await ensureDir(resolve(claudeDir, 'patterns'));
-    await ensureDir(resolve(claudeDir, 'specs'));
     await ensureDir(commandsDir);
 
     // Copy command templates from bundled assets
@@ -55,19 +52,19 @@ const setupClaudeSelfReferProject = async (
     // Setup Claude Code permissions
     await setupClaudePermissions(claudeDir);
 
-    logger.success('CC Self-Refer Project Setup completed');
+    logger.success('Pattern Project Setup completed');
   } catch (error) {
-    logger.error('CC Self-Refer Project Setup failed');
+    logger.error('Pattern Project Setup failed');
     throw error;
   }
 };
 const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
   const settingsPath = resolve(claudeDir, 'settings.local.json');
   const requiredPermissions = [
-    'Bash(npx cc-self-refer:*)',
-    'Bash(npx cc-self-refer *)',
-    'Bash(cc-self-refer:*)',
-    'Bash(npx cc-self-refer *)',
+    'Bash(npx pttn:*)',
+    'Bash(npx pttn *)',
+    'Bash(pttn:*)',
+    'Bash(npx pttn *)',
   ];
 
   try {
@@ -101,7 +98,7 @@ const setupClaudePermissions = async (claudeDir: string): Promise<void> => {
 
     if (added) {
       await writeFile(settingsPath, JSON.stringify(settings, null, 2));
-      logger.success('Added cc-self-refer permissions to Claude Code settings');
+      logger.success('Added pttn permissions to Claude Code settings');
     } else {
       logger.info('Claude Code permissions already configured');
     }
